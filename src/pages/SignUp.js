@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
-
-export default class SignUp extends Component {
+import { Redirect } from "react-router-dom";
+import { validateSignUp } from "../validation/validation";
+class SignUp extends Component {
     state = {
         fname: "",
         lname: "",
         email: "",
-        password: ""
+        password: "",
+        toDashboard: false
     };
 
     handleChange = e => {
@@ -16,13 +18,15 @@ export default class SignUp extends Component {
     };
     onSubmit = e => {
         e.preventDefault();
-        const { fname, lname, email, password } = this.state;
+        const { fname, lname, email, password, toDashboard } = this.state;
+        validateSignUp(this.state);
 
         const newUser = {
             fname,
             lname,
             email,
-            password
+            password,
+            toDashboard
         };
         const config = {
             headers: {
@@ -33,18 +37,20 @@ export default class SignUp extends Component {
         axios
             .post("http://localhost:3000/api/users/", newUser, config)
             .then(res => {
-                console.log(res);
+                // console.log(res.data);
+                this.setState({ toDashboard: true });
             })
             .catch(err => {
                 console.log(err);
             });
-
-        // let signUpNewUser = () => {};
-        // signUpNewUser();
     };
 
     render() {
-        const { fname, lname, email, password } = this.state;
+        const { fname, lname, email, password, toDashboard } = this.state;
+
+        if (toDashboard === true) {
+            return <Redirect to="dashboard" />;
+        }
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
@@ -81,7 +87,7 @@ export default class SignUp extends Component {
                     <label>
                         Password
                         <input
-                            type="text"
+                            type="password"
                             name="password"
                             value={password}
                             onChange={this.handleChange}
@@ -98,3 +104,5 @@ export default class SignUp extends Component {
         );
     }
 }
+
+export default SignUp;

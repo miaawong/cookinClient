@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import Secret from "./pages/Secret";
+import Dashboard from "./pages/Dashboard";
 function App() {
     return (
         <Router>
@@ -46,13 +46,13 @@ function App() {
                         </li>
                         <li>
                             <Link
-                                to="/secret"
+                                to="dashboard"
                                 style={{
                                     textDecoration: "none",
                                     color: "white"
                                 }}
                             >
-                                Secret Place
+                                Dashboard
                             </Link>
                         </li>
                     </ul>
@@ -68,8 +68,8 @@ function App() {
                 <Route path="/login">
                     <Login />
                 </Route>
-                <Route path="/secret">
-                    <Secret />
+                <Route path="/dashboard">
+                    <Dashboard />
                 </Route>
             </Switch>
         </Router>

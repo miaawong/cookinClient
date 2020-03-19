@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import { Redirect } from "react-router-dom";
 export default class Login extends Component {
     state = {
         email: "",
-        password: ""
+        password: "",
+        toDashboard: false,
+        errMsg: ""
     };
 
     handleChange = e => {
@@ -31,20 +33,27 @@ export default class Login extends Component {
             .then(res => {
                 console.log(res);
                 //save token to context(res.data.token)
-                // history.push() / window.href /
 
                 // any state cleanup if needed
+                this.setState({ toDashboard: true, email: "", password: "" });
             })
             .catch(err => {
-                console.log(err);
+                this.setState({
+                    errMsg: "Uh oh, looks like you're not suppose to be here..."
+                });
             });
-
-        // let signUpNewUser = () => {};
-        // signUpNewUser();
     };
 
     render() {
-        const { email, password } = this.state;
+        const { email, password, toDashboard, errMsg } = this.state;
+        if (toDashboard === true) {
+            return <Redirect to="/dashboard" />;
+        }
+
+        if (errMsg) {
+            return <h1>{errMsg}</h1>;
+        }
+
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
@@ -61,7 +70,7 @@ export default class Login extends Component {
                     <label>
                         Password
                         <input
-                            type="text"
+                            type="password"
                             name="password"
                             value={password}
                             onChange={this.handleChange}
