@@ -8,7 +8,8 @@ class SignUp extends Component {
         lname: "",
         email: "",
         password: "",
-        toDashboard: false
+        toDashboard: false,
+        errMsg: ""
     };
 
     handleChange = e => {
@@ -19,7 +20,7 @@ class SignUp extends Component {
     onSubmit = e => {
         e.preventDefault();
         const { fname, lname, email, password, toDashboard } = this.state;
-        validateSignUp(this.state);
+        const error = validateSignUp(this.state);
 
         const newUser = {
             fname,
@@ -41,19 +42,29 @@ class SignUp extends Component {
                 this.setState({ toDashboard: true });
             })
             .catch(err => {
-                console.log(err);
+                this.setState({ errMsg: error });
             });
     };
 
     render() {
-        const { fname, lname, email, password, toDashboard } = this.state;
+        const {
+            fname,
+            lname,
+            email,
+            password,
+            toDashboard,
+            errMsg
+        } = this.state;
 
         if (toDashboard === true) {
-            return <Redirect to="dashboard" />;
+            return <Redirect to="/dashboard" />;
         }
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
+                    <div style={{ fontSize: "25px", color: "red" }}>
+                        {errMsg}{" "}
+                    </div>
                     <label>
                         First Name
                         <input

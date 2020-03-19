@@ -1,6 +1,22 @@
 //if anything is empty
 const isEmpty = str => {
-    if (str === "") {
+    if (str.trim() === "") {
+        return true;
+    } else {
+        return false;
+    }
+};
+const isAlpha = str => {
+    if (str.match(/^[a-zA-Z() ]+$/)) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+const isEmail = str => {
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (str.match(regex)) {
         return true;
     } else {
         return false;
@@ -13,11 +29,26 @@ const isEmpty = str => {
 export const validateSignUp = state => {
     const { fname, lname, email, password } = state;
     if (isEmpty(fname)) {
-        console.log("required");
+        return "Please fill out a first name";
+    } else if (!isAlpha(fname)) {
+        return "Only alphabets please, no numbers and symbols";
     }
-    //else if (!isAlpha(fname)) {
-    //     console.log("only alphabetic characters please!");
-    // }
+
+    if (isEmpty(lname)) {
+        return "Please fill out a last name";
+    } else if (!isAlpha(lname)) {
+        return "Only alphabets please, no numbers and symbols";
+    }
+
+    if (isEmpty(email)) {
+        return "Need an Email";
+    } else if (!isEmail(email)) {
+        return "Doesn't look like an email...";
+    }
+
+    if (password.length < 8) {
+        return "Should be 8 characters or more";
+    }
 };
 
 // validate login
