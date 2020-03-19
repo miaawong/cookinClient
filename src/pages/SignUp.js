@@ -24,23 +24,23 @@ export default class SignUp extends Component {
             email,
             password
         };
-        let signUpNewUser = async () => {
-            try {
-                const response = await axios.post(
-                    "https://cors-anywhere.herokuapp.com/https://localhost:3000/api/users/",
-                    newUser,
-                    {
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }
-                );
-                console.log(response);
-            } catch (err) {
-                console.log(err);
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
             }
         };
-        signUpNewUser();
+
+        axios
+            .post("http://localhost:3000/api/users/", newUser, config)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        // let signUpNewUser = () => {};
+        // signUpNewUser();
     };
 
     render() {
