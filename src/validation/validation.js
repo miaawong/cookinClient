@@ -1,11 +1,3 @@
-//if anything is empty
-const isEmpty = str => {
-    if (str.trim() === "") {
-        return true;
-    } else {
-        return false;
-    }
-};
 const isAlpha = str => {
     if (str.match(/^[a-zA-Z() ]+$/)) {
         return true;
@@ -27,22 +19,12 @@ const isEmail = str => {
 
 // validate signup
 export const validateSignUp = state => {
-    const { fname, lname, email, password } = state;
-    if (isEmpty(fname)) {
-        return "Please fill out a first name";
-    } else if (!isAlpha(fname)) {
+    const { name, email, password } = state;
+    if (!isAlpha(name)) {
         return "Only alphabets please, no numbers and symbols";
     }
 
-    if (isEmpty(lname)) {
-        return "Please fill out a last name";
-    } else if (!isAlpha(lname)) {
-        return "Only alphabets please, no numbers and symbols";
-    }
-
-    if (isEmpty(email)) {
-        return "Need an Email";
-    } else if (!isEmail(email)) {
+    if (!isEmail(email)) {
         return "Doesn't look like an email...";
     }
 
