@@ -7,63 +7,76 @@ import { useForm } from "react-hook-form";
 const SignUp = () => {
     const { register, handleSubmit, errors } = useForm();
     const context = useContext(CookinContext);
-    const { name, email, password, toDashboard } = context;
-    const { signUp, handleChange } = context;
+    const { toDashboard } = context;
+    const { signUp } = context;
 
-    const onSubmit = e => {
-        console.log(e);
-        signUp(e);
-        {
-            if (toDashboard) {
-                return <Redirect to="/dashboard" />;
-            }
-        }
+    const onSubmit = data => {
+        signUp(data);
     };
 
+    if (toDashboard === true) {
+        console.log("redirect");
+        return <Redirect to="/dashboard" />;
+    }
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div style={{ fontSize: "25px", color: "red" }}> </div>
-                <label>
-                    Name
-                    <input
-                        type="text"
-                        name="name"
-                        value={name}
-                        ref={register({ required: true })}
-                        onChange={handleChange}
-                        placeholder="John"
-                        // required
-                    />
-                    {errors.name && "I am empty"}
-                </label>
-
-                <label>
-                    Email
-                    <input
-                        type="text"
-                        name="email"
-                        value={email}
-                        ref={register({ required: true })}
-                        onChange={handleChange}
-                        placeholder="email"
-                        // required
-                    />
-                    {errors.email && "I am empty"}
-                </label>
-                <label>
-                    Password
-                    <input
-                        type="password"
-                        name="password"
-                        value={password}
-                        ref={register({ required: true })}
-                        onChange={handleChange}
-                        placeholder="password"
-                        // required
-                    />
-                    {errors.password && "I am empty"}
-                </label>
+                <div>
+                    <label>
+                        Name
+                        <input
+                            type="text"
+                            name="name"
+                            ref={register({
+                                required: "I cannot be empty",
+                                minLength: {
+                                    value: 2,
+                                    message: " Must be at least 2 characters"
+                                }
+                            })}
+                            placeholder="John"
+                        />
+                        <p>{errors.name && errors.name.message}</p>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Email
+                        <input
+                            type="text"
+                            name="email"
+                            ref={register({
+                                required: "I cannot be empty",
+                                pattern: {
+                                    value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                                    message: "Invalid email address"
+                                }
+                            })}
+                            placeholder="email"
+                        />
+                        <p>{errors.email && errors.email.message}</p>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Password
+                        <input
+                            type="password"
+                            name="password"
+                            ref={register({
+                                required: "I cannot be empty",
+                                minLength: {
+                                    value: 8,
+                                    message:
+                                        "Must be at least 8 characters please! "
+                                }
+                            })}
+                            placeholder="password"
+                        />
+                        <p>{errors.password && errors.password.message}</p>
+                    </label>
+                </div>
                 <input type="submit" />
             </form>
         </div>

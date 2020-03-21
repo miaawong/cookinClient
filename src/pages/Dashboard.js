@@ -1,7 +1,9 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
+import { CookinContext } from "../context";
 
-export default class Dashboard extends Component {
-    render() {
-        return <div></div>;
-    }
-}
+const Dashboard = () => {
+    const context = useContext(CookinContext);
+    const { name } = context;
+    return <h1>Hi {name}</h1>;
+};
+export default Dashboard;
