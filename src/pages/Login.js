@@ -1,89 +1,62 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
+
+import { CookinContext } from "../context";
 import { Redirect } from "react-router-dom";
-export default class Login extends Component {
-    state = {
-        email: "",
-        password: "",
-        toDashboard: false,
-        errMsg: ""
+import { useForm } from "react-hook-form";
+
+const Login = () => {
+    const { register, handleSubmit, errors } = useForm();
+    const context = useContext(CookinContext);
+    const { toDashboard, login, errMsg } = context;
+
+    const onSubmit = data => {
+        login(data);
     };
-
-    handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
-    onSubmit = e => {
-        e.preventDefault();
-        const { email, password } = this.state;
-
-        const login = {
-            email,
-            password
-        };
-        const config = {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        };
-
-        axios
-            .post("http://localhost:3000/api/users/login", login, config)
-            .then(res => {
-                console.log(res);
-                //save token to context(res.data.token)
-
-                // any state cleanup if needed
-                this.setState({ toDashboard: true, email: "", password: "" });
-            })
-            .catch(err => {
-                this.setState({
-                    errMsg: "Uh oh, looks like you're not suppose to be here..."
-                });
-            });
-    };
-
-    render() {
-        const { email, password, toDashboard, errMsg } = this.state;
-        if (toDashboard === true) {
-            return <Redirect to="/dashboard" />;
-        }
-
-        if (errMsg) {
-            return <h1>{errMsg}</h1>;
-        }
-
-        return (
-            <div>
-                <form onSubmit={this.onSubmit}>
-                    <label>
-                        Email
-                        <input
-                            type="text"
-                            name="email"
-                            value={email}
-                            onChange={this.handleChange}
-                            placeholder="email"
-                        />
-                    </label>
-                    <label>
-                        Password
-                        <input
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={this.handleChange}
-                            placeholder="password"
-                        />
-                    </label>
-                    <input
-                        type="submit"
-                        value="Submit"
-                        onClick={this.onSubmit}
-                    />
-                </form>
-            </div>
-        );
+    if (toDashboard === true) {
+        console.log("redirect");
+        return <Redirect to="/dashboard" />;
     }
-}
+    return (
+        <div>
+            <h1 style={{ color: "red" }}>{errMsg}</h1>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label>
+                    Email
+                    <input
+                        type="text"
+                        name="email"
+                        placeholder="email"
+                        ref={register({
+                            required: "I cannot be empty",
+                            pattern: {
+                                value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                                message: "Invalid email address"
+                            }
+                        })}
+                    />
+                    <p>{errors.email && errors.email.message}</p>
+                </label>
+                <label>
+                    Password
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="password"
+                        ref={register({
+                            required: "I cannot be empty",
+                            minLength: {
+                                value: 8,
+                                message:
+                                    "Must be at least 8 characters please! "
+                            }
+                        })}
+                    />
+                    <p>{errors.password && errors.password.message}</p>
+                </label>
+                <input type="submit" />
+            </form>
+        </div>
+    );
+};
+
+export default Login;

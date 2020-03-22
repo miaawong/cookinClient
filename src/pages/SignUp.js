@@ -1,14 +1,12 @@
 import React, { useContext } from "react";
 import { CookinContext } from "../context";
 import { Redirect } from "react-router-dom";
-// import { validateSignUp } from "../validation/validation";
 import { useForm } from "react-hook-form";
 
 const SignUp = () => {
     const { register, handleSubmit, errors } = useForm();
     const context = useContext(CookinContext);
-    const { toDashboard } = context;
-    const { signUp } = context;
+    const { toDashboard, signUp, errMsg } = context;
 
     const onSubmit = data => {
         signUp(data);
@@ -18,8 +16,10 @@ const SignUp = () => {
         console.log("redirect");
         return <Redirect to="/dashboard" />;
     }
+
     return (
         <div>
+            <h1 style={{ color: "red" }}>{errMsg}</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div style={{ fontSize: "25px", color: "red" }}> </div>
                 <div>
@@ -82,5 +82,4 @@ const SignUp = () => {
         </div>
     );
 };
-
 export default SignUp;

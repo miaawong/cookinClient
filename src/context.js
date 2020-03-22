@@ -4,6 +4,7 @@ const CookinContext = React.createContext();
 
 class CookinProvider extends Component {
     state = {
+        id: "",
         name: "",
         email: "",
         password: "",
@@ -11,11 +12,13 @@ class CookinProvider extends Component {
         errMsg: "",
         JWToken: ""
     };
-    handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
+
+    //react-hooks-form takes care of this
+    // handleChange = e => {
+    //     this.setState({
+    //         [e.target.name]: e.target.value
+    //     });
+    // };
     isAuthed = token => {
         const config = {
             headers: {
@@ -25,16 +28,22 @@ class CookinProvider extends Component {
         axios
             .get("http://localhost:3000/api/users/user", config)
             .then(res => {
-                console.log("Login successful ");
+                console.log("login successful");
                 this.setState({
+                    id: res.data.userData._id,
                     name: res.data.userData.name,
                     email: res.data.userData.email,
                     password: res.data.userData.password,
-                    JWToken: res.data.userData.token
+                    JWToken: res.data.userData.token,
+                    toDashboard: true
                 });
             })
+
             .catch(err => {
-                console.log(err, "err");
+                console.log(err);
+                this.setState({
+                    errMsg: "you're not suppose to be here, please login."
+                });
             });
     };
     signUp = data => {
@@ -59,15 +68,37 @@ class CookinProvider extends Component {
                     name: res.data.newUser.name,
                     email: res.data.newUser.email,
                     password: res.data.newUser.password,
-                    JWToken: res.data.token,
-                    toDashboard: true
+                    JWToken: res.data.token
                 });
                 console.log("signed up");
-                console.log(this.state);
                 this.isAuthed(this.state.JWToken);
             })
             .catch(err => {
-                this.setState({ errMsg: err });
+                console.log(err);
+                this.setState({
+                    errMsg: "Something happen, sorry, try again."
+                });
+            });
+    };
+
+    login = data => {
+        const { email, password } = data;
+        const login = { email, password };
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+
+        axios
+            .post("http://localhost:3000/api/users/login", login, config)
+            .then(res => {
+                this.setState({ JWToken: res.data.token });
+                this.isAuthed(this.state.JWToken);
+            })
+            .catch(err => {
+                console.log(err);
+                this.setState({ errMsg: "email or password maybe incorrect" });
             });
     };
 
@@ -77,8 +108,8 @@ class CookinProvider extends Component {
                 value={{
                     ...this.state,
                     signUp: this.signUp,
-                    handleChange: this.handleChange,
-                    isAuthed: this.isAuthed
+                    isAuthed: this.isAuthed,
+                    login: this.login
                 }}
             >
                 {this.props.children}
