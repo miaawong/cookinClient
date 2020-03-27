@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { CookinContext } from "../context";
+import UserRecipe from "../components/UserRecipes";
 
 const Dashboard = () => {
     const context = useContext(CookinContext);
@@ -10,6 +11,7 @@ const Dashboard = () => {
         return (
             <h1>
                 Hi {name}, id: {id}
+                <UserRecipe />
             </h1>
         );
     }

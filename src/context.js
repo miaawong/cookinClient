@@ -102,6 +102,27 @@ class CookinProvider extends Component {
             });
     };
 
+    findAllRecipes = token => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        axios
+            .get("http://localhost:3000/api/users/recipes", config)
+            .then(res => {
+                console.log("login successful");
+                console.log(res);
+            })
+
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    errMsg: "you're not suppose to be here, please login."
+                });
+            });
+    };
+
     render() {
         return (
             <CookinContext.Provider
@@ -109,7 +130,8 @@ class CookinProvider extends Component {
                     ...this.state,
                     signUp: this.signUp,
                     isAuthed: this.isAuthed,
-                    login: this.login
+                    login: this.login,
+                    findAllRecipes: this.findAllRecipes
                 }}
             >
                 {this.props.children}
