@@ -10,33 +10,31 @@ class CookinProvider extends Component {
         password: "",
         toDashboard: false,
         errMsg: "",
-        JWToken: ""
+        JWToken: "",
+        recipes: []
     };
 
-    //react-hooks-form takes care of this
-    // handleChange = e => {
-    //     this.setState({
-    //         [e.target.name]: e.target.value
-    //     });
-    // };
     isAuthed = token => {
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         };
+        this.setState({ JWToken: token });
         axios
             .get("http://localhost:3000/api/users/user", config)
             .then(res => {
                 console.log("login successful");
+                console.log(res, "isauth");
                 this.setState({
                     id: res.data.userData._id,
                     name: res.data.userData.name,
                     email: res.data.userData.email,
                     password: res.data.userData.password,
-                    JWToken: res.data.userData.token,
                     toDashboard: true
                 });
+
+                this.findAllRecipes(this.state.JWToken);
             })
 
             .catch(err => {
@@ -94,6 +92,7 @@ class CookinProvider extends Component {
             .post("http://localhost:3000/api/users/login", login, config)
             .then(res => {
                 this.setState({ JWToken: res.data.token });
+                console.log(this.state.JWToken);
                 this.isAuthed(this.state.JWToken);
             })
             .catch(err => {
@@ -101,8 +100,8 @@ class CookinProvider extends Component {
                 this.setState({ errMsg: "email or password maybe incorrect" });
             });
     };
-
     findAllRecipes = token => {
+        console.log(token);
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -111,7 +110,8 @@ class CookinProvider extends Component {
         axios
             .get("http://localhost:3000/api/users/recipes", config)
             .then(res => {
-                console.log("login successful");
+                console.log("found recipes");
+                this.setState({ recipes: res.data.recipe });
                 console.log(res);
             })
 
