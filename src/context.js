@@ -112,7 +112,13 @@ class CookinProvider extends Component {
             .then(res => {
                 console.log("found recipes");
                 this.setState({ recipes: res.data.recipe });
-                console.log(res);
+                this.state.recipes.forEach(recipe => {
+                    // to do
+                    // find each of the recipes and get their details
+                    //  this.findRecipe(recipe);
+                    console.log(recipe);
+                });
+                console.log(this.state.recipes);
             })
 
             .catch(err => {
@@ -120,6 +126,21 @@ class CookinProvider extends Component {
                 this.setState({
                     errMsg: "you're not suppose to be here, please login."
                 });
+            });
+    };
+
+    findRecipe = recipeId => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${this.state.JWToken}`
+            }
+        };
+        axios
+            .get(`http://localhost:3000/api/recipes/${recipeId}`, config)
+            .then(res => {
+                console.log(res.data.recipe.recipeName);
+                let recipename = res.data.recipe.recipeName;
+                return recipename;
             });
     };
 
@@ -131,7 +152,8 @@ class CookinProvider extends Component {
                     signUp: this.signUp,
                     isAuthed: this.isAuthed,
                     login: this.login,
-                    findAllRecipes: this.findAllRecipes
+                    findAllRecipes: this.findAllRecipes,
+                    findRecipe: this.findRecipe
                 }}
             >
                 {this.props.children}
