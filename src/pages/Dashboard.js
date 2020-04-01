@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { CookinContext } from "../context";
-import UserRecipe from "../components/UserRecipes";
+import UserRecipes from "../components/UserRecipes";
+import CreateRecipe from "../components/CreateRecipe";
 
 const Dashboard = () => {
     const context = useContext(CookinContext);
@@ -10,8 +11,9 @@ const Dashboard = () => {
     } else {
         return (
             <h1>
-                Hi {name}, id: {id}, token:{JWToken}
-                <UserRecipe />
+                Hi {name}, id: {id}
+                <UserRecipes />
+                <CreateRecipe />
             </h1>
         );
     }

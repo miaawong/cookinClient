@@ -1,8 +1,22 @@
 import React, { useContext } from "react";
 import { CookinContext } from "../context";
+import styled from "styled-components";
+const ListOfRecipes = styled.div`
+    width: 300px;
+    border: 2px solid black;
+`;
 export default function UserRecipes() {
     const context = useContext(CookinContext);
-    const { recipes } = context;
+    const { recipes, findRecipe } = context;
 
-    return <div>{recipes[0]}hi from userrecipes</div>;
+    const name = recipes.map(recipe => (
+        <li>
+            <a href="/test">{recipe.recipeName}</a>
+        </li>
+    ));
+    return (
+        <ListOfRecipes>
+            <ul>{name}</ul>
+        </ListOfRecipes>
+    );
 }

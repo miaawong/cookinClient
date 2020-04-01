@@ -112,13 +112,10 @@ class CookinProvider extends Component {
             .then(res => {
                 console.log("found recipes");
                 this.setState({ recipes: res.data.recipe });
-                this.state.recipes.forEach(recipe => {
-                    // to do
-                    // find each of the recipes and get their details
-                    //  this.findRecipe(recipe);
-                    console.log(recipe);
-                });
-                console.log(this.state.recipes);
+                // this.state.recipes.forEach(recipe => {
+                //     console.log(recipe.recipeName);
+                //     this.state.recipes.push(recipe.recipeName);
+                // });
             })
 
             .catch(err => {
@@ -128,7 +125,7 @@ class CookinProvider extends Component {
                 });
             });
     };
-
+    // only use this to get details of a recipe, not to translate an id
     findRecipe = recipeId => {
         const config = {
             headers: {
@@ -139,8 +136,41 @@ class CookinProvider extends Component {
             .get(`http://localhost:3000/api/recipes/${recipeId}`, config)
             .then(res => {
                 console.log(res.data.recipe.recipeName);
-                let recipename = res.data.recipe.recipeName;
-                return recipename;
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+    createRecipe = data => {
+        const {
+            recipeName,
+            recipeDesc,
+            servings,
+            duration,
+            ingredients,
+            img
+        } = data;
+        const newRecipe = {
+            recipeName,
+            recipeDesc,
+            servings,
+            duration,
+            ingredients,
+            img
+        };
+        const config = {
+            headers: {
+                Authorization: `Bearer ${this.state.JWToken}`
+            }
+        };
+        axios
+            .post("http://localhost:3000/api/recipes/", newRecipe, config)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
             });
     };
 
@@ -153,7 +183,8 @@ class CookinProvider extends Component {
                     isAuthed: this.isAuthed,
                     login: this.login,
                     findAllRecipes: this.findAllRecipes,
-                    findRecipe: this.findRecipe
+                    findRecipe: this.findRecipe,
+                    createRecipe: this.createRecipe
                 }}
             >
                 {this.props.children}
