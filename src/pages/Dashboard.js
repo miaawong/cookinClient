@@ -6,19 +6,15 @@ import Recipe from "../components/Recipe";
 
 const Dashboard = () => {
     const context = useContext(CookinContext);
-    const { name, id, JWToken, getJWToken, currentRecipe } = context;
-    if (!name && !id) {
-        return <h1>Unauthorized</h1>;
-    } else {
-        return (
-            <h1>
-                Hi {name}, id: {id}
-                <UserRecipes />
-                <CreateRecipe />
-                <Recipe recipe={currentRecipe} />
-                {/* <button onClick={getJWToken}></button> */}
-            </h1>
-        );
-    }
+    const { name, id, JWToken, getJWToken, currentRecipe, isAuthed } = context;
+
+    return (
+        <h1>
+            Hi {name}, id: {id}, {JWToken}
+            <UserRecipes />
+            <CreateRecipe />
+            <Recipe recipe={currentRecipe} />
+        </h1>
+    );
 };
 export default Dashboard;

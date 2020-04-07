@@ -66,13 +66,13 @@ function App() {
                 <Route exact path="/">
                     <Home />
                 </Route>
-                <Route path="/signup">
+                <Route exact path="/signup">
                     <SignUp />
                 </Route>
-                <Route path="/login">
+                <Route exact path="/login">
                     <Login />
                 </Route>
-                <Route path="/dashboard">
+                <Route exact path="/dashboard">
                     <Dashboard />
                 </Route>
 

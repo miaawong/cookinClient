@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 const CookinContext = React.createContext();
 
 class CookinProvider extends Component {
@@ -10,13 +11,21 @@ class CookinProvider extends Component {
         password: "",
         toDashboard: false,
         errMsg: "",
-        JWToken: "",
+        JWToken: null,
         refreshToken: "",
         recipes: [],
         currentRecipe: {
             recipeName: ""
         }
     };
+    componentDidMount() {
+        console.log("didmount");
+
+        this.getJWToken();
+        if (!this.state.JWToken) {
+            console.log("no token");
+        }
+    }
 
     isAuthed = token => {
         const config = {
@@ -63,7 +72,7 @@ class CookinProvider extends Component {
         };
 
         axios
-            .post("http://localhost:3000/api/users/", newUser, config)
+            .post("http://localhost:3000/api/auth/", newUser, config)
 
             .then(res => {
                 this.setState({
@@ -84,13 +93,19 @@ class CookinProvider extends Component {
     };
     getJWToken = () => {
         //  console.log(this.state.refreshToken, "retoken");
-        axios.defaults.withCredentials = true;
+        // axios.defaults.withCredentials = true;
         axios
-            .post("http://localhost:3000/api/auth/refresh_token", {
+            .post("http://localhost:3000/api/auth/refresh_token", null, {
                 withCredentials: true
             })
             .then(res => {
                 console.log("newjwt", res);
+                this.setState({ JWToken: res.data.JWToken });
+                let decoded = jwtDecode(this.state.JWToken);
+                console.log(decoded, "decode");
+                console.log(this.state.JWToken);
+                // this is so nasty but it works
+                this.isAuthed(this.state.JWToken);
             })
             .catch(err => {
                 console.log(err, "newjwterr");
@@ -111,12 +126,8 @@ class CookinProvider extends Component {
             .then(res => {
                 this.setState({ JWToken: res.data.token });
                 const { refreshToken } = res.data;
-
                 console.log(refreshToken, "refreshToken");
-                this.setState({ refreshToken });
                 document.cookie = `refreshToken=${refreshToken}`;
-                this.getJWToken();
-                console.log(this.state.JWToken);
                 this.isAuthed(this.state.JWToken);
             })
             .catch(err => {
