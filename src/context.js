@@ -11,7 +11,11 @@ class CookinProvider extends Component {
         toDashboard: false,
         errMsg: "",
         JWToken: "",
-        recipes: []
+        refreshToken: "",
+        recipes: [],
+        currentRecipe: {
+            recipeName: ""
+        }
     };
 
     isAuthed = token => {
@@ -78,6 +82,20 @@ class CookinProvider extends Component {
                 });
             });
     };
+    getJWToken = () => {
+        //  console.log(this.state.refreshToken, "retoken");
+        axios.defaults.withCredentials = true;
+        axios
+            .post("http://localhost:3000/api/auth/refresh_token", {
+                withCredentials: true
+            })
+            .then(res => {
+                console.log("newjwt", res);
+            })
+            .catch(err => {
+                console.log(err, "newjwterr");
+            });
+    };
 
     login = data => {
         const { email, password } = data;
@@ -89,9 +107,15 @@ class CookinProvider extends Component {
         };
 
         axios
-            .post("http://localhost:3000/api/users/login", login, config)
+            .post("http://localhost:3000/api/auth/login", login, config)
             .then(res => {
                 this.setState({ JWToken: res.data.token });
+                const { refreshToken } = res.data;
+
+                console.log(refreshToken, "refreshToken");
+                this.setState({ refreshToken });
+                document.cookie = `refreshToken=${refreshToken}`;
+                this.getJWToken();
                 console.log(this.state.JWToken);
                 this.isAuthed(this.state.JWToken);
             })
@@ -125,8 +149,8 @@ class CookinProvider extends Component {
                 });
             });
     };
-    // only use this to get details of a recipe, not to translate an id
-    findRecipe = recipeId => {
+    // only use this to get a recipe id
+    findOneRecipe = recipeId => {
         const config = {
             headers: {
                 Authorization: `Bearer ${this.state.JWToken}`
@@ -135,7 +159,14 @@ class CookinProvider extends Component {
         axios
             .get(`http://localhost:3000/api/recipes/${recipeId}`, config)
             .then(res => {
+                console.log(res, "findrecipe response");
                 console.log(res.data.recipe.recipeName);
+                this.setState({
+                    currentRecipe: {
+                        // ...this.state.currentRecipe,
+                        recipeName: res.data.recipe.recipeName
+                    }
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -183,8 +214,9 @@ class CookinProvider extends Component {
                     isAuthed: this.isAuthed,
                     login: this.login,
                     findAllRecipes: this.findAllRecipes,
-                    findRecipe: this.findRecipe,
-                    createRecipe: this.createRecipe
+                    findOneRecipe: this.findOneRecipe,
+                    createRecipe: this.createRecipe,
+                    getJWToken: this.getJWToken
                 }}
             >
                 {this.props.children}
