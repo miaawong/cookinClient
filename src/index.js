@@ -4,7 +4,9 @@ import "./index.css";
 import App from "./App";
 import { CookinProvider } from "./context";
 import * as serviceWorker from "./serviceWorker";
+import axios from "axios";
 
+//TODO: axios interceptor
 ReactDOM.render(
     <CookinProvider>
         <App />

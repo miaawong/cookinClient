@@ -13,6 +13,7 @@ class CookinProvider extends Component {
         errMsg: "",
         JWToken: null,
         refreshToken: "",
+        JWTokenExp: null,
         recipes: [],
         currentRecipe: {
             recipeName: ""
@@ -20,7 +21,6 @@ class CookinProvider extends Component {
     };
     componentDidMount() {
         console.log("didmount");
-
         this.getJWToken();
         if (!this.state.JWToken) {
             console.log("no token");
@@ -34,11 +34,10 @@ class CookinProvider extends Component {
             }
         };
         this.setState({ JWToken: token });
+        this.interceptor();
         axios
             .get("http://localhost:3000/api/users/user", config)
             .then(res => {
-                console.log("login successful");
-                console.log(res, "isauth");
                 this.setState({
                     id: res.data.userData._id,
                     name: res.data.userData.name,
@@ -57,6 +56,7 @@ class CookinProvider extends Component {
                 });
             });
     };
+
     signUp = data => {
         const { name, email, password } = data;
         const newUser = {
@@ -101,8 +101,7 @@ class CookinProvider extends Component {
             .then(res => {
                 console.log("newjwt", res);
                 this.setState({ JWToken: res.data.JWToken });
-                let decoded = jwtDecode(this.state.JWToken);
-                console.log(decoded, "decode");
+
                 console.log(this.state.JWToken);
                 // this is so nasty but it works
                 this.isAuthed(this.state.JWToken);
@@ -120,7 +119,7 @@ class CookinProvider extends Component {
                 "Content-Type": "application/json"
             }
         };
-
+        this.interceptor();
         axios
             .post("http://localhost:3000/api/auth/login", login, config)
             .then(res => {
@@ -135,6 +134,21 @@ class CookinProvider extends Component {
                 this.setState({ errMsg: "email or password maybe incorrect" });
             });
     };
+
+    interceptor = () => {
+        axios.interceptors.response.use(
+            response => {
+                return response;
+            },
+            error => {
+                if (error.response.status === 401) {
+                    console.log("getting new token in onerecipe");
+                    this.getJWToken();
+                }
+                return error;
+            }
+        );
+    };
     findAllRecipes = token => {
         console.log(token);
         const config = {
@@ -142,15 +156,11 @@ class CookinProvider extends Component {
                 Authorization: `Bearer ${token}`
             }
         };
+        this.interceptor();
         axios
             .get("http://localhost:3000/api/users/recipes", config)
             .then(res => {
-                console.log("found recipes");
                 this.setState({ recipes: res.data.recipe });
-                // this.state.recipes.forEach(recipe => {
-                //     console.log(recipe.recipeName);
-                //     this.state.recipes.push(recipe.recipeName);
-                // });
             })
 
             .catch(err => {
@@ -167,6 +177,7 @@ class CookinProvider extends Component {
                 Authorization: `Bearer ${this.state.JWToken}`
             }
         };
+        this.interceptor();
         axios
             .get(`http://localhost:3000/api/recipes/${recipeId}`, config)
             .then(res => {
@@ -206,6 +217,7 @@ class CookinProvider extends Component {
                 Authorization: `Bearer ${this.state.JWToken}`
             }
         };
+        this.interceptor();
         axios
             .post("http://localhost:3000/api/recipes/", newRecipe, config)
             .then(res => {
