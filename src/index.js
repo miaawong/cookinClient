@@ -1,16 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 import "./index.css";
 import App from "./App";
-import { CookinProvider } from "./context";
+import authReducer from "./reducers/auth";
+// import { CookinProvider } from "./context";
 import * as serviceWorker from "./serviceWorker";
-import axios from "axios";
-
 //TODO: axios interceptor
+
+let store = createStore(authReducer);
 ReactDOM.render(
-    <CookinProvider>
+    <Provider store={store}>
         <App />
-    </CookinProvider>,
+    </Provider>,
     document.getElementById("root")
 );
 

@@ -8,8 +8,8 @@ import Dashboard from "./pages/Dashboard";
 import Recipe from "./components/Recipe";
 import { CookinContext } from "./context";
 function App() {
-    const context = useContext(CookinContext);
-    const { recipes } = context;
+    // const context = useContext(CookinContext);
+    // const { recipes } = context;
     return (
         <Router>
             <div className="App">
@@ -20,7 +20,7 @@ function App() {
                                 to="/"
                                 style={{
                                     textDecoration: "none",
-                                    color: "white"
+                                    color: "white",
                                 }}
                             >
                                 Home
@@ -31,7 +31,7 @@ function App() {
                                 to="/signup"
                                 style={{
                                     textDecoration: "none",
-                                    color: "white"
+                                    color: "white",
                                 }}
                             >
                                 Sign Up
@@ -42,7 +42,7 @@ function App() {
                                 to="login"
                                 style={{
                                     textDecoration: "none",
-                                    color: "white"
+                                    color: "white",
                                 }}
                             >
                                 Login{" "}
@@ -53,7 +53,7 @@ function App() {
                                 to="dashboard"
                                 style={{
                                     textDecoration: "none",
-                                    color: "white"
+                                    color: "white",
                                 }}
                             >
                                 Dashboard
