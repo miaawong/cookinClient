@@ -1,12 +1,14 @@
 import * as actionTypes from "../actionTypes/authActionTypes";
 
 const initState = {
-    loading: false,
+    id: "",
+    name: "",
+    toDashboard: false,
     email: "",
     password: "",
-    // JWToken: "",
-    // isAuthed: false,
-    // user: null,
+    JWToken: "",
+    isAuthed: false,
+    recipes: [],
 };
 
 const authReducer = (state = initState, action) => {
@@ -14,10 +16,14 @@ const authReducer = (state = initState, action) => {
         case actionTypes.LOGIN_REQUEST:
             return {
                 ...state,
+                toDashboard: true,
                 email: action.payload.email,
+                password: action.payload.password,
+                JWToken: action.payload.token,
+                id: action.payload._id,
+                name: action.payload.name,
             };
             break;
-
         default:
             return initState;
     }

@@ -1,20 +1,20 @@
-import React, { useContext } from "react";
-import { CookinContext } from "../context";
+import React from "react";
+import { connect } from "react-redux";
 import UserRecipes from "../components/UserRecipes";
 import CreateRecipe from "../components/CreateRecipe";
 import Recipe from "../components/Recipe";
 
-const Dashboard = () => {
-    const context = useContext(CookinContext);
-    const { name, id, JWToken, getJWToken, currentRecipe, isAuthed } = context;
-
+const Dashboard = (props) => {
     return (
         <h1>
-            Hi {name}, id: {id}, {JWToken}
-            <UserRecipes />
-            <CreateRecipe />
-            <Recipe recipe={currentRecipe} />
+            dashboard,Hi {props.name}, id: {props.id}}{/* <UserRecipes /> */}
+            {/* <CreateRecipe /> */}
+            {/* <Recipe recipe={currentRecipe} /> */}
         </h1>
     );
 };
-export default Dashboard;
+const mapStateToProps = (state) => ({
+    name: state.name,
+    id: state.id,
+});
+export default connect(mapStateToProps)(Dashboard);

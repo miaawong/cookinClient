@@ -1,26 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { login } from "../actions/authAction";
 
-const Login = () => {
+const Login = (props) => {
     const { register, handleSubmit, errors } = useForm();
-    const [input, setForm] = useState({
-        email: "",
-        password: "",
-    });
-    const { email, password } = input;
+
     const dispatch = useDispatch();
-    const onSubmit = (e) => {
-        console.log("hi");
-        console.log(e.email);
-        dispatch(login(e.email, e.password));
+    const onSubmit = (data) => {
+        dispatch(login(data.email, data.password));
     };
-    // if (toDashboard === true) {
-    //     console.log("redirect");
-    //     return <Redirect to="/dashboard" />;
-    // }
+    console.log(props);
+    if (props.toDashboard === true) {
+        console.log("redirect");
+        return <Redirect to="/dashboard" />;
+    }
     return (
         <div>
             <h1 style={{ color: "red" }}></h1>
@@ -64,7 +59,7 @@ const Login = () => {
     );
 };
 
-// const actionCreators = {
-//     login,
-// };
-export default Login;
+const mapStateToProps = (state) => ({
+    toDashboard: state.toDashboard,
+});
+export default connect(mapStateToProps)(Login);
