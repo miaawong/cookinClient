@@ -7,7 +7,8 @@ import Recipe from "../components/Recipe";
 const Dashboard = (props) => {
     return (
         <h1>
-            dashboard,Hi {props.name}, id: {props.id}}{/* <UserRecipes /> */}
+            dashboard,Hi {props.name}, id: {props.id}
+            <UserRecipes />
             {/* <CreateRecipe /> */}
             {/* <Recipe recipe={currentRecipe} /> */}
         </h1>

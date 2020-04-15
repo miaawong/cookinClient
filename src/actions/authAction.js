@@ -13,8 +13,13 @@ export const login = (email, password) => {
             .post("http://localhost:3000/api/auth/login", loginData, config)
             .then((res) => {
                 console.log(res.data);
-                let { token, refreshToken } = res.data;
+                let { token, refreshToken, recipes } = res.data;
                 let { _id, name, email, password } = res.data.userData;
+
+                let recipeNames = recipes.map((recipe) => {
+                    return recipe.recipeName;
+                });
+
                 document.cookie = `refreshToken=${refreshToken}`;
                 dispatch({
                     type: actionTypes.LOGIN_REQUEST,
@@ -24,6 +29,7 @@ export const login = (email, password) => {
                         _id,
                         name,
                         password,
+                        recipeNames,
                     },
                 });
             })

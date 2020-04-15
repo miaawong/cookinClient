@@ -22,8 +22,16 @@ const authReducer = (state = initState, action) => {
                 JWToken: action.payload.token,
                 id: action.payload._id,
                 name: action.payload.name,
+                recipes: action.payload.recipeNames,
             };
             break;
+        case actionTypes.SET_NEW_TOKEN:
+            return {
+                ...state,
+                JWToken: action.payload.token,
+            };
+            break;
+
         default:
             return initState;
     }

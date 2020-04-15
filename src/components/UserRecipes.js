@@ -1,24 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
+import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { CookinContext } from "../context";
 import styled from "styled-components";
+import { getOneRecipe } from "../actions/authAction";
+
 const ListOfRecipes = styled.div`
     width: 300px;
     border: 2px solid black;
 `;
-export default function UserRecipes() {
-    const context = useContext(CookinContext);
-    const { recipes, findOneRecipe, showClickedRecipe } = context;
 
-    const name = recipes.map(recipe => (
+// useeffect to get all recipes names on mount?
+
+const UserRecipes = (props) => {
+    let name = props.recipes.map((recipe) => (
         <li>
-            {/* <Link to={`/recipes/${recipe._id}`}>{recipe.recipeName}</Link> */}
-            <button
-                onClick={() => {
-                    findOneRecipe(recipe._id);
-                }}
-            >
-                {recipe.recipeName}
+            <button onClick={() => console.log("will get one recipe ")}>
+                {recipe}
             </button>
         </li>
     ));
@@ -27,4 +24,10 @@ export default function UserRecipes() {
             <ul>{name}</ul>
         </ListOfRecipes>
     );
-}
+};
+const mapStateToProps = (state) => ({
+    recipes: state.recipes,
+    JWToken: state.JWToken,
+});
+
+export default connect(mapStateToProps)(UserRecipes);
