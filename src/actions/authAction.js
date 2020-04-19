@@ -14,11 +14,12 @@ export const login = (email, password) => {
             .then((res) => {
                 console.log(res.data);
                 let { token, refreshToken, recipes } = res.data;
-                let { _id, name, email, password } = res.data.userData;
+                let { _id, name, email } = res.data.userData;
 
-                let recipeNames = recipes.map((recipe) => {
-                    return recipe.recipeName;
+                let newRecipes = recipes.map((recipe) => {
+                    return recipe;
                 });
+                console.log(newRecipes);
 
                 document.cookie = `refreshToken=${refreshToken}`;
                 dispatch({
@@ -28,13 +29,41 @@ export const login = (email, password) => {
                         token,
                         _id,
                         name,
-                        password,
-                        recipeNames,
                     },
                 });
             })
             .catch((err) => {
                 console.log(err);
+            });
+    };
+};
+
+export const getJWT = () => {
+    console.log("getjwt");
+    return (dispatch) => {
+        axios
+            .post("http://localhost:3000/api/auth/refresh_token", null, {
+                withCredentials: true,
+            })
+            .then((res) => {
+                console.log("newjwt", res);
+                let { JWToken, _id, name, email, password } = res.data;
+
+                dispatch({
+                    type: actionTypes.GET_JWT,
+                    payload: {
+                        JWToken,
+                        _id,
+                        name,
+                        email,
+                        password,
+                    },
+                });
+                // this is so nasty but it works
+                // this.isAuthed(this.state.JWToken);
+            })
+            .catch((err) => {
+                console.log(err, "newjwterr");
             });
     };
 };

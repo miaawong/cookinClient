@@ -1,15 +1,21 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Recipe from "./components/Recipe";
-import { CookinContext } from "./context";
-function App() {
-    // const context = useContext(CookinContext);
-    // const { recipes } = context;
+import { getJWT } from "./actions/authAction";
+
+const App = ({ toDashboard, JWToken }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getJWT());
+    }, []);
     return (
         <Router>
             <div className="App">
@@ -80,6 +86,10 @@ function App() {
             </Switch>
         </Router>
     );
-}
+};
 
-export default App;
+const mapStateToProps = (state) => ({
+    toDashboard: state.toDashboard,
+    JWToken: state.JWToken,
+});
+export default connect(mapStateToProps)(App);

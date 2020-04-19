@@ -11,23 +11,27 @@ const ListOfRecipes = styled.div`
 
 // useeffect to get all recipes names on mount?
 
-const UserRecipes = (props) => {
-    let name = props.recipes.map((recipe) => (
-        <li>
-            <button onClick={() => console.log("will get one recipe ")}>
-                {recipe}
-            </button>
-        </li>
-    ));
-    return (
-        <ListOfRecipes>
-            <ul>{name}</ul>
-        </ListOfRecipes>
-    );
+const UserRecipes = ({ recipes }) => {
+    if (recipes.length == 0) {
+        return <h1>You don't have any recipes</h1>;
+    } else {
+        console.log(recipes);
+        let name = recipes.map((recipe) => (
+            <li key={recipe._id}>
+                <button onClick={() => console.log("will get one recipe ")}>
+                    {recipe.recipeName}
+                </button>
+            </li>
+        ));
+        return (
+            <ListOfRecipes>
+                <ul>{name}</ul>
+            </ListOfRecipes>
+        );
+    }
 };
 const mapStateToProps = (state) => ({
-    recipes: state.recipes,
-    JWToken: state.JWToken,
+    recipes: state["recipeReducer"].recipes,
 });
 
 export default connect(mapStateToProps)(UserRecipes);

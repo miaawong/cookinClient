@@ -6,13 +6,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import "./index.css";
 import App from "./App";
-import authReducer from "./reducers/auth";
+import rootReducer from "./reducers/rootReducer";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
-import * as actionTypes from "./actionTypes/authActionTypes";
+import { getJWT } from "./actions/authAction";
 
 let store = createStore(
-    authReducer,
+    rootReducer,
     composeWithDevTools(applyMiddleware(thunk))
 );
 axios.interceptors.response.use(
@@ -22,28 +22,13 @@ axios.interceptors.response.use(
     },
     (error) => {
         if (error.response.status === 401) {
-            console.log("unauth");
-            axios
-                .post("http://localhost:3000/api/auth/refresh_token", null, {
-                    withCredentials: true,
-                })
-                .then((res) => {
-                    console.log("newjwt!!!", res);
-                    let token = res.data.JWToken;
-                    store.dispatch();
-                    store.dispatch({
-                        type: actionTypes.SET_NEW_TOKEN,
-                        payload: token,
-                    });
-                })
-                .catch((err) => {
-                    console.log(err, "cannot get new jwt");
-                });
+            console.log("jwtoken expired");
+            store.dispatch(getJWT());
         }
         return error;
     }
 );
-console.log(store.getState(), "store");
+
 ReactDOM.render(
     <Provider store={store}>
         <App />

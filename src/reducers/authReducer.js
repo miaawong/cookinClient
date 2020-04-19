@@ -8,7 +8,6 @@ const initState = {
     password: "",
     JWToken: "",
     isAuthed: false,
-    recipes: [],
 };
 
 const authReducer = (state = initState, action) => {
@@ -18,11 +17,10 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 toDashboard: true,
                 email: action.payload.email,
-                password: action.payload.password,
                 JWToken: action.payload.token,
                 id: action.payload._id,
                 name: action.payload.name,
-                recipes: action.payload.recipeNames,
+                recipes: action.payload.recipes,
             };
             break;
         case actionTypes.SET_NEW_TOKEN:
@@ -31,7 +29,17 @@ const authReducer = (state = initState, action) => {
                 JWToken: action.payload.token,
             };
             break;
-
+        case actionTypes.GET_JWT:
+            return {
+                ...state,
+                JWToken: action.payload.JWToken,
+                id: action.payload._id,
+                name: action.payload.name,
+                email: action.payload.email,
+                password: action.payload.password,
+                // toDashboard: true,
+            };
+            break;
         default:
             return initState;
     }
