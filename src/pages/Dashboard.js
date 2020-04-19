@@ -4,14 +4,14 @@ import UserRecipes from "../components/UserRecipes";
 // import CreateRecipe from "../components/CreateRecipe";
 // import Recipe from "../components/Recipe";
 import { Redirect } from "react-router-dom";
-import { getAllRecipes } from "../actions/recipeAction.js";
+import { getAllRecipes } from "../redux/recipes/recipeAction.js";
 
-const Dashboard = ({ toDashboard, name, id, JWToken }) => {
+const Dashboard = ({ name, id, JWToken }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAllRecipes(JWToken));
     }, []);
-    if (!toDashboard) {
+    if (!id) {
         return <Redirect to="/login"></Redirect>;
     }
     return (

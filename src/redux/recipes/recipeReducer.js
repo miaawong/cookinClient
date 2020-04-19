@@ -1,6 +1,7 @@
-import * as actionTypes from "../actionTypes/recipeActionTypes";
+import * as actionTypes from "../recipes/recipeActionTypes";
 
 const initState = {
+    user: "",
     recipes: [],
 };
 
@@ -9,13 +10,10 @@ const recipeReducer = (state = initState, action) => {
         case actionTypes.GET_ALL_RECIPES:
             return {
                 ...state,
-
-                recipes: action.payload.recipes,
+                recipes: action.payload,
             };
-            break;
-
         default:
-            return initState;
+            return state;
     }
 };
 

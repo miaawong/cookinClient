@@ -8,13 +8,15 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Recipe from "./components/Recipe";
-import { getJWT } from "./actions/authAction";
+import { getJWT } from "./redux/auth/authAction";
 
 const App = ({ toDashboard, JWToken }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getJWT());
+        if (document.cookie && !JWToken) {
+            dispatch(getJWT());
+        }
     }, []);
     return (
         <Router>

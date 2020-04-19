@@ -1,4 +1,4 @@
-import * as actionTypes from "../actionTypes/recipeActionTypes";
+import * as recipeActionTypes from "./recipeActionTypes";
 import axios from "axios";
 
 export const getAllRecipes = (token) => {
@@ -14,7 +14,7 @@ export const getAllRecipes = (token) => {
             .then((res) => {
                 let recipes = res.data.recipe;
                 dispatch({
-                    type: actionTypes.GET_ALL_RECIPES,
+                    type: recipeActionTypes.GET_ALL_RECIPES,
                     payload: recipes,
                 });
             })

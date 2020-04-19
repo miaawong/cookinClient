@@ -2,7 +2,7 @@ import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getOneRecipe } from "../actions/authAction";
+import { getOneRecipe } from "../redux/recipes/recipeAction";
 
 const ListOfRecipes = styled.div`
     width: 300px;
@@ -12,7 +12,7 @@ const ListOfRecipes = styled.div`
 // useeffect to get all recipes names on mount?
 
 const UserRecipes = ({ recipes }) => {
-    if (recipes.length == 0) {
+    if (recipes.length === 0) {
         return <h1>You don't have any recipes</h1>;
     } else {
         console.log(recipes);

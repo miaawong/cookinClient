@@ -2,9 +2,9 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { connect, useDispatch } from "react-redux";
-import { login } from "../actions/authAction";
+import { login } from "../redux/auth/authAction";
 
-const Login = ({ toDashboard, JWToken }) => {
+const Login = ({ toDashboard, JWToken, id }) => {
     const dispatch = useDispatch();
 
     const { register, handleSubmit, errors } = useForm();
@@ -12,8 +12,8 @@ const Login = ({ toDashboard, JWToken }) => {
     const onSubmit = (data) => {
         dispatch(login(data.email, data.password));
     };
-    // console.log(props);
-    if (toDashboard === true) {
+
+    if (id) {
         console.log("redirect");
         return <Redirect to="/dashboard" />;
     }
@@ -61,6 +61,7 @@ const Login = ({ toDashboard, JWToken }) => {
 };
 
 const mapStateToProps = (state) => ({
+    id: state["authReducer"].id,
     toDashboard: state["authReducer"].toDashboard,
     JWToken: state["authReducer"].JWToken,
 });
