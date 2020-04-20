@@ -41,7 +41,7 @@ export const login = (email, password) => {
 export const getJWT = () => {
     console.log("getjwt");
     return (dispatch) => {
-        axios
+        return axios
             .post("http://localhost:3000/api/auth/refresh_token", null, {
                 withCredentials: true,
             })
@@ -59,8 +59,7 @@ export const getJWT = () => {
                         password,
                     },
                 });
-                // this is so nasty but it works
-                // this.isAuthed(this.state.JWToken);
+                return JWToken;
             })
             .catch((err) => {
                 console.log(err, "newjwterr");

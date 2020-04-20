@@ -3,18 +3,17 @@ import { connect, useDispatch } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-import Home from "./pages/Home";
-import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Recipe from "./components/Recipe";
+import Home from "./pages/home";
+import SignUp from "./pages/signUp";
+import Login from "./pages/login";
+import Dashboard from "./pages/dashboard";
+import CreateRecipe from "./components/CreateRecipe";
 import { getJWT } from "./redux/auth/authAction";
 
-const App = ({ toDashboard, JWToken }) => {
+const App = ({ JWToken }) => {
     const dispatch = useDispatch();
-
     useEffect(() => {
-        if (document.cookie && !JWToken) {
+        if (!JWToken) {
             dispatch(getJWT());
         }
     }, []);
@@ -83,6 +82,7 @@ const App = ({ toDashboard, JWToken }) => {
                 <Route exact path="/dashboard">
                     <Dashboard />
                 </Route>
+                <Route exact path="/addRecipe" component={CreateRecipe}></Route>
 
                 {/* <Route exact path={"/recipes/:recipeId"} component={Recipe} /> */}
             </Switch>
@@ -91,7 +91,6 @@ const App = ({ toDashboard, JWToken }) => {
 };
 
 const mapStateToProps = (state) => ({
-    toDashboard: state.toDashboard,
     JWToken: state.JWToken,
 });
 export default connect(mapStateToProps)(App);

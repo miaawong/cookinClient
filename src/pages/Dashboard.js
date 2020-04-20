@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import UserRecipes from "../components/UserRecipes";
-// import CreateRecipe from "../components/CreateRecipe";
 // import Recipe from "../components/Recipe";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link, Route } from "react-router-dom";
 import { getAllRecipes } from "../redux/recipes/recipeAction.js";
+import CreateRecipe from "../components/CreateRecipe";
 
 const Dashboard = ({ name, id, JWToken }) => {
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Dashboard = ({ name, id, JWToken }) => {
         <h1>
             dashboard,Hi {name}, id: {id}
             <UserRecipes />
-            {/* <CreateRecipe /> */}
+            <Link to="/addRecipe">Add New Recipe</Link>
             {/* <Recipe recipe={currentRecipe} /> */}
         </h1>
     );

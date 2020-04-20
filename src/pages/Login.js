@@ -6,9 +6,7 @@ import { login } from "../redux/auth/authAction";
 
 const Login = ({ toDashboard, JWToken, id }) => {
     const dispatch = useDispatch();
-
     const { register, handleSubmit, errors } = useForm();
-
     const onSubmit = (data) => {
         dispatch(login(data.email, data.password));
     };

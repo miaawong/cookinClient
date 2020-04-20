@@ -24,3 +24,39 @@ export const getAllRecipes = (token) => {
             });
     };
 };
+
+export const createRecipe = (token, data) => {
+    return (dispatch) => {
+        const {
+            recipeName,
+            recipeDesc,
+            servings,
+            duration,
+            ingredients,
+            img,
+        } = data;
+        const newRecipe = {
+            recipeName,
+            recipeDesc,
+            servings,
+            duration,
+            ingredients,
+            img,
+        };
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        axios
+            .post("http://localhost:3000/api/recipes/", newRecipe, config)
+            .then((res) => {
+                console.log(res);
+                //TO DO : add new recipe to db
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+};

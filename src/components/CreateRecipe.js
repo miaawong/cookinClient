@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
-import { CookinContext } from "../context";
+import React from "react";
+import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
+import { createRecipe } from "../redux/recipes/recipeAction";
+import { Redirect } from "react-router-dom";
 
-export default function CreateRecipe() {
-    const context = useContext(CookinContext);
-    const { createRecipe } = context;
+const CreateRecipe = ({ JWToken }) => {
     const { register, handleSubmit, errors } = useForm();
-    const onSubmit = data => {
-        createRecipe(data);
+    const dispatch = useDispatch();
+    const onSubmit = (data) => {
+        dispatch(createRecipe(JWToken, data));
     };
 
     return (
@@ -19,7 +20,7 @@ export default function CreateRecipe() {
                         name="recipeName"
                         placeholder="Recipe Name"
                         ref={register({
-                            required: "I cannot be empty"
+                            required: "I cannot be empty",
                         })}
                     />
                     <p>{errors.recipeName}</p>
@@ -28,7 +29,7 @@ export default function CreateRecipe() {
                         name="recipeDesc"
                         placeholder="Description"
                         ref={register({
-                            required: "I cannot be empty"
+                            required: "I cannot be empty",
                         })}
                     />
                     <p>{errors.recipeDesc}</p>
@@ -37,7 +38,7 @@ export default function CreateRecipe() {
                         name="servings"
                         placeholder="servings"
                         ref={register({
-                            required: "I cannot be empty"
+                            required: "I cannot be empty",
                         })}
                     />
                     <p>{errors.servings}</p>
@@ -46,7 +47,7 @@ export default function CreateRecipe() {
                         name="duration"
                         placeholder="duration"
                         ref={register({
-                            required: "I cannot be empty"
+                            required: "I cannot be empty",
                         })}
                     />
                     <p>{errors.duration}</p>
@@ -55,7 +56,7 @@ export default function CreateRecipe() {
                         name="ingredients"
                         placeholder="ingredients"
                         ref={register({
-                            required: "I cannot be empty"
+                            required: "I cannot be empty",
                         })}
                     />
                     <p>{errors.ingredients}</p>
@@ -64,7 +65,7 @@ export default function CreateRecipe() {
                         name="instructions"
                         placeholder="instructions"
                         ref={register({
-                            required: "I cannot be empty"
+                            required: "I cannot be empty",
                         })}
                     />
                     <p>{errors.instructions}</p>
@@ -82,4 +83,9 @@ export default function CreateRecipe() {
             </form>
         </div>
     );
-}
+};
+
+const mapStateToProps = (state) => ({
+    JWToken: state["authReducer"].JWToken,
+});
+export default connect(mapStateToProps)(CreateRecipe);
