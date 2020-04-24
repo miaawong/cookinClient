@@ -53,7 +53,9 @@ export const createRecipe = (token, data) => {
             .post("http://localhost:3000/api/recipes/", newRecipe, config)
             .then((res) => {
                 console.log(res);
-                //TO DO : add new recipe to db
+                let recipeId = res.data.recipes.recipeId;
+                //how can this be done with brwoser router
+                window.location.href = `recipe/${recipeId}`;
             })
             .catch((err) => {
                 console.log(err);

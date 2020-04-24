@@ -7,7 +7,7 @@ export default function Recipe({ match }) {
     console.log("match:", match);
     return (
         <div>
-            <RecipeComponent></RecipeComponent>
+            <RecipeComponent recipe={recipeId}></RecipeComponent>
         </div>
     );
 }

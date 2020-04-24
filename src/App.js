@@ -8,6 +8,7 @@ import SignUp from "./pages/signUp";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./components/CreateRecipe";
+import Recipe from "./pages/recipe";
 import { getJWT } from "./redux/auth/authAction";
 
 const App = ({ JWToken }) => {
@@ -46,7 +47,7 @@ const App = ({ JWToken }) => {
                         </li>
                         <li>
                             <Link
-                                to="login"
+                                to="/login"
                                 style={{
                                     textDecoration: "none",
                                     color: "white",
@@ -57,7 +58,7 @@ const App = ({ JWToken }) => {
                         </li>
                         <li>
                             <Link
-                                to="dashboard"
+                                to="/dashboard"
                                 style={{
                                     textDecoration: "none",
                                     color: "white",
@@ -84,7 +85,7 @@ const App = ({ JWToken }) => {
                 </Route>
                 <Route exact path="/addRecipe" component={CreateRecipe}></Route>
 
-                {/* <Route exact path={"/recipes/:recipeId"} component={Recipe} /> */}
+                <Route exact path={"/recipes/:recipeId"} component={Recipe} />
             </Switch>
         </Router>
     );
