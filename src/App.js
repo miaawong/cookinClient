@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-
 import Home from "./pages/home";
 import SignUp from "./pages/signUp";
 import Login from "./pages/login";

@@ -2,13 +2,14 @@ import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { createRecipe } from "../redux/recipes/recipeAction";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 const CreateRecipe = ({ JWToken }) => {
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
+    const history = useHistory();
     const onSubmit = (data) => {
-        dispatch(createRecipe(JWToken, data));
+        dispatch(createRecipe(JWToken, data, history));
     };
 
     return (

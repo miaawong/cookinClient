@@ -25,7 +25,7 @@ export const getAllRecipes = (token) => {
     };
 };
 
-export const createRecipe = (token, data) => {
+export const createRecipe = (token, data, history) => {
     return (dispatch) => {
         const {
             recipeName,
@@ -54,8 +54,7 @@ export const createRecipe = (token, data) => {
             .then((res) => {
                 console.log(res);
                 let recipeId = res.data.recipes.recipeId;
-                //how can this be done with brwoser router
-                window.location.href = `recipe/${recipeId}`;
+                history.push(`/recipes/${recipeId}`);
             })
             .catch((err) => {
                 console.log(err);
