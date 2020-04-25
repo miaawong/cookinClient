@@ -4,28 +4,23 @@ import { useParams } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { getCurrentRecipe } from "../redux/recipes/recipeAction";
 
-const Recipe = ({ currentRecipe, allRecipes }) => {
+const Recipe = ({ currentRecipe, JWToken }) => {
     const { recipeId } = useParams();
     const dispatch = useDispatch();
     console.log(recipeId, "recipeid");
-    console.log(allRecipes, "list of current recipe");
     useEffect(() => {
-        setTimeout(() => {
-            console.log("hi");
-            console.log(recipeId);
-            dispatch(getCurrentRecipe(recipeId, allRecipes));
-        }, 1000);
+        dispatch(getCurrentRecipe(recipeId, JWToken));
     }, []);
 
     return (
         <div>
-            <RecipeComponent recipe={recipeId}></RecipeComponent>
+            <RecipeComponent />
         </div>
     );
 };
 const mapStateToProps = (state) => ({
     currentRecipe: state["recipeReducer"].currentRecipe,
-    allRecipes: state["recipeReducer"].recipes,
+    JWToken: state["authReducer"].JWToken,
 });
 
 export default connect(mapStateToProps)(Recipe);

@@ -33,6 +33,7 @@ export const createRecipe = (token, data, history) => {
             servings,
             duration,
             ingredients,
+            instructions,
             img,
         } = data;
         const newRecipe = {
@@ -41,6 +42,7 @@ export const createRecipe = (token, data, history) => {
             servings,
             duration,
             ingredients,
+            instructions,
             img,
         };
         const config = {
@@ -68,18 +70,24 @@ export const createRecipe = (token, data, history) => {
     };
 };
 
-export const getCurrentRecipe = (recipeId) => {
-    return (dispatch, getState) => {
-        const { recipeReducer } = getState();
-        console.log(recipeReducer);
-        // let list = Object.values(allRecipes);
-        // list.map((recipe) => {
-        //     console.log(recipe, "dispatch reicpe");
-        //     recipe._id === recipeId &&
-        //         dispatch({
-        //             type: recipeActionTypes.GET_CURRENT_RECIPE,
-        //             payload: recipe,
-        //         });
-        // });
+export const getCurrentRecipe = (recipeId, token) => {
+    return (dispatch) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        axios
+            .get(`http://localhost:3000/api/recipes/${recipeId}`, config)
+            .then((res) => {
+                let recipe = res.data.recipe;
+                dispatch({
+                    type: recipeActionTypes.GET_CURRENT_RECIPE,
+                    payload: recipe,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 };
