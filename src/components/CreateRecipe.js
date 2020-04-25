@@ -11,6 +11,7 @@ const CreateRecipe = ({ JWToken }) => {
     const onSubmit = (data) => {
         dispatch(createRecipe(JWToken, data, history));
     };
+
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -23,10 +24,11 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p></p>
-                    {Object.keys(errors).length > 0 && (
-                        <p>{errors.recipeName.message}</p>
+                    <br></br>
+                    {errors["recipeName"] && (
+                        <p>{errors["recipeName"].message}</p>
                     )}
+
                     <input
                         type="text"
                         name="recipeDesc"
@@ -35,10 +37,9 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p></p>
-
-                    {Object.keys(errors).length > 0 && (
-                        <p>{errors.recipeDesc.message}</p>
+                    <br></br>
+                    {errors["recipeDesc"] && (
+                        <p>{errors["recipeDesc"].message}</p>
                     )}
                     <input
                         type="text"
@@ -52,23 +53,23 @@ const CreateRecipe = ({ JWToken }) => {
                             },
                         })}
                     />
-                    <p></p>
+                    <br></br>
+                    {errors["servings"] && <p>{errors["servings"].message}</p>}
 
-                    {Object.keys(errors).length > 0 && (
-                        <p>{errors.servings.message}</p>
-                    )}
                     <input
                         type="text"
                         name="duration"
                         placeholder="duration"
                         ref={register({
                             required: "I cannot be empty",
+                            pattern: {
+                                value: /^(0|[1-9][0-9]*)$/,
+                                message: "must be a number",
+                            },
                         })}
                     />
-                    <p></p>
-                    {Object.keys(errors).length > 0 && (
-                        <p>{errors.duration.message}</p>
-                    )}
+                    <br></br>
+                    {errors["duration"] && <p>{errors["duration"].message}</p>}
                     <input
                         type="text"
                         name="ingredients"
@@ -77,11 +78,11 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p></p>
-
-                    {Object.keys(errors).length > 0 && (
-                        <p>{errors.ingredients.message}</p>
+                    <br></br>
+                    {errors["ingredients"] && (
+                        <p>{errors["ingredients"].message}</p>
                     )}
+
                     <input
                         type="text"
                         name="instructions"
@@ -90,10 +91,11 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p></p>
-                    {Object.keys(errors).length > 0 && (
-                        <p>{errors.instructions.message}</p>
+                    <br></br>
+                    {errors["instructions"] && (
+                        <p>{errors["instructions"].message}</p>
                     )}
+
                     <input
                         type="text"
                         name="img"
@@ -102,10 +104,8 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p></p>
-                    {Object.keys(errors).length > 0 && (
-                        <p>{errors.img.message}</p>
-                    )}
+                    <br></br>
+                    {errors["img"] && <p>{errors["img"].message}</p>}
                 </label>
                 <input type="submit" />
             </form>
