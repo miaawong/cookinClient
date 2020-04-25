@@ -11,7 +11,6 @@ const CreateRecipe = ({ JWToken }) => {
     const onSubmit = (data) => {
         dispatch(createRecipe(JWToken, data, history));
     };
-
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -24,7 +23,10 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p>{errors.recipeName}</p>
+                    <p></p>
+                    {Object.keys(errors).length > 0 && (
+                        <p>{errors.recipeName.message}</p>
+                    )}
                     <input
                         type="text"
                         name="recipeDesc"
@@ -33,16 +35,28 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p>{errors.recipeDesc}</p>
+                    <p></p>
+
+                    {Object.keys(errors).length > 0 && (
+                        <p>{errors.recipeDesc.message}</p>
+                    )}
                     <input
                         type="text"
                         name="servings"
                         placeholder="servings"
                         ref={register({
                             required: "I cannot be empty",
+                            pattern: {
+                                value: /^(0|[1-9][0-9]*)$/,
+                                message: "must be a number",
+                            },
                         })}
                     />
-                    <p>{errors.servings}</p>
+                    <p></p>
+
+                    {Object.keys(errors).length > 0 && (
+                        <p>{errors.servings.message}</p>
+                    )}
                     <input
                         type="text"
                         name="duration"
@@ -51,7 +65,10 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p>{errors.duration}</p>
+                    <p></p>
+                    {Object.keys(errors).length > 0 && (
+                        <p>{errors.duration.message}</p>
+                    )}
                     <input
                         type="text"
                         name="ingredients"
@@ -60,7 +77,11 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p>{errors.ingredients}</p>
+                    <p></p>
+
+                    {Object.keys(errors).length > 0 && (
+                        <p>{errors.ingredients.message}</p>
+                    )}
                     <input
                         type="text"
                         name="instructions"
@@ -69,16 +90,22 @@ const CreateRecipe = ({ JWToken }) => {
                             required: "I cannot be empty",
                         })}
                     />
-                    <p>{errors.instructions}</p>
+                    <p></p>
+                    {Object.keys(errors).length > 0 && (
+                        <p>{errors.instructions.message}</p>
+                    )}
                     <input
                         type="text"
                         name="img"
                         placeholder="Image"
                         ref={register({
-                            // required: "I cannot be empty"
+                            required: "I cannot be empty",
                         })}
                     />
-                    <p>{errors.img}</p>
+                    <p></p>
+                    {Object.keys(errors).length > 0 && (
+                        <p>{errors.img.message}</p>
+                    )}
                 </label>
                 <input type="submit" />
             </form>
