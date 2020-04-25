@@ -1,1 +1,3 @@
 export const GET_ALL_RECIPES = "GET_ALL_RECIPES";
+export const ADDED_RECIPE = "ADDED_RECIPE";
+export const GET_CURRENT_RECIPE = "GET_CURRENT_RECIPE";

@@ -53,11 +53,33 @@ export const createRecipe = (token, data, history) => {
             .post("http://localhost:3000/api/recipes/", newRecipe, config)
             .then((res) => {
                 console.log(res);
-                let recipeId = res.data.recipes.recipeId;
+                let recipeId = res.data.recipe._id;
+                let recipe = res.data.recipe;
+                console.log(res.data);
                 history.push(`/recipes/${recipeId}`);
+                dispatch({
+                    type: recipeActionTypes.ADDED_RECIPE,
+                    payload: recipe,
+                });
             })
             .catch((err) => {
                 console.log(err);
             });
+    };
+};
+
+export const getCurrentRecipe = (recipeId) => {
+    return (dispatch, getState) => {
+        const { recipeReducer } = getState();
+        console.log(recipeReducer);
+        // let list = Object.values(allRecipes);
+        // list.map((recipe) => {
+        //     console.log(recipe, "dispatch reicpe");
+        //     recipe._id === recipeId &&
+        //         dispatch({
+        //             type: recipeActionTypes.GET_CURRENT_RECIPE,
+        //             payload: recipe,
+        //         });
+        // });
     };
 };
