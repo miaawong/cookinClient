@@ -9,6 +9,7 @@ import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./components/CreateRecipe";
 import Recipe from "./pages/recipe";
 import { getJWT } from "./redux/auth/authAction";
+import { getAllRecipes } from "./redux/recipes/recipeAction";
 
 const App = ({ JWToken }) => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const App = ({ JWToken }) => {
         if (!JWToken) {
             dispatch(getJWT());
         }
+        dispatch(getAllRecipes(JWToken));
     }, []);
     return (
         <Router>
