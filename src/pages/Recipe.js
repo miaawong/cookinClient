@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import RecipeComponent from "../components/Recipe";
+import RecipeComponent from "../components/RecipeComponent";
 import { useParams } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { getCurrentRecipe } from "../redux/recipes/recipeAction";

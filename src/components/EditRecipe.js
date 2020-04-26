@@ -1,17 +1,29 @@
 import React from "react";
-import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { createRecipe } from "../redux/recipes/recipeAction";
+import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { editRecipe } from "../redux/recipes/recipeAction";
 
-const CreateRecipe = ({ JWToken }) => {
+const EditRecipe = ({ JWToken, currentRecipe }) => {
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
     const history = useHistory();
-    const onSubmit = (data) => {
-        dispatch(createRecipe(JWToken, data, history));
-    };
+    let {
+        _id,
+        recipeName,
+        recipeDesc,
+        servings,
+        duration,
+        ingredients,
+        instructions,
+        img,
+    } = currentRecipe;
 
+    const onSubmit = (data) => {
+        dispatch(editRecipe(_id, data, JWToken, history));
+
+        console.log("set edit to false");
+    };
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -20,9 +32,8 @@ const CreateRecipe = ({ JWToken }) => {
                         type="text"
                         name="recipeName"
                         placeholder="Recipe Name"
-                        ref={register({
-                            required: "I cannot be empty",
-                        })}
+                        ref={register}
+                        defaultValue={recipeName}
                     />
                     <br></br>
                     {errors["recipeName"] && (
@@ -33,9 +44,8 @@ const CreateRecipe = ({ JWToken }) => {
                         type="text"
                         name="recipeDesc"
                         placeholder="Description"
-                        ref={register({
-                            required: "I cannot be empty",
-                        })}
+                        ref={register}
+                        defaultValue={recipeDesc}
                     />
                     <br></br>
                     {errors["recipeDesc"] && (
@@ -46,12 +56,12 @@ const CreateRecipe = ({ JWToken }) => {
                         name="servings"
                         placeholder="servings"
                         ref={register({
-                            required: "I cannot be empty",
                             pattern: {
                                 value: /^(0|[1-9][0-9]*)$/,
                                 message: "must be a number",
                             },
                         })}
+                        defaultValue={servings}
                     />
                     <br></br>
                     {errors["servings"] && <p>{errors["servings"].message}</p>}
@@ -61,12 +71,12 @@ const CreateRecipe = ({ JWToken }) => {
                         name="duration"
                         placeholder="duration"
                         ref={register({
-                            required: "I cannot be empty",
                             pattern: {
                                 value: /^(0|[1-9][0-9]*)$/,
                                 message: "must be a number",
                             },
                         })}
+                        defaultValue={duration}
                     />
                     <br></br>
                     {errors["duration"] && <p>{errors["duration"].message}</p>}
@@ -74,9 +84,8 @@ const CreateRecipe = ({ JWToken }) => {
                         type="text"
                         name="ingredients"
                         placeholder="ingredients"
-                        ref={register({
-                            required: "I cannot be empty",
-                        })}
+                        ref={register}
+                        defaultValue={ingredients}
                     />
                     <br></br>
                     {errors["ingredients"] && (
@@ -87,9 +96,8 @@ const CreateRecipe = ({ JWToken }) => {
                         type="text"
                         name="instructions"
                         placeholder="instructions"
-                        ref={register({
-                            required: "I cannot be empty",
-                        })}
+                        ref={register}
+                        defaultValue={instructions}
                     />
                     <br></br>
                     {errors["instructions"] && (
@@ -100,9 +108,8 @@ const CreateRecipe = ({ JWToken }) => {
                         type="text"
                         name="img"
                         placeholder="Image"
-                        ref={register({
-                            required: "I cannot be empty",
-                        })}
+                        ref={register}
+                        defaultValue={img}
                     />
                     <br></br>
                     {errors["img"] && <p>{errors["img"].message}</p>}
@@ -112,8 +119,8 @@ const CreateRecipe = ({ JWToken }) => {
         </div>
     );
 };
-
 const mapStateToProps = (state) => ({
     JWToken: state["authReducer"].JWToken,
+    currentRecipe: state["recipeReducer"].currentRecipe,
 });
-export default connect(mapStateToProps)(CreateRecipe);
+export default connect(mapStateToProps)(EditRecipe);

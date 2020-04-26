@@ -5,7 +5,11 @@ import UserRecipes from "../components/UserRecipes";
 import { Redirect, Link, Route } from "react-router-dom";
 import { getAllRecipes } from "../redux/recipes/recipeAction.js";
 
-const Dashboard = ({ name, id }) => {
+const Dashboard = ({ name, id, JWToken }) => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAllRecipes(JWToken));
+    }, []);
     if (!id) {
         return <Redirect to="/login"></Redirect>;
     }
@@ -14,7 +18,6 @@ const Dashboard = ({ name, id }) => {
             dashboard,Hi {name}, id: {id}
             <UserRecipes />
             <Link to="/addRecipe">Add New Recipe</Link>
-            {/* <Recipe recipe={currentRecipe} /> */}
         </h1>
     );
 };

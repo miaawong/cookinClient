@@ -7,6 +7,7 @@ import SignUp from "./pages/signUp";
 import Login from "./pages/login";
 import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./components/CreateRecipe";
+import EditRecipe from "./components/EditRecipe";
 import Recipe from "./pages/recipe";
 import { getJWT } from "./redux/auth/authAction";
 import { getAllRecipes } from "./redux/recipes/recipeAction";
@@ -85,8 +86,9 @@ const App = ({ JWToken }) => {
                     <Dashboard />
                 </Route>
                 <Route exact path="/addRecipe" component={CreateRecipe}></Route>
-
-                <Route exact path={"/recipes/:recipeId"} component={Recipe} />
+                <Route exact path={"/recipes/:recipeId"}>
+                    <Recipe />
+                </Route>
             </Switch>
         </Router>
     );

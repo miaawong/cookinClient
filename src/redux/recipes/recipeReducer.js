@@ -4,6 +4,7 @@ const initState = {
     user: "",
     recipes: [],
     currentRecipe: "",
+    edit: false,
 };
 
 const recipeReducer = (state = initState, action) => {
@@ -13,15 +14,26 @@ const recipeReducer = (state = initState, action) => {
                 ...state,
                 recipes: action.payload,
             };
-        case actionTypes.ADDED_RECIPE:
+        case actionTypes.ADD_RECIPE:
             return {
                 ...state,
                 currentRecipe: action.payload,
+            };
+        case actionTypes.EDIT_RECIPE:
+            return {
+                ...state,
+                currentRecipe: action.payload,
+                edit: false,
             };
         case actionTypes.GET_CURRENT_RECIPE:
             return {
                 ...state,
                 currentRecipe: action.payload,
+            };
+        case actionTypes.EDIT_STATE:
+            return {
+                ...state,
+                edit: action.payload,
             };
         default:
             return state;
