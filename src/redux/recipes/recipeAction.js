@@ -117,7 +117,7 @@ export const editRecipe = (recipeId, data, token, history) => {
     };
 };
 
-export const getCurrentRecipe = (recipeId, token) => {
+export const getCurrentRecipe = (recipeId, token, history) => {
     return (dispatch) => {
         const config = {
             headers: {
@@ -132,6 +132,26 @@ export const getCurrentRecipe = (recipeId, token) => {
                     type: recipeActionTypes.GET_CURRENT_RECIPE,
                     payload: recipe,
                 });
+                history.push(`/recipes/${recipeId}`);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+};
+
+export const deleteRecipe = (recipeId, token, history) => {
+    return (dispatch) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        axios
+            .delete(`http://localhost:3000/api/recipes/${recipeId}`, config)
+            .then((res) => {
+                console.log("deleted");
+                history.push("/dashboard");
             })
             .catch((err) => {
                 console.log(err);

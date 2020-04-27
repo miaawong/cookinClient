@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import EditRecipe from "../components/EditRecipe";
 import * as recipeActionTypes from "../redux/recipes/recipeActionTypes";
+import { deleteRecipe } from "../redux/recipes/recipeAction";
 
-const Recipe = ({ currentRecipe, edit }) => {
+const Recipe = ({ currentRecipe, edit, JWToken }) => {
     let dispatch = useDispatch();
+    let history = useHistory();
     let {
+        _id,
         recipeName,
         recipeDesc,
         servings,
@@ -22,7 +26,7 @@ const Recipe = ({ currentRecipe, edit }) => {
     } else {
         return (
             <div>
-                <img src={img} />
+                <img alt={recipeName} src={img} />
                 <h1>{recipeName}</h1>
                 <h3>Description: {recipeDesc}</h3>
                 <h3>Servings: {servings}</h3>
@@ -41,6 +45,13 @@ const Recipe = ({ currentRecipe, edit }) => {
                 >
                     Edit Recipe
                 </button>
+                <button
+                    onClick={() => {
+                        dispatch(deleteRecipe(_id, JWToken, history));
+                    }}
+                >
+                    Delete Recipe
+                </button>
             </div>
         );
     }
@@ -49,5 +60,6 @@ const Recipe = ({ currentRecipe, edit }) => {
 const mapStateToProps = (state) => ({
     currentRecipe: state["recipeReducer"].currentRecipe,
     edit: state["recipeReducer"].edit,
+    JWToken: state["authReducer"].JWToken,
 });
 export default connect(mapStateToProps)(Recipe);
