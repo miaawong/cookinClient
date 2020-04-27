@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import UserRecipes from "../components/UserRecipes";
 // import Recipe from "../components/Recipe";
-import { Redirect, Link, Route } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { getAllRecipes } from "../redux/recipes/recipeAction.js";
 
 const Dashboard = ({ name, id, JWToken }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAllRecipes(JWToken));
+        //eslint-disable-next-line
     }, []);
     if (!id) {
         return <Redirect to="/login"></Redirect>;

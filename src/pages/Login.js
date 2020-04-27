@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { connect, useDispatch } from "react-redux";
 import { login } from "../redux/auth/authAction";
 
-const Login = ({ toDashboard, JWToken, id }) => {
+const Login = ({ id }) => {
     const dispatch = useDispatch();
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = (data) => {
@@ -13,11 +13,11 @@ const Login = ({ toDashboard, JWToken, id }) => {
 
     if (id) {
         console.log("redirect");
+        // eslint-disable-next-line
         return <Redirect to="/dashboard" />;
     }
     return (
         <div>
-            <h1 style={{ color: "red" }}></h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <label>
                     Email
@@ -60,7 +60,5 @@ const Login = ({ toDashboard, JWToken, id }) => {
 
 const mapStateToProps = (state) => ({
     id: state["authReducer"].id,
-    toDashboard: state["authReducer"].toDashboard,
-    JWToken: state["authReducer"].JWToken,
 });
 export default connect(mapStateToProps)(Login);

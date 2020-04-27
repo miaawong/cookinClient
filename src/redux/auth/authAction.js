@@ -39,14 +39,12 @@ export const login = (email, password) => {
 };
 
 export const getJWT = () => {
-    console.log("getjwt");
     return (dispatch) => {
         return axios
             .post("http://localhost:3000/api/auth/refresh_token", null, {
                 withCredentials: true,
             })
             .then((res) => {
-                console.log("newjwt", res);
                 let { JWToken, _id, name, email, password } = res.data;
 
                 dispatch({

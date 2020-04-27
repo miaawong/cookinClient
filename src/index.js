@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import createAuthRefreshInterceptor from "axios-auth-refresh";
 import thunk from "redux-thunk";
 import "./index.css";
 import App from "./App";
@@ -18,18 +17,7 @@ let store = createStore(
     composeWithDevTools(applyMiddleware(thunk))
 );
 
-// with axios-auth-refresh lib
-// const refreshAuth = (failedReq) => {
-//     return Promise.resolve(
-//         store.dispatch(getJWT()).then((token) => {
-//             failedReq.response.config.headers[
-//                 "Authorization"
-//             ] = `Bearer ${token}`;
-//         })
-//     );
-// };
-//createAuthRefreshInterceptor(axios, refreshAuth);
-
+// eslint-disable-next-line
 axios.interceptors.response.use(
     (config) => {
         return config;
@@ -37,7 +25,6 @@ axios.interceptors.response.use(
     (error) => {
         return Promise.resolve(
             store.dispatch(getJWT()).then((token) => {
-                console.log(token, "token");
                 error.config.headers["Authorization"] = `Bearer ${token}`;
                 return Axios.request(error.config);
             })
