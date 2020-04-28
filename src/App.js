@@ -1,23 +1,28 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import "./App.css";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    Link,
+    useHistory,
+} from "react-router-dom";
 import Home from "./pages/home";
-import SignUp from "./pages/signUp";
+import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./components/CreateRecipe";
 import Recipe from "./pages/recipe";
-import { getJWT } from "./redux/auth/authAction";
-import { getAllRecipes } from "./redux/recipes/recipeAction";
+import { getJWT, logout } from "./redux/auth/authAction";
 
 const App = ({ JWToken }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         if (!JWToken) {
+            console.log("no jwt");
             dispatch(getJWT());
         }
-        dispatch(getAllRecipes(JWToken));
         //eslint-disable-next-line
     }, []);
     return (
@@ -71,6 +76,13 @@ const App = ({ JWToken }) => {
                             </Link>
                         </li>
                     </ul>
+                    <button
+                        onClick={() => {
+                            dispatch(logout());
+                        }}
+                    >
+                        Logout
+                    </button>
                 </header>
             </div>
             <Switch>

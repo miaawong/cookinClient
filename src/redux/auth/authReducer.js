@@ -4,7 +4,6 @@ const initState = {
     id: "",
     name: "",
     email: "",
-    password: "",
     JWToken: "",
 };
 
@@ -26,6 +25,13 @@ const authReducer = (state = initState, action) => {
                 id: action.payload._id,
                 name: action.payload.name,
             };
+        case authActionTypes.LOGOUT:
+            return {
+                email: initState.email,
+                JWToken: initState.JWToken,
+                id: initState._id,
+                name: initState.name,
+            };
         case authActionTypes.SET_NEW_TOKEN:
             return {
                 ...state,
@@ -38,7 +44,6 @@ const authReducer = (state = initState, action) => {
                 id: action.payload._id,
                 name: action.payload.name,
                 email: action.payload.email,
-                password: action.payload.password,
             };
         default:
             return state;

@@ -67,7 +67,7 @@ export const getJWT = () => {
                 withCredentials: true,
             })
             .then((res) => {
-                let { JWToken, _id, name, email, password } = res.data;
+                let { JWToken, _id, name, email } = res.data;
 
                 dispatch({
                     type: actionTypes.GET_JWT,
@@ -76,13 +76,29 @@ export const getJWT = () => {
                         _id,
                         name,
                         email,
-                        password,
                     },
                 });
                 return JWToken;
             })
             .catch((err) => {
                 console.log(err, "newjwterr");
+            });
+    };
+};
+
+export const logout = () => {
+    return (dispatch) => {
+        axios
+            .post(
+                "http://localhost:3000/api/auth/logout",
+                {},
+                { withCredentials: true }
+            )
+            .then((res) => {
+                console.log(res);
+                dispatch({
+                    type: actionTypes.LOGOUT,
+                });
             });
     };
 };

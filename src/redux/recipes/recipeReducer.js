@@ -1,7 +1,7 @@
-import * as actionTypes from "../recipes/recipeActionTypes";
+import * as recipeActionTypes from "./recipeActionTypes";
+import * as authActionTypes from "../auth/authActionTypes";
 
 const initState = {
-    user: "",
     recipes: [],
     currentRecipe: {},
     edit: false,
@@ -9,37 +9,43 @@ const initState = {
 
 const recipeReducer = (state = initState, action) => {
     switch (action.type) {
-        case actionTypes.GET_ALL_RECIPES:
+        case recipeActionTypes.GET_ALL_RECIPES:
             return {
                 ...state,
                 recipes: action.payload,
             };
-        case actionTypes.ADD_RECIPE:
+        case recipeActionTypes.ADD_RECIPE:
             return {
                 ...state,
                 currentRecipe: action.payload,
                 recipes: [...state.recipes, action.payload],
             };
-        case actionTypes.EDIT_RECIPE:
+        case recipeActionTypes.EDIT_RECIPE:
             return {
                 ...state,
                 currentRecipe: action.payload,
                 edit: false,
             };
-        case actionTypes.GET_CURRENT_RECIPE:
+        case recipeActionTypes.GET_CURRENT_RECIPE:
             return {
                 ...state,
                 currentRecipe: action.payload,
             };
-        case actionTypes.CLEAR_CURRENT_RECIPE:
+        case recipeActionTypes.CLEAR_CURRENT_RECIPE:
             return {
                 ...state,
                 currentRecipe: {},
             };
-        case actionTypes.EDIT_STATE:
+        case recipeActionTypes.EDIT_STATE:
             return {
                 ...state,
                 edit: action.payload,
+            };
+        case authActionTypes.LOGOUT:
+            return {
+                recipes: initState.recipes,
+                currentRecipe: initState.currentRecipe,
+                edit: initState.edit,
             };
         default:
             return state;
