@@ -8,7 +8,7 @@ import { getAllRecipes } from "../redux/recipes/recipeAction.js";
 const Dashboard = ({ name, id, JWToken }) => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getAllRecipes(JWToken));
+        JWToken && dispatch(getAllRecipes(JWToken));
         //eslint-disable-next-line
     }, []);
     if (!id) {

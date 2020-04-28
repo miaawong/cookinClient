@@ -8,11 +8,10 @@ const Login = ({ id }) => {
     const dispatch = useDispatch();
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = (data) => {
-        dispatch(login(data.email, data.password));
+        dispatch(login(data));
     };
 
     if (id) {
-        console.log("redirect");
         // eslint-disable-next-line
         return <Redirect to="/dashboard" />;
     }
