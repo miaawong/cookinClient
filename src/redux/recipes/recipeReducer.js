@@ -3,7 +3,7 @@ import * as actionTypes from "../recipes/recipeActionTypes";
 const initState = {
     user: "",
     recipes: [],
-    currentRecipe: "",
+    currentRecipe: {},
     edit: false,
 };
 
@@ -18,6 +18,7 @@ const recipeReducer = (state = initState, action) => {
             return {
                 ...state,
                 currentRecipe: action.payload,
+                recipes: [...state.recipes, action.payload],
             };
         case actionTypes.EDIT_RECIPE:
             return {
@@ -29,6 +30,11 @@ const recipeReducer = (state = initState, action) => {
             return {
                 ...state,
                 currentRecipe: action.payload,
+            };
+        case actionTypes.CLEAR_CURRENT_RECIPE:
+            return {
+                ...state,
+                currentRecipe: {},
             };
         case actionTypes.EDIT_STATE:
             return {
