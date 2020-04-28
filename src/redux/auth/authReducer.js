@@ -10,6 +10,14 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
     switch (action.type) {
+        case authActionTypes.SIGNUP_REQUEST:
+            return {
+                ...state,
+                email: action.payload.email,
+                JWToken: action.payload.token,
+                id: action.payload._id,
+                name: action.payload.name,
+            };
         case authActionTypes.LOGIN_REQUEST:
             return {
                 ...state,
@@ -17,7 +25,6 @@ const authReducer = (state = initState, action) => {
                 JWToken: action.payload.token,
                 id: action.payload._id,
                 name: action.payload.name,
-                recipes: action.payload.recipes,
             };
         case authActionTypes.SET_NEW_TOKEN:
             return {

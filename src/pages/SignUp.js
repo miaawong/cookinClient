@@ -1,25 +1,20 @@
 import React, { useContext } from "react";
-import { CookinContext } from "../context";
-import { Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { signUp } from "../redux/auth/authAction";
 
 const SignUp = () => {
     const { register, handleSubmit, errors } = useForm();
-    const context = useContext(CookinContext);
-    const { toDashboard, signUp, errMsg } = context;
+    const dispatch = useDispatch();
+    const history = useHistory();
 
-    const onSubmit = data => {
-        signUp(data);
+    const onSubmit = (data) => {
+        dispatch(signUp(data, history));
     };
-
-    if (toDashboard === true) {
-        console.log("redirect");
-        return <Redirect to="/dashboard" />;
-    }
 
     return (
         <div>
-            <h1 style={{ color: "red" }}>{errMsg}</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div style={{ fontSize: "25px", color: "red" }}> </div>
                 <div>
@@ -32,8 +27,8 @@ const SignUp = () => {
                                 required: "I cannot be empty",
                                 minLength: {
                                     value: 2,
-                                    message: " Must be at least 2 characters"
-                                }
+                                    message: " Must be at least 2 characters",
+                                },
                             })}
                             placeholder="John"
                         />
@@ -50,8 +45,8 @@ const SignUp = () => {
                                 required: "I cannot be empty",
                                 pattern: {
                                     value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                                    message: "Invalid email address"
-                                }
+                                    message: "Invalid email address",
+                                },
                             })}
                             placeholder="email"
                         />
@@ -69,8 +64,8 @@ const SignUp = () => {
                                 minLength: {
                                     value: 8,
                                     message:
-                                        "Must be at least 8 characters please! "
-                                }
+                                        "Must be at least 8 characters please! ",
+                                },
                             })}
                             placeholder="password"
                         />

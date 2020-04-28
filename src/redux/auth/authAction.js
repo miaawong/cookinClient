@@ -1,25 +1,47 @@
 import * as actionTypes from "./authActionTypes";
 import axios from "axios";
-
-export const login = (email, password) => {
+export const signUp = (data, history) => {
     return (dispatch) => {
-        const loginData = { email, password };
         const config = {
             headers: {
                 "Content-Type": "application/json",
             },
         };
         axios
-            .post("http://localhost:3000/api/auth/login", loginData, config)
+            .post("http://localhost:3000/api/auth/", data, config)
+            .then((res) => {
+                let { recipes, _id, name, email } = res.data.newUser;
+                let { token, refreshToken } = res.data;
+                document.cookie = `refreshToken=${refreshToken}`;
+                dispatch({
+                    type: actionTypes.SIGNUP_REQUEST,
+                    payload: {
+                        _id,
+                        name,
+                        email,
+                        token,
+                    },
+                });
+                history.push("/dashboard");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+};
+export const login = (data) => {
+    return (dispatch) => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        axios
+            .post("http://localhost:3000/api/auth/login", data, config)
             .then((res) => {
                 console.log(res.data);
-                let { token, refreshToken, recipes } = res.data;
+                let { token, refreshToken } = res.data;
                 let { _id, name, email } = res.data.userData;
-
-                let newRecipes = recipes.map((recipe) => {
-                    return recipe;
-                });
-                console.log(newRecipes);
 
                 document.cookie = `refreshToken=${refreshToken}`;
                 dispatch({
