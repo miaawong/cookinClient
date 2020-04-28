@@ -21,6 +21,9 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
         createdOn,
     } = currentRecipe;
 
+    let duration_hour = Math.floor(duration / 60);
+    let duration_mins = duration % 60;
+
     if (edit) {
         return <EditRecipe />;
     } else {
@@ -30,7 +33,9 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                 <h1>{recipeName}</h1>
                 <h3>Description: {recipeDesc}</h3>
                 <h3>Servings: {servings}</h3>
-                <h3>Prep&Cook Time: {duration} mins</h3>
+                <h3>
+                    Prep&Cook Time: {duration_hour} hr {duration_mins} mins
+                </h3>
                 <h3>Ingredients: {ingredients}</h3>
                 <h3>How To: {instructions}</h3>
                 <p>{createdOn}</p>

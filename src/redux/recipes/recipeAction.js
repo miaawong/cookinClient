@@ -31,11 +31,15 @@ export const createRecipe = (token, data, history) => {
             recipeName,
             recipeDesc,
             servings,
-            duration,
+            duration_hour,
+            duration_mins,
             ingredients,
             instructions,
             img,
         } = data;
+        let duration = parseInt(duration_hour) * 60;
+        duration = duration + parseInt(duration_mins);
+
         const newRecipe = {
             recipeName,
             recipeDesc,
@@ -45,6 +49,7 @@ export const createRecipe = (token, data, history) => {
             instructions,
             img,
         };
+
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,

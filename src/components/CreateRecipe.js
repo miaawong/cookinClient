@@ -57,9 +57,9 @@ const CreateRecipe = ({ JWToken }) => {
                     {errors["servings"] && <p>{errors["servings"].message}</p>}
 
                     <input
-                        type="text"
-                        name="duration"
-                        placeholder="duration"
+                        type="number"
+                        name="duration_hour"
+                        placeholder="duration_hour"
                         ref={register({
                             required: "I cannot be empty",
                             pattern: {
@@ -69,7 +69,25 @@ const CreateRecipe = ({ JWToken }) => {
                         })}
                     />
                     <br></br>
-                    {errors["duration"] && <p>{errors["duration"].message}</p>}
+                    {errors["duration_hour"] && (
+                        <p>{errors["duration_hour"].message}</p>
+                    )}
+                    <input
+                        type="number"
+                        name="duration_mins"
+                        placeholder="duration_mins"
+                        ref={register({
+                            required: "I cannot be empty",
+                            pattern: {
+                                value: /^(0|[1-9][0-9]*)$/,
+                                message: "must be a number",
+                            },
+                        })}
+                    />
+                    <br></br>
+                    {errors["duration_mins"] && (
+                        <p>{errors["duration_mins"].message}</p>
+                    )}
                     <input
                         type="text"
                         name="ingredients"
@@ -100,9 +118,7 @@ const CreateRecipe = ({ JWToken }) => {
                         type="text"
                         name="img"
                         placeholder="Image"
-                        ref={register({
-                            required: "I cannot be empty",
-                        })}
+                        ref={register}
                     />
                     <br></br>
                     {errors["img"] && <p>{errors["img"].message}</p>}
