@@ -5,29 +5,28 @@ import { createRecipe } from "../redux/recipes/recipeAction";
 import { useHistory } from "react-router-dom";
 
 const CreateRecipe = ({ JWToken }) => {
-    const [ingredients, setIngredients] = useState([
-        { ingName: "", amount: 0, unit: "" },
-    ]);
-    const [instructions, setInstructions] = useState([""]);
-    const { register, handleSubmit, errors, getValues } = useForm();
+    const [ingredients, setIngredients] = useState([0]);
+    const [ingredientCounter, setIngCounter] = useState(1);
+    const [instructions, setInstructions] = useState([0]);
+    const [instructionsCounter, setInstrCounter] = useState(1);
+
+    const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
     const history = useHistory();
     const onSubmit = (data) => {
+        console.log(data.ingredients);
         dispatch(createRecipe(JWToken, data, history));
     };
 
-    const newIngInput = { ingName: "", amount: 0, unit: "" };
-    const newInstructionInput = [];
-
-    const addNewIngredient = (ingredients) => {
-        setIngredients((prev) => {
-            return [...prev, newIngInput];
-        });
+    const addNewIngredient = (e) => {
+        e.preventDefault();
+        setIngredients((prev) => [...prev, ingredientCounter]);
+        setIngCounter((prev) => prev + 1);
     };
-    const addNewInstruction = (instructions) => {
-        setInstructions((prev) => {
-            return [...prev, newInstructionInput];
-        });
+    const addNewInstruction = (e) => {
+        e.preventDefault();
+        setInstructions((prev) => [...prev, instructionsCounter]);
+        setInstrCounter((prev) => prev + 1);
     };
     return (
         <div>
@@ -108,34 +107,42 @@ const CreateRecipe = ({ JWToken }) => {
                         {" "}
                         Add more ingredient input
                     </button>
-                    {ingredients.map((input) => (
-                        <div>
-                            <input
-                                type="text"
-                                name="ingName"
-                                placeholder="ingredient"
-                                ref={register}
-                            />
-                            <input
-                                type="Number"
-                                name="amount"
-                                placeholder="how much?"
-                                ref={register}
-                            />
-                            <select name="unit" ref={register}>
-                                <option value=""></option>
-                                <option value="tsp">tsp</option>
-                                <option value="tbsp">tbsp</option>
-                                <option value="cup">cup</option>
-                                <option value="oz">oz</option>
-                                <option value="lb">lb</option>
-                                <option value="g">g</option>
-                                <option value="kg">kg</option>
-                                <option value="mL">mL</option>
-                                <option value="L">L</option>
-                            </select>
-                        </div>
-                    ))}
+                    {ingredients.map((input) => {
+                        const fieldName = `ingredients[${input}]`;
+                        return (
+                            <fieldset name={fieldName} key={fieldName}>
+                                <div>
+                                    <input
+                                        type="text"
+                                        name={`${fieldName}.ingName`}
+                                        placeholder="ingredient"
+                                        ref={register}
+                                    />
+                                    <input
+                                        type="Number"
+                                        name={`${fieldName}.amount`}
+                                        placeholder="how much?"
+                                        ref={register}
+                                    />
+                                    <select
+                                        name={`${fieldName}.unit`}
+                                        ref={register}
+                                    >
+                                        <option value=""></option>
+                                        <option value="tsp">tsp</option>
+                                        <option value="tbsp">tbsp</option>
+                                        <option value="cup">cup</option>
+                                        <option value="oz">oz</option>
+                                        <option value="lb">lb</option>
+                                        <option value="g">g</option>
+                                        <option value="kg">kg</option>
+                                        <option value="mL">mL</option>
+                                        <option value="L">L</option>
+                                    </select>
+                                </div>
+                            </fieldset>
+                        );
+                    })}
                     <br></br>
                     {/* {errors["ingredients"] && (
                         <p>{errors["ingredients"].message}</p>
@@ -144,14 +151,19 @@ const CreateRecipe = ({ JWToken }) => {
 
                     <button onClick={addNewInstruction}>Add more steps</button>
 
-                    {instructions.map((input) => (
-                        <input
-                            type="text"
-                            name="instructions"
-                            placeholder="instructions"
-                            ref={register}
-                        />
-                    ))}
+                    {instructions.map((input) => {
+                        const fieldName = `instructions[${input}]`;
+                        return (
+                            <fieldset name={fieldName} key={fieldName}>
+                                <input
+                                    type="text"
+                                    name={`${fieldName}`}
+                                    placeholder="instructions"
+                                    ref={register}
+                                />
+                            </fieldset>
+                        );
+                    })}
                     <br></br>
                     {/* {errors["instructions"] && (
                         <p>{errors["instructions"].message}</p>

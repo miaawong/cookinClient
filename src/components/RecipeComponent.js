@@ -8,6 +8,7 @@ import { deleteRecipe } from "../redux/recipes/recipeAction";
 
 const Recipe = ({ currentRecipe, edit, JWToken }) => {
     let dispatch = useDispatch();
+
     let history = useHistory();
     let {
         _id,
@@ -26,7 +27,7 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
 
     if (edit) {
         return <EditRecipe />;
-    } else {
+    } else if (currentRecipe) {
         return (
             <div>
                 <img alt={recipeName} src={img} />
@@ -36,8 +37,24 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                 <h3>
                     Prep&Cook Time: {duration_hour} hr {duration_mins} mins
                 </h3>
-                <h3>Ingredients: {ingredients}</h3>
-                <h3>How To: {instructions}</h3>
+                <h2>ingredients</h2>
+                {ingredients &&
+                    ingredients.map((ingredient, index) => (
+                        <h3>
+                            {index + 1}
+                            {ingredient.ingName} - {ingredient.amount}{" "}
+                            {ingredient.unit}
+                        </h3>
+                    ))}
+                <h3>
+                    How To:
+                    {instructions &&
+                        instructions.map((instruction, index) => (
+                            <p>
+                                Step {index + 1}: {instruction}
+                            </p>
+                        ))}
+                </h3>
                 <p>{createdOn}</p>
                 <Link to="/dashboard">Dashboard</Link>
                 <button

@@ -33,16 +33,12 @@ export const createRecipe = (token, data, history) => {
             servings,
             duration_hour,
             duration_mins,
-            ingName,
-            amount,
-            unit,
+            ingredients,
             instructions,
             img,
         } = data;
         let duration = parseInt(duration_hour) * 60;
         duration = duration + parseInt(duration_mins);
-
-        let ingredients = [{ ingName, amount, unit }];
 
         const newRecipe = {
             recipeName,
