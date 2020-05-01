@@ -8,8 +8,8 @@ const CreateRecipe = ({ JWToken }) => {
     const [ingredients, setIngredients] = useState([
         { ingName: "", amount: 0, unit: "" },
     ]);
-    const [instructions, setInstructions] = useState([]);
-    const { register, handleSubmit, errors } = useForm();
+    const [instructions, setInstructions] = useState([""]);
+    const { register, handleSubmit, errors, getValues } = useForm();
     const dispatch = useDispatch();
     const history = useHistory();
     const onSubmit = (data) => {
@@ -50,9 +50,7 @@ const CreateRecipe = ({ JWToken }) => {
                         type="text"
                         name="recipeDesc"
                         placeholder="Description"
-                        ref={register({
-                            required: "I cannot be empty",
-                        })}
+                        ref={register}
                     />
                     <br></br>
                     {errors["recipeDesc"] && (
@@ -63,7 +61,6 @@ const CreateRecipe = ({ JWToken }) => {
                         name="servings"
                         placeholder="servings"
                         ref={register({
-                            required: "I cannot be empty",
                             pattern: {
                                 value: /^(0|[1-9][0-9]*)$/,
                                 message: "must be a number",
@@ -79,7 +76,6 @@ const CreateRecipe = ({ JWToken }) => {
                             name="duration_hour"
                             placeholder="duration_hour"
                             ref={register({
-                                required: "I cannot be empty",
                                 pattern: {
                                     value: /^(0|[1-9][0-9]*)$/,
                                     message: "must be a number",
@@ -95,7 +91,6 @@ const CreateRecipe = ({ JWToken }) => {
                             name="duration_mins"
                             placeholder="duration_mins"
                             ref={register({
-                                required: "I cannot be empty",
                                 pattern: {
                                     value: /^(0|[1-9][0-9]*)$/,
                                     message: "must be a number",
@@ -119,19 +114,15 @@ const CreateRecipe = ({ JWToken }) => {
                                 type="text"
                                 name="ingName"
                                 placeholder="ingredient"
-                                ref={register({
-                                    required: "I cannot be empty",
-                                })}
+                                ref={register}
                             />
                             <input
                                 type="Number"
                                 name="amount"
                                 placeholder="how much?"
-                                ref={register({
-                                    required: "I cannot be empty",
-                                })}
+                                ref={register}
                             />
-                            <select>
+                            <select name="unit" ref={register}>
                                 <option value=""></option>
                                 <option value="tsp">tsp</option>
                                 <option value="tbsp">tbsp</option>
@@ -158,9 +149,7 @@ const CreateRecipe = ({ JWToken }) => {
                             type="text"
                             name="instructions"
                             placeholder="instructions"
-                            ref={register({
-                                required: "I cannot be empty",
-                            })}
+                            ref={register}
                         />
                     ))}
                     <br></br>
