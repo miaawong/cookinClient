@@ -20,7 +20,6 @@ const App = ({ JWToken }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         if (!JWToken) {
-            console.log("no jwt");
             dispatch(getJWT());
         }
         //eslint-disable-next-line

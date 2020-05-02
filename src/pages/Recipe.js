@@ -9,7 +9,6 @@ const Recipe = ({ currentRecipe, JWToken }) => {
     const { recipeId } = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
-    console.log(recipeId, "recipeid");
     useEffect(() => {
         dispatch(getCurrentRecipe(recipeId, JWToken, history));
         return () => {

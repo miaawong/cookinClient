@@ -5,16 +5,15 @@ import { createRecipe } from "../redux/recipes/recipeAction";
 import { useHistory } from "react-router-dom";
 
 const CreateRecipe = ({ JWToken }) => {
-    const [ingredients, setIngredients] = useState([0]);
+    const [ingredientInput, setIngredients] = useState([0]);
     const [ingredientCounter, setIngCounter] = useState(1);
-    const [instructions, setInstructions] = useState([0]);
+    const [instructionInput, setInstructions] = useState([0]);
     const [instructionsCounter, setInstrCounter] = useState(1);
 
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
     const history = useHistory();
     const onSubmit = (data) => {
-        console.log(data.ingredients);
         dispatch(createRecipe(JWToken, data, history));
     };
 
@@ -96,18 +95,18 @@ const CreateRecipe = ({ JWToken }) => {
                                 },
                             })}
                         />
+                        {errors["duration_mins"] && (
+                            <p>{errors["duration_mins"].message}</p>
+                        )}
                     </div>
                     <br></br>
-                    {errors["duration_mins"] && (
-                        <p>{errors["duration_mins"].message}</p>
-                    )}
 
                     {/* ingredients */}
                     <button onClick={addNewIngredient}>
                         {" "}
                         Add more ingredient input
                     </button>
-                    {ingredients.map((input) => {
+                    {ingredientInput.map((input) => {
                         const fieldName = `ingredients[${input}]`;
                         return (
                             <fieldset name={fieldName} key={fieldName}>
@@ -151,7 +150,7 @@ const CreateRecipe = ({ JWToken }) => {
 
                     <button onClick={addNewInstruction}>Add more steps</button>
 
-                    {instructions.map((input) => {
+                    {instructionInput.map((input) => {
                         const fieldName = `instructions[${input}]`;
                         return (
                             <fieldset name={fieldName} key={fieldName}>

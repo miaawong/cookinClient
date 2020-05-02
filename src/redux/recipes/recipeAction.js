@@ -59,10 +59,8 @@ export const createRecipe = (token, data, history) => {
         axios
             .post("http://localhost:3000/api/recipes/", newRecipe, config)
             .then((res) => {
-                console.log(res);
                 let recipeId = res.data.recipe._id;
                 let recipe = res.data.recipe;
-                console.log(res.data);
                 history.push(`/recipes/${recipeId}`);
                 dispatch({
                     type: recipeActionTypes.ADD_RECIPE,
