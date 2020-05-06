@@ -34,6 +34,7 @@ export const setNewRecipe = (data) => {
             duration_hour,
             duration_mins,
             ingredients,
+            directions,
             img,
         } = data;
         let { duration } = data;
@@ -49,6 +50,7 @@ export const setNewRecipe = (data) => {
             servings,
             duration,
             ingredients,
+            directions,
             img,
         };
         console.log(recipe, "recipe new");
@@ -69,7 +71,7 @@ export const createRecipe = (token, data, history) => {
             duration_hour,
             duration_mins,
             ingredients,
-            instructions,
+            directions,
             img,
         } = data;
         let duration = parseInt(duration_hour) * 60;
@@ -81,7 +83,7 @@ export const createRecipe = (token, data, history) => {
             servings,
             duration,
             ingredients,
-            instructions,
+            directions,
             img,
         };
 

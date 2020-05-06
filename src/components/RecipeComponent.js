@@ -17,7 +17,7 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
         servings,
         duration,
         ingredients,
-        instructions,
+        directions,
         img,
         createdOn,
     } = currentRecipe;
@@ -48,10 +48,10 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                     ))}
                 <h3>
                     How To:
-                    {instructions &&
-                        instructions.map((instruction, index) => (
+                    {directions &&
+                        directions.map((step, index) => (
                             <p key={index}>
-                                Step {index + 1}: {instruction}
+                                Step {index + 1}: {step}
                             </p>
                         ))}
                 </h3>
