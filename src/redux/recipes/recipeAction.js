@@ -25,6 +25,41 @@ export const getAllRecipes = (token) => {
     };
 };
 
+export const setNewRecipe = (data) => {
+    return (dispatch) => {
+        const {
+            recipeName,
+            recipeDesc,
+            servings,
+            duration_hour,
+            duration_mins,
+            ingredients,
+            img,
+        } = data;
+        let { duration } = data;
+
+        if (duration_hour && duration_mins) {
+            duration = parseInt(duration_hour) * 60;
+            duration = duration + parseInt(duration_mins);
+        }
+
+        const recipe = {
+            recipeName,
+            recipeDesc,
+            servings,
+            duration,
+            ingredients,
+            img,
+        };
+        console.log(recipe, "recipe new");
+
+        dispatch({
+            type: recipeActionTypes.NEW_RECIPE,
+            payload: recipe,
+        });
+    };
+};
+
 export const createRecipe = (token, data, history) => {
     return (dispatch) => {
         const {
@@ -73,16 +108,20 @@ export const createRecipe = (token, data, history) => {
     };
 };
 export const editRecipe = (recipeId, data, token, history) => {
+    console.log("edit");
     return (dispatch) => {
         const {
             recipeName,
             recipeDesc,
             servings,
-            duration,
+            duration_hour,
+            duration_mins,
             ingredients,
             instructions,
             img,
         } = data;
+        let duration = parseInt(duration_hour) * 60;
+        duration = duration + parseInt(duration_mins);
         const updateRecipe = {
             recipeName,
             recipeDesc,
@@ -92,7 +131,7 @@ export const editRecipe = (recipeId, data, token, history) => {
             instructions,
             img,
         };
-        console.log(updateRecipe);
+
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
