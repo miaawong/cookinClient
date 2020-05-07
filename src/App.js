@@ -1,20 +1,14 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import "./App.css";
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    Link,
-    useHistory,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Home from "./pages/home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Dashboard from "./pages/dashboard";
-import CreateRecipe from "./components/CreateRecipe";
+import CreateRecipe from "./recipes/components/newRecipe/CreateRecipe";
 import Recipe from "./pages/recipe";
-import { getJWT, logout } from "./redux/auth/authAction";
+import { getJWT, logout } from "./auth/authAction";
 
 const App = ({ JWToken }) => {
     const dispatch = useDispatch();

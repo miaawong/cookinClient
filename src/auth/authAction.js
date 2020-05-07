@@ -10,7 +10,7 @@ export const signUp = (data, history) => {
         axios
             .post("http://localhost:3000/api/auth/", data, config)
             .then((res) => {
-                let { recipes, _id, name, email } = res.data.newUser;
+                let { _id, name, email } = res.data.newUser;
                 let { token, refreshToken } = res.data;
                 document.cookie = `refreshToken=${refreshToken}`;
                 dispatch({

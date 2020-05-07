@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import RecipeComponent from "../components/RecipeComponent";
+import RecipeComponent from "../recipes/components/recipe/Recipe";
 import { useParams, useHistory } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
-import { getCurrentRecipe } from "../redux/recipes/recipeAction";
-import * as recipeActionTypes from "../redux/recipes/recipeActionTypes";
+import { getCurrentRecipe } from "../recipes/recipeAction";
+import * as recipeActionTypes from "../recipes/recipeActionTypes";
 
 const Recipe = ({ currentRecipe, JWToken }) => {
     const { recipeId } = useParams();

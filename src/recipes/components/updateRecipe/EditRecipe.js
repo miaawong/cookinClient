@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { editRecipe } from "../redux/recipes/recipeAction";
+import { editRecipe } from "../../recipeAction";
 
 const EditRecipe = ({ JWToken, currentRecipe }) => {
     const { register, handleSubmit, errors } = useForm();
@@ -15,31 +15,22 @@ const EditRecipe = ({ JWToken, currentRecipe }) => {
         servings,
         duration,
         ingredients,
-        instructions,
+        directions,
         img,
     } = currentRecipe;
     let duration_hour = Math.floor(duration / 60);
     let duration_mins = duration % 60;
 
     const onSubmit = (data) => {
-        dispatch(editRecipe(_id, data, JWToken, history));
-    };
-    const [ingredientInput, setIngredients] = useState(ingredients);
-    const [ingredientCounter, setIngCounter] = useState(ingredients.length);
+        const updatedIngredients = [...ingredients, ...data.ingredients];
+        const updatedRecipes = {
+            ...currentRecipe,
+            ingredients: updatedIngredients,
+        };
 
-    const [instructionInput, setInstructions] = useState(instructions);
-    const [instructionCounter, setInstrCounter] = useState(instructions.length);
+        dispatch(editRecipe(_id, updatedRecipes, JWToken, history));
+    };
 
-    const addNewIngredient = (e) => {
-        e.preventDefault();
-        setIngredients((prev) => [...prev, ingredientCounter]);
-        setIngCounter((prev) => prev + 1);
-    };
-    const addNewInstruction = (e) => {
-        e.preventDefault();
-        setInstructions((prev) => [...prev, ""]);
-        setInstrCounter((prev) => prev + 1);
-    };
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -114,14 +105,52 @@ const EditRecipe = ({ JWToken, currentRecipe }) => {
                     )}
                 </div>
                 {/* ingredients */}
-                <button onClick={addNewIngredient}>
-                    {" "}
-                    Add more ingredient input
-                </button>
-                {ingredientInput.map((ingredient, index) => {
+                <button> Add more ingredient input</button>
+                {ingredients.map((ingredient) => {
+                    console.log(ingredient, "from db");
                     const fieldName = `ingredients[${ingredient}]`;
                     return (
-                        <fieldset name={fieldName} key={index}>
+                        <fieldset name={fieldName} key={fieldName}>
+                            <div>
+                                <input
+                                    type="text"
+                                    name={`${fieldName}.ingName`}
+                                    placeholder="ingredient"
+                                    ref={register}
+                                    defaultValue={ingredient.ingName}
+                                />
+                                <input
+                                    type="Number"
+                                    name={`${fieldName}.amount`}
+                                    placeholder="how much?"
+                                    ref={register}
+                                    defaultValue={ingredient.amount}
+                                />
+                                <select
+                                    name={`${fieldName}.unit`}
+                                    ref={register}
+                                    defaultValue={ingredient.unit}
+                                >
+                                    <option value=""></option>
+                                    <option value="tsp">tsp</option>
+                                    <option value="tbsp">tbsp</option>
+                                    <option value="cup">cup</option>
+                                    <option value="oz">oz</option>
+                                    <option value="lb">lb</option>
+                                    <option value="g">g</option>
+                                    <option value="kg">kg</option>
+                                    <option value="mL">mL</option>
+                                    <option value="L">L</option>
+                                </select>
+                            </div>
+                        </fieldset>
+                    );
+                })}
+                {/* {ingredientInput.map((ingredient) => {
+                    const fieldName = `ingredients[${ingredient}]`;
+
+                    return (
+                        <fieldset name={fieldName} key={fieldName}>
                             <div>
                                 <input
                                     type="text"
@@ -158,9 +187,8 @@ const EditRecipe = ({ JWToken, currentRecipe }) => {
                     );
                 })}
                 <br></br>
-                <button onClick={addNewInstruction}>Add more steps</button>
+                <button>Add more steps</button>
                 {instructionInput.map((instruction, index) => {
-                    console.log(instruction, "instruction");
                     const fieldName = `instructions[${instruction}]`;
                     return (
                         <fieldset name={fieldName} key={index}>
@@ -173,7 +201,7 @@ const EditRecipe = ({ JWToken, currentRecipe }) => {
                             />
                         </fieldset>
                     );
-                })}
+                })} */}
                 <input
                     type="text"
                     name="img"

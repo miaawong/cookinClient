@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { signUp } from "../redux/auth/authAction";
+import { signUp } from "../auth/authAction";
 
 const SignUp = () => {
     const { register, handleSubmit, errors } = useForm();

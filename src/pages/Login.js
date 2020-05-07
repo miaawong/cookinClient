@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { connect, useDispatch } from "react-redux";
-import { login } from "../redux/auth/authAction";
+import { login } from "../auth/authAction";
 
 const Login = ({ id }) => {
     const dispatch = useDispatch();

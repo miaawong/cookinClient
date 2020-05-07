@@ -6,10 +6,10 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import "./index.css";
 import App from "./App";
-import rootReducer from "./redux/rootReducer";
+import rootReducer from "./rootReducer";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
-import { getJWT } from "./redux/auth/authAction";
+import { getJWT } from "./auth/authAction";
 import Axios from "axios";
 
 let store = createStore(

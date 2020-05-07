@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { createRecipe } from "../redux/recipes/recipeAction";
+import { createRecipe } from "../../recipeAction";
 
 const CreateDirections = ({ JWToken, newRecipe }) => {
     const history = useHistory();
@@ -48,12 +48,10 @@ const CreateDirections = ({ JWToken, newRecipe }) => {
                 })}
                 <br></br>
                 <input type="submit" />
-            </form>
-            //{" "}
+            </form>{" "}
             {/* {errors["instructions"] && (
             //             <p>{errors["instructions"].message}</p>
-            //         )} */}
-            //{" "}
+            //         )} */}{" "}
             {/* <br></br>
             // {errors["img"] && <p>{errors["img"].message}</p>}
             // <input type="submit" />  */}

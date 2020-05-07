@@ -2,7 +2,7 @@ import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { getCurrentRecipe } from "../redux/recipes/recipeAction";
+import { getCurrentRecipe } from "../../recipeAction";
 
 const ListOfRecipes = styled.div`
     width: 300px;

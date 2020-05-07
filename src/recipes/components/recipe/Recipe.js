@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import EditRecipe from "../components/EditRecipe";
-import * as recipeActionTypes from "../redux/recipes/recipeActionTypes";
-import { deleteRecipe } from "../redux/recipes/recipeAction";
+import EditRecipe from "../updateRecipe/EditRecipe";
+import * as recipeActionTypes from "../../recipeActionTypes";
+import { deleteRecipe } from "../../recipeAction";
 
 const Recipe = ({ currentRecipe, edit, JWToken }) => {
     let dispatch = useDispatch();

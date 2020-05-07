@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
-import { createRecipe } from "../redux/recipes/recipeAction";
-import { useHistory } from "react-router-dom";
-import { setNewRecipe } from "../redux/recipes/recipeAction";
+import { setNewRecipe } from "../../recipeAction";
 
 const CreateIngredients = ({ newRecipe }) => {
     const dispatch = useDispatch();
@@ -17,7 +15,6 @@ const CreateIngredients = ({ newRecipe }) => {
         name: "ingredients",
     });
     const onSubmit = (data) => {
-        console.log(newRecipe, "newrecipe");
         newRecipe.ingredients = data.ingredients;
         dispatch(setNewRecipe(newRecipe));
     };
