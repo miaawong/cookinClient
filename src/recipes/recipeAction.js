@@ -119,7 +119,7 @@ export const editRecipe = (recipeId, data, token, history) => {
             duration_hour,
             duration_mins,
             ingredients,
-            instructions,
+            directions,
             img,
         } = data;
         let duration = parseInt(duration_hour) * 60;
@@ -130,7 +130,7 @@ export const editRecipe = (recipeId, data, token, history) => {
             servings,
             duration,
             ingredients,
-            instructions,
+            directions,
             img,
         };
 
