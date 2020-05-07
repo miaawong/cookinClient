@@ -5,7 +5,7 @@ const initState = {
     recipes: [],
     currentRecipe: {},
     draftRecipe: {},
-    createRecipeProgress: 0,
+    draftRecipeProgress: 0,
     edit: false,
 };
 
@@ -20,13 +20,14 @@ const recipeReducer = (state = initState, action) => {
             return {
                 ...state,
                 draftRecipe: action.payload,
-                createRecipeProgress: state.createRecipeProgress + 1,
+                draftRecipeProgress: state.draftRecipeProgress + 1,
             };
         case recipeActionTypes.ADD_RECIPE:
             return {
                 ...state,
                 currentRecipe: action.payload,
                 recipes: [...state.recipes, action.payload],
+                draftRecipeProgress: 0,
             };
         case recipeActionTypes.EDIT_RECIPE:
             return {
