@@ -15,6 +15,7 @@ const recipeReducer = (state = initState, action) => {
             return {
                 ...state,
                 recipes: action.payload,
+                edit: false,
             };
         case recipeActionTypes.DRAFT_RECIPE:
             return {
