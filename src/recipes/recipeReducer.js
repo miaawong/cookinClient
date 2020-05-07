@@ -4,7 +4,7 @@ import * as authActionTypes from "../auth/authActionTypes";
 const initState = {
     recipes: [],
     currentRecipe: {},
-    newRecipe: {},
+    draftRecipe: {},
     createRecipeProgress: 0,
     edit: false,
 };
@@ -16,10 +16,10 @@ const recipeReducer = (state = initState, action) => {
                 ...state,
                 recipes: action.payload,
             };
-        case recipeActionTypes.NEW_RECIPE:
+        case recipeActionTypes.DRAFT_RECIPE:
             return {
                 ...state,
-                newRecipe: action.payload,
+                draftRecipe: action.payload,
                 createRecipeProgress: state.createRecipeProgress + 1,
             };
         case recipeActionTypes.ADD_RECIPE:

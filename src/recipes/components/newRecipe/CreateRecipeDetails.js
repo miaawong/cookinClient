@@ -2,13 +2,13 @@ import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 
-import { setNewRecipe } from "../../recipeAction";
+import { setDraftRecipe } from "../../recipeAction";
 
 const CreateRecipeDetails = ({}) => {
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
     const onSubmit = (data) => {
-        dispatch(setNewRecipe(data));
+        dispatch(setDraftRecipe(data));
     };
     return (
         <div>

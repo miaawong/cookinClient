@@ -4,7 +4,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { createRecipe } from "../../recipeAction";
 
-const CreateDirections = ({ JWToken, newRecipe }) => {
+const CreateDirections = ({ JWToken, draftRecipe }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -19,8 +19,8 @@ const CreateDirections = ({ JWToken, newRecipe }) => {
     });
 
     const onSubmit = (data) => {
-        newRecipe.directions = data.directions;
-        dispatch(createRecipe(JWToken, newRecipe, history));
+        draftRecipe.directions = data.directions;
+        dispatch(createRecipe(JWToken, draftRecipe, history));
     };
     return (
         <div>
@@ -61,6 +61,6 @@ const CreateDirections = ({ JWToken, newRecipe }) => {
 
 const mapStateToProps = (state) => ({
     JWToken: state["authReducer"].JWToken,
-    newRecipe: state["recipeReducer"].newRecipe,
+    draftRecipe: state["recipeReducer"].draftRecipe,
 });
 export default connect(mapStateToProps)(CreateDirections);

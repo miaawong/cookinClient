@@ -1,9 +1,9 @@
 import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
-import { setNewRecipe } from "../../recipeAction";
+import { setDraftRecipe } from "../../recipeAction";
 
-const CreateIngredients = ({ newRecipe }) => {
+const CreateIngredients = ({ draftRecipe }) => {
     const dispatch = useDispatch();
     const { register, handleSubmit, errors, control, formState } = useForm({
         defaultValues: {
@@ -15,8 +15,8 @@ const CreateIngredients = ({ newRecipe }) => {
         name: "ingredients",
     });
     const onSubmit = (data) => {
-        newRecipe.ingredients = data.ingredients;
-        dispatch(setNewRecipe(newRecipe));
+        draftRecipe.ingredients = data.ingredients;
+        dispatch(setDraftRecipe(draftRecipe));
     };
     return (
         <div>
@@ -71,6 +71,6 @@ const CreateIngredients = ({ newRecipe }) => {
 };
 
 const mapStateToProps = (state) => ({
-    newRecipe: state["recipeReducer"].newRecipe,
+    draftRecipe: state["recipeReducer"].draftRecipe,
 });
 export default connect(mapStateToProps)(CreateIngredients);

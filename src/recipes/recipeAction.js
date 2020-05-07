@@ -25,7 +25,7 @@ export const getAllRecipes = (token) => {
     };
 };
 
-export const setNewRecipe = (data) => {
+export const setDraftRecipe = (data) => {
     return (dispatch) => {
         const {
             recipeName,
@@ -56,7 +56,7 @@ export const setNewRecipe = (data) => {
         console.log(recipe, "recipe new");
 
         dispatch({
-            type: recipeActionTypes.NEW_RECIPE,
+            type: recipeActionTypes.DRAFT_RECIPE,
             payload: recipe,
         });
     };
@@ -77,7 +77,7 @@ export const createRecipe = (token, data, history) => {
         let duration = parseInt(duration_hour) * 60;
         duration = duration + parseInt(duration_mins);
 
-        const newRecipe = {
+        const draftRecipe = {
             recipeName,
             recipeDesc,
             servings,
@@ -94,7 +94,7 @@ export const createRecipe = (token, data, history) => {
         };
 
         axios
-            .post("http://localhost:3000/api/recipes/", newRecipe, config)
+            .post("http://localhost:3000/api/recipes/", draftRecipe, config)
             .then((res) => {
                 let recipeId = res.data.recipe._id;
                 let recipe = res.data.recipe;
