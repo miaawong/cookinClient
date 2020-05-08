@@ -4,6 +4,7 @@ import RecipesList from "../recipes/components/recipe/RecipesList";
 // import Recipe from "../components/Recipe";
 import { Redirect, Link } from "react-router-dom";
 import { getAllRecipes } from "../recipes/recipeAction.js";
+import { logout } from "../auth/authAction";
 
 const Dashboard = ({ name, id, JWToken }) => {
     const dispatch = useDispatch();
@@ -15,11 +16,31 @@ const Dashboard = ({ name, id, JWToken }) => {
         return <Redirect to="/login"></Redirect>;
     }
     return (
-        <h1>
-            dashboard,Hi {name}, id: {id}
-            <RecipesList />
-            <Link to="/addRecipe">Add New Recipe</Link>
-        </h1>
+        <div>
+            <Link
+                to="/dashboard"
+                style={{
+                    textDecoration: "none",
+                    color: "black",
+                }}
+            >
+                Dashboard
+            </Link>
+
+            <button
+                onClick={() => {
+                    dispatch(logout());
+                }}
+            >
+                Logout
+            </button>
+
+            <h1>
+                dashboard,Hi {name}, id: {id}
+                <RecipesList />
+                <Link to="/addRecipe">Add New Recipe</Link>
+            </h1>
+        </div>
     );
 };
 const mapStateToProps = (state) => ({

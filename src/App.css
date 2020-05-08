@@ -1,8 +1,7 @@
 body {
-    background-color: #4c525c;
+    margin: 0;
 }
-ul {
-    text-decoration: none;
-    font-size: 25px;
-    color: white;
+#root {
+    width: 100vw;
+    height: 100vh;
 }
