@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Grommet, Nav } from "grommet";
+import styled, { ThemeProvider } from "styled-components";
 import { connect, useDispatch } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
@@ -10,46 +10,38 @@ import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./recipes/components/newRecipe/CreateRecipe";
 import Recipe from "./pages/recipe";
 import { getJWT, logout } from "./auth/authAction";
+import logo from "./images/cookinLogo.png";
+import { device } from "./Theme";
 
-const theme = {
-    global: {
-        colors: {
-            background: "#f8f8f8",
-            yellow: "#ffda0b",
-            black: "#000000",
-        },
-        font: {
-            family: "Roboto",
-            size: "18px",
-            height: "30px",
-        },
-        breakpoints: {
-            small: {
-                value: 600,
-            },
-            medium: {
-                value: 900,
-            },
-            large: {
-                value: 3000,
-            },
-        },
-    },
-};
+const Theme = styled.div`
+    font-family: ${(props) => props.theme.font};
+`;
+const Nav = styled.div`
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2.5em;
 
-const NavBar = (props) => (
-    <Box
-        tag="header"
-        direction="row"
-        align="center"
-        justify="between"
-        background="background"
-        pad={{ vertical: "medium", horizontal: "medium" }}
-        elevation="small"
-        {...props}
-    />
-);
-
+    @media ${device.small} {
+        padding: 1em 1em;
+    }
+`;
+const Links = styled.div`
+    width: 20%;
+    float: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @media ${device.small} {
+        display: none;
+    }
+`;
+const Logo = styled.img`
+    @media ${device.small} {
+        height: 75px;
+    }
+`;
 const App = ({ JWToken }) => {
     const dispatch = useDispatch();
     useEffect(() => {
@@ -58,10 +50,11 @@ const App = ({ JWToken }) => {
         }
         //eslint-disable-next-line
     }, []);
+
     return (
         <Router>
-            <Grommet theme={theme}>
-                <NavBar>
+            <Theme>
+                <Nav>
                     <Link
                         to="/"
                         style={{
@@ -69,54 +62,57 @@ const App = ({ JWToken }) => {
                             color: "black",
                         }}
                     >
-                        {" "}
-                        Home
+                        <Logo src={logo} alt="cookin logo" />
                     </Link>
-                    <Nav direction="row">
-                        <Link
-                            to="/signup"
-                            style={{
-                                textDecoration: "none",
-                                color: "black",
-                            }}
-                        >
-                            Sign Up
-                        </Link>
 
-                        <Link
-                            to="/login"
-                            style={{
-                                textDecoration: "none",
-                                color: "black",
-                            }}
-                        >
-                            Login{" "}
-                        </Link>
-                    </Nav>
-                </NavBar>
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route exact path="/signup">
-                        <SignUp />
-                    </Route>
-                    <Route exact path="/login">
-                        <Login />
-                    </Route>
-                    <Route exact path="/dashboard">
-                        <Dashboard />
-                    </Route>
-                    <Route
-                        exact
-                        path="/addRecipe"
-                        component={CreateRecipe}
-                    ></Route>
-                    <Route exact path={"/recipes/:recipeId"}>
-                        <Recipe />
-                    </Route>
-                </Switch>
-            </Grommet>
+                    <Links>
+                        <div>
+                            <Link
+                                to="/signup"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "white",
+                                    background: "black",
+                                    padding: ".5em",
+                                }}
+                            >
+                                Sign Up
+                            </Link>
+                        </div>
+                        <div>
+                            <Link
+                                to="/login"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "white",
+                                    background: "black",
+                                    padding: ".5em",
+                                }}
+                            >
+                                Login{" "}
+                            </Link>
+                        </div>
+                    </Links>
+                </Nav>
+            </Theme>
+            <Switch>
+                <Route exact path="/">
+                    <Home />
+                </Route>
+                <Route exact path="/signup">
+                    <SignUp />
+                </Route>
+                <Route exact path="/login">
+                    <Login />
+                </Route>
+                <Route exact path="/dashboard">
+                    <Dashboard />
+                </Route>
+                <Route exact path="/addRecipe" component={CreateRecipe}></Route>
+                <Route exact path={"/recipes/:recipeId"}>
+                    <Recipe />
+                </Route>
+            </Switch>
         </Router>
     );
 };

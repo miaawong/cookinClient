@@ -1,4 +1,5 @@
 import React from "react";
+import { ThemeProvider } from "styled-components";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -11,6 +12,7 @@ import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 import { getJWT } from "./auth/authAction";
 import Axios from "axios";
+import { theme } from "./Theme";
 
 let store = createStore(
     rootReducer,
@@ -34,7 +36,9 @@ axios.interceptors.response.use(
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <ThemeProvider theme={theme}>
+            <App />
+        </ThemeProvider>
     </Provider>,
     document.getElementById("root")
 );
