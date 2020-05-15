@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { connect, useDispatch } from "react-redux";
 import "./App.css";
@@ -10,12 +10,15 @@ import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./recipes/components/newRecipe/CreateRecipe";
 import Recipe from "./pages/recipe";
 import { getJWT, logout } from "./auth/authAction";
+import pan from "./images/pan_icon.png";
 import logo from "./images/cookinLogo.png";
 import { device } from "./Theme";
+import { FaBars } from "react-icons/fa";
 
 const Theme = styled.div`
     font-family: ${(props) => props.theme.font};
 `;
+
 const Nav = styled.div`
     font-size: ${(props) => props.theme.fontSizes.medium};
     display: flex;
@@ -24,25 +27,53 @@ const Nav = styled.div`
     padding: 1em 2.5em;
 
     @media ${device.small} {
-        padding: 1em 1em;
+        padding: ${({ open }) => (open ? "1em 1em;" : "0em")};
     }
 `;
 const Links = styled.div`
     width: 20%;
     float: right;
     display: flex;
-    justify-content: space-between;
+    flex-direction: ${({ open }) => (open ? "column" : "row")};
+    justify-content: ${({ open }) => (open ? "space-evenly" : "space-between")};
+    margin: ${({ open }) => (open ? "5em 0" : "0")};
     align-items: center;
+
     @media ${device.small} {
-        display: none;
+        z-index: 1;
+        position: absolute;
+        background: ${({ open }) => (open ? "white" : "none")};
+        padding-top: 100px;
+        width: 100vw;
+        height: 100vh;
+    }
+    & > div {
+        display: block;
+        @media ${device.small} {
+            display: ${({ open }) => (open ? "block" : "none")};
+        }
     }
 `;
+
 const Logo = styled.img`
     @media ${device.small} {
         height: 75px;
     }
 `;
+const Hamburger = styled.a`
+    display: none;
+    padding: 0 1em !important;
+    position: absolute;
+    right: 0;
+
+    @media ${device.small} {
+        display: block;
+    }
+`;
 const App = ({ JWToken }) => {
+    const [open, setOpen] = useState(false);
+    console.log(open, "open");
+
     const dispatch = useDispatch();
     useEffect(() => {
         if (!JWToken) {
@@ -65,7 +96,14 @@ const App = ({ JWToken }) => {
                         <Logo src={logo} alt="cookin logo" />
                     </Link>
 
-                    <Links>
+                    <Links open={open}>
+                        <Hamburger
+                            to="/"
+                            onClick={() => setOpen(!open)}
+                            open={open}
+                        >
+                            <FaBars style={{ color: "black" }} />
+                        </Hamburger>
                         <div>
                             <Link
                                 to="/signup"

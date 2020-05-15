@@ -15,13 +15,18 @@ const Box = styled.div`
     margin: 0 auto;
     height: 80%;
     width: 90%;
+    align-items: center;
 `;
 const MainText = styled.div`
     font-family: ${(props) => props.theme.font};
     background: white;
-    flex-grow: 4;
     width: 50%;
-    height: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    padding: 2em;
 `;
 const Yellow = styled.div`
     background: #ffda0b;
@@ -36,15 +41,18 @@ const MainImg = styled.img`
     max-height: 80%;
     object-fit: cover;
 `;
+const Text = styled.h1`
+    margin: 0.2em;
+`;
 export default function Home() {
     return (
         // <Main>
         <Box>
             <MainText>
-                <h1>What's are you cookin' for dinner? </h1>
-                <h1>Get inspired, </h1>
-                <h1>Store your recipes,</h1>
-                <h1>All in one place.</h1>
+                <Text>What's are you cookin' for dinner? </Text>
+                <Text>Get inspired, </Text>
+                <Text>Store your recipes,</Text>
+                <Text>All in one place.</Text>
             </MainText>
             <Yellow>
                 <MainImg src={pasta} />
