@@ -20,54 +20,59 @@ const Theme = styled.div`
 `;
 
 const Nav = styled.div`
+    width: 90%;
+    margin: 0 auto;
     font-size: ${(props) => props.theme.fontSizes.medium};
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1em 2.5em;
-
-    @media ${device.small} {
-        padding: ${({ open }) => (open ? "1em 1em;" : "0em")};
-    }
+    padding: 1em 0;
 `;
 const Links = styled.div`
-    width: 20%;
     float: right;
     display: flex;
     flex-direction: ${({ open }) => (open ? "column" : "row")};
     justify-content: ${({ open }) => (open ? "space-evenly" : "space-between")};
-    margin: ${({ open }) => (open ? "5em 0" : "0")};
+    /* margin: ${({ open }) => (open ? "5em 0" : "0")}; */
     align-items: center;
 
     @media ${device.small} {
-        z-index: 1;
-        position: absolute;
         background: ${({ open }) => (open ? "white" : "none")};
-        padding-top: 100px;
-        width: 100vw;
-        height: 100vh;
+        z-index: 1;
+        position: ${({ open }) => (open ? "absolute" : "relative")};
+        top: 0;
+        bottom: 0;
+        left:0; 
+        right: 0;
+        width: 100%;
+        height: 100%;
     }
-    & > div {
-        display: block;
+    & > Label {
         @media ${device.small} {
             display: ${({ open }) => (open ? "block" : "none")};
         }
     }
 `;
+const Label = styled.label`
+    font-size: ${(props) => props.theme.fontSizes.small};
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    background: black;
+    padding: 0.5em;
+    margin: 0 0.3em;
+`;
 
 const Logo = styled.img`
+    height: 75px;
     @media ${device.small} {
-        height: 75px;
+        height: 70px;
     }
 `;
-const Hamburger = styled.a`
+const Hamburger = styled.button`
     display: none;
-    padding: 0 1em !important;
-    position: absolute;
-    right: 0;
-
     @media ${device.small} {
-        display: block;
+        display: ${({ open }) => (open ? "none" : "block")};
     }
 `;
 const App = ({ JWToken }) => {
@@ -97,40 +102,19 @@ const App = ({ JWToken }) => {
                     </Link>
 
                     <Links open={open}>
-                        <Hamburger
-                            to="/"
-                            onClick={() => setOpen(!open)}
-                            open={open}
-                        >
-                            <FaBars style={{ color: "black" }} />
-                        </Hamburger>
-                        <div>
-                            <Link
-                                to="/signup"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "white",
-                                    background: "black",
-                                    padding: ".5em",
-                                }}
-                            >
-                                Sign Up
-                            </Link>
-                        </div>
-                        <div>
-                            <Link
-                                to="/login"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "white",
-                                    background: "black",
-                                    padding: ".5em",
-                                }}
-                            >
-                                Login{" "}
-                            </Link>
-                        </div>
+                        <Label>
+                            <Link to="/signup" />
+                            Sign Up
+                        </Label>
+
+                        <Label>
+                            <Link to="/login" />
+                            Login
+                        </Label>
                     </Links>
+                    <Hamburger open={open} onClick={() => setOpen(!open)}>
+                        <FaBars style={{ color: "black" }} />
+                    </Hamburger>
                 </Nav>
             </Theme>
             <Switch>
