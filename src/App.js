@@ -14,6 +14,7 @@ import pan from "./images/pan_icon.png";
 import logo from "./images/cookinLogo.png";
 import { device } from "./Theme";
 import { FaBars } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
 
 const Theme = styled.div`
     font-family: ${(props) => props.theme.font};
@@ -31,25 +32,27 @@ const Nav = styled.div`
 const Links = styled.div`
     float: right;
     display: flex;
-    flex-direction: ${({ open }) => (open ? "column" : "row")};
-    justify-content: ${({ open }) => (open ? "space-evenly" : "space-between")};
-    /* margin: ${({ open }) => (open ? "5em 0" : "0")}; */
+    justify-content: ${({ open }) => (open ? "center" : "space-between")};
     align-items: center;
+    transition: 0.5s ease;
 
     @media ${device.small} {
-        background: ${({ open }) => (open ? "white" : "none")};
+        background: white;
         z-index: 1;
-        position: ${({ open }) => (open ? "absolute" : "relative")};
-        top: 0;
+        position: ${({ open }) => (open ? "fixed" : "relative")};
+        top: 13%;
         bottom: 0;
-        left:0; 
+        left: 0;
         right: 0;
         width: 100%;
-        height: 100%;
+        height: 87%;
+
+        transition: 0.5 ease;
     }
     & > Label {
         @media ${device.small} {
             display: ${({ open }) => (open ? "block" : "none")};
+            transition: 0.5s;
         }
     }
 `;
@@ -61,6 +64,9 @@ const Label = styled.label`
     background: black;
     padding: 0.5em;
     margin: 0 0.3em;
+    @media ${device.small} {
+        margin: 0;
+    }
 `;
 
 const Logo = styled.img`
@@ -72,7 +78,15 @@ const Logo = styled.img`
 const Hamburger = styled.button`
     display: none;
     @media ${device.small} {
-        display: ${({ open }) => (open ? "none" : "block")};
+        display: block;
+        /* ${({ open }) => (open ? "none" : "block")}; */
+    }
+`;
+const Close = styled.button`
+    display: none;
+    position: fixed;
+    @media ${device.small} {
+        display: ${({ open }) => (open ? "block" : "none")};
     }
 `;
 const App = ({ JWToken }) => {
@@ -113,7 +127,11 @@ const App = ({ JWToken }) => {
                         </Label>
                     </Links>
                     <Hamburger open={open} onClick={() => setOpen(!open)}>
-                        <FaBars style={{ color: "black" }} />
+                        {open ? (
+                            <MdClose style={{ color: "black" }} size={24} />
+                        ) : (
+                            <FaBars style={{ color: "black" }} size={24} />
+                        )}
                     </Hamburger>
                 </Nav>
             </Theme>
