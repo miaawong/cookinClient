@@ -21,74 +21,66 @@ const Theme = styled.div`
 `;
 
 const Nav = styled.div`
-    width: 90%;
-    margin: 0 auto;
-    font-size: ${(props) => props.theme.fontSizes.medium};
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1em 0;
-`;
-const Links = styled.div`
-    float: right;
-    display: flex;
-    justify-content: ${({ open }) => (open ? "center" : "space-between")};
-    align-items: center;
-    transition: 0.5s ease;
+    width: 20%;
+    position: fixed;
+    top: 0;
+    left: 75%;
+    padding: 2rem 0;
 
+    /* on mobile navbar is on the bottom */
     @media ${device.small} {
-        background: white;
-        z-index: 1;
-        position: ${({ open }) => (open ? "fixed" : "relative")};
-        top: 13%;
+        background: black;
         bottom: 0;
         left: 0;
-        right: 0;
+        top: auto;
         width: 100%;
-        height: 87%;
-
-        transition: 0.5 ease;
+        height: 3rem;
+        padding: 0;
     }
-    & > Label {
-        @media ${device.small} {
-            display: ${({ open }) => (open ? "block" : "none")};
-            transition: 0.5s;
-        }
+    @media ${device.medium} {
+        width: 30%;
+        left: 65%;
     }
 `;
 const Label = styled.label`
-    font-size: ${(props) => props.theme.fontSizes.small};
-    border-radius: 5px;
+    font-size: ${(props) => props.theme.fontSizes.medium};
     text-decoration: none;
+    border-radius: 3px;
     color: white;
     background: black;
     padding: 0.5em;
-    margin: 0 0.3em;
+    display: flex;
+    justify-content: center;
+
     @media ${device.small} {
-        margin: 0;
+        font-size: ${(props) => props.theme.fontSizes.small};
+        padding: 0.5em;
+        margin: 0 0.3em;
+        display: flex;
+        align-content: center;
     }
 `;
-
+const Links = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    @media ${device.small} {
+        justify-content: space-around;
+    }
+`;
+const TopBar = styled.div`
+    width: 90%;
+    margin: 0 auto;
+    padding: 1rem 0;
+`;
 const Logo = styled.img`
     height: 75px;
     @media ${device.small} {
         height: 70px;
     }
 `;
-const Hamburger = styled.button`
-    display: none;
-    @media ${device.small} {
-        display: block;
-        /* ${({ open }) => (open ? "none" : "block")}; */
-    }
-`;
-const Close = styled.button`
-    display: none;
-    position: fixed;
-    @media ${device.small} {
-        display: ${({ open }) => (open ? "block" : "none")};
-    }
-`;
+
 const App = ({ JWToken }) => {
     const [open, setOpen] = useState(false);
     console.log(open, "open");
@@ -104,17 +96,13 @@ const App = ({ JWToken }) => {
     return (
         <Router>
             <Theme>
-                <Nav>
-                    <Link
-                        to="/"
-                        style={{
-                            textDecoration: "none",
-                            color: "black",
-                        }}
-                    >
+                <TopBar>
+                    <Link to="/">
                         <Logo src={logo} alt="cookin logo" />
                     </Link>
+                </TopBar>
 
+                <Nav>
                     <Links open={open}>
                         <Label>
                             <Link to="/signup" />
@@ -126,13 +114,13 @@ const App = ({ JWToken }) => {
                             Login
                         </Label>
                     </Links>
-                    <Hamburger open={open} onClick={() => setOpen(!open)}>
+                    {/* <Hamburger open={open} onClick={() => setOpen(!open)}>
                         {open ? (
                             <MdClose style={{ color: "black" }} size={24} />
                         ) : (
                             <FaBars style={{ color: "black" }} size={24} />
                         )}
-                    </Hamburger>
+                    </Hamburger> */}
                 </Nav>
             </Theme>
             <Switch>
