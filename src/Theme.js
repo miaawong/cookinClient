@@ -5,15 +5,14 @@ export const theme = {
     },
     font: "Roboto",
     fontSizes: {
-        small: ".8em",
-        medium: "2em",
-        large: "3em",
+        small: "20px",
+        medium: "1.5rem",
+        large: "2rem",
     },
 };
 
 export const device = {
-    small: "(max-width: 576px)",
-    medium: "(max-width:768px)",
-    large: "(max-width:992px)",
-    xlarge: "(max-width:1200px)",
+    small: "(max-width: 780px)",
+    medium: "(min-width: 780px) and (max-width: 1000px)",
+    large: "(min-width:1200px)",
 };
