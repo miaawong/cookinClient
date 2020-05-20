@@ -1,11 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import pasta from "../images/Creamy-Salmon-Pasta-with-Spinach-2.jpg";
-const Main = styled.div`
-    display: flex;
-    height: 100%;
-    border: 2px solid red;
-`;
+
 const Box = styled.div`
     display: flex;
     background: white;
@@ -46,7 +42,6 @@ const Text = styled.h1`
 `;
 export default function Home() {
     return (
-        // <Main>
         <Box>
             <MainText>
                 <Text>What's are you cookin' for dinner? </Text>
@@ -58,6 +53,5 @@ export default function Home() {
                 <MainImg src={pasta} />
             </Yellow>
         </Box>
-        // </Main>
     );
 }
