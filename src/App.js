@@ -10,11 +10,8 @@ import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./recipes/components/newRecipe/CreateRecipe";
 import Recipe from "./pages/recipe";
 import { getJWT, logout } from "./auth/authAction";
-import pan from "./images/pan_icon.png";
 import logo from "./images/cookinLogo.png";
 import { device } from "./Theme";
-import { FaBars } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
 
 const Theme = styled.div`
     font-family: ${(props) => props.theme.font};
@@ -27,7 +24,6 @@ const Nav = styled.div`
     left: 75%;
     padding: 2rem 0;
 
-    /* on mobile navbar is on the bottom */
     @media ${device.small} {
         background: black;
         bottom: 0;
@@ -38,8 +34,22 @@ const Nav = styled.div`
         padding: 0;
     }
     @media ${device.medium} {
-        width: 30%;
-        left: 65%;
+        background: black;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        width: 100%;
+        height: 3rem;
+        padding: 0;
+    }
+    @media ${device.large} {
+        background: black;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        width: 100%;
+        height: 12rem;
+        padding: 0;
     }
 `;
 const Label = styled.label`
@@ -59,6 +69,12 @@ const Label = styled.label`
         display: flex;
         align-content: center;
     }
+    @media ${device.medium} {
+        padding: 0.5em;
+        margin: 0 0.3em;
+        display: flex;
+        align-content: center;
+    }
 `;
 const Links = styled.div`
     display: flex;
@@ -66,6 +82,9 @@ const Links = styled.div`
     justify-content: space-between;
     align-content: center;
     @media ${device.small} {
+        justify-content: space-around;
+    }
+    @media ${device.medium} {
         justify-content: space-around;
     }
 `;
