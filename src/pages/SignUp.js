@@ -3,6 +3,13 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { signUp } from "../auth/authAction";
+import styled from "styled-components";
+import { device } from "../Theme";
+
+const Form = styled.form`
+    width: 70%;
+    margin: 0 auto;
+`;
 
 const SignUp = () => {
     const { register, handleSubmit, errors } = useForm();
@@ -15,7 +22,7 @@ const SignUp = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={handleSubmit(onSubmit)}>
                 <div style={{ fontSize: "25px", color: "red" }}> </div>
                 <div>
                     <label>
@@ -73,7 +80,7 @@ const SignUp = () => {
                     </label>
                 </div>
                 <input type="submit" />
-            </form>
+            </Form>
         </div>
     );
 };

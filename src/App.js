@@ -12,6 +12,8 @@ import Recipe from "./pages/recipe";
 import { getJWT, logout } from "./auth/authAction";
 import logo from "./images/cookinLogo.png";
 import { device } from "./Theme";
+import { MdFavorite, MdExplore, MdCreate, MdSettings } from "react-icons/md";
+import { FaSignOutAlt } from "react-icons/fa";
 
 const Theme = styled.div`
     font-family: ${(props) => props.theme.font};
@@ -63,9 +65,7 @@ const Nav = styled.div`
 `;
 const Label = styled.label`
     font-size: ${(props) => props.theme.fontSizes.medium};
-    text-decoration: none;
     border-radius: 3px;
-    color: white;
     background: black;
     padding: 0.5em;
     display: flex;
@@ -90,6 +90,19 @@ const Label = styled.label`
         display: flex;
         align-content: center;
     }
+`;
+
+const LoggedInNav = styled.nav`
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    right: 0;
+    top: 0;
+    background: black;
+    width: 4em;
+    height: 100%;
 `;
 const Links = styled.div`
     display: flex;
@@ -119,9 +132,6 @@ const Logo = styled.img`
 `;
 
 const App = ({ JWToken }) => {
-    const [open, setOpen] = useState(false);
-    console.log(open, "open");
-
     const dispatch = useDispatch();
     useEffect(() => {
         if (!JWToken) {
@@ -139,26 +149,84 @@ const App = ({ JWToken }) => {
                     </Link>
                 </TopBar>
 
-                <Nav>
-                    <Links open={open}>
-                        <Label>
-                            <Link to="/signup" />
-                            Sign Up
-                        </Label>
+                {!JWToken ? (
+                    <Nav>
+                        <Links>
+                            <Label>
+                                <Link
+                                    to="/signup"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Sign Up
+                                </Link>
+                            </Label>
 
-                        <Label>
-                            <Link to="/login" />
-                            Login
-                        </Label>
-                    </Links>
-                    {/* <Hamburger open={open} onClick={() => setOpen(!open)}>
-                        {open ? (
-                            <MdClose style={{ color: "black" }} size={24} />
-                        ) : (
-                            <FaBars style={{ color: "black" }} size={24} />
-                        )}
-                    </Hamburger> */}
-                </Nav>
+                            <Label>
+                                <Link
+                                    to="/login"
+                                    style={{
+                                        color: "white",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    Login
+                                </Link>
+                            </Label>
+                        </Links>
+                    </Nav>
+                ) : (
+                    <LoggedInNav>
+                        <Link
+                            to="/explore"
+                            style={{
+                                color: "white",
+                                textDecoration: "none",
+                            }}
+                        >
+                            <MdExplore style={{ color: "white" }} size={30} />
+                            {/* Explore */}
+                        </Link>
+                        <Link
+                            to="/myRecipes"
+                            style={{
+                                color: "white",
+                                textDecoration: "none",
+                            }}
+                        >
+                            <MdFavorite style={{ color: "white" }} size={30} />
+                            {/* My Recipe */}
+                        </Link>
+                        <Link
+                            to="/create"
+                            style={{
+                                color: "white",
+                                textDecoration: "none",
+                            }}
+                        >
+                            <MdCreate style={{ color: "white" }} size={30} />
+                            {/* Create New Recipe */}
+                        </Link>
+                        <Link
+                            to="/settings"
+                            style={{
+                                color: "white",
+                                textDecoration: "none",
+                            }}
+                        >
+                            <MdSettings style={{ color: "white" }} size={30} />
+                            {/* Settings */}
+                        </Link>
+                        <button style={{ background: "black", border: "none" }}>
+                            <FaSignOutAlt
+                                size={30}
+                                style={{ color: "white" }}
+                            />
+                        </button>
+                    </LoggedInNav>
+                )}
             </Theme>
             <Switch>
                 <Route exact path="/">
@@ -183,6 +251,6 @@ const App = ({ JWToken }) => {
 };
 
 const mapStateToProps = (state) => ({
-    JWToken: state.JWToken,
+    JWToken: state["authReducer"].JWToken,
 });
 export default connect(mapStateToProps)(App);
