@@ -39,7 +39,7 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 3rem;
+        height: 4rem;
         padding: 0;
     }
     @media ${device.large} {
@@ -48,7 +48,16 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 12rem;
+        height: 4rem;
+        padding: 0;
+    }
+    @media ${device.ipad} {
+        background: black;
+        bottom: 0;
+        left: 0;
+        top: auto;
+        width: 100%;
+        height: 35rem;
         padding: 0;
     }
 `;
@@ -75,6 +84,12 @@ const Label = styled.label`
         display: flex;
         align-content: center;
     }
+    @media ${device.large} {
+        padding: 0.5em;
+        margin: 0 0.3em;
+        display: flex;
+        align-content: center;
+    }
 `;
 const Links = styled.div`
     display: flex;
@@ -85,6 +100,9 @@ const Links = styled.div`
         justify-content: space-around;
     }
     @media ${device.medium} {
+        justify-content: space-around;
+    }
+    @media ${device.large} {
         justify-content: space-around;
     }
 `;

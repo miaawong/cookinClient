@@ -35,7 +35,15 @@ const Box = styled.div`
         border: none;
         margin: 0;
         width: 100%;
-        height: 43%;
+        height: 52%;
+        position: fixed;
+    }
+    @media ${device.ipad} {
+        flex-direction: column;
+        border: none;
+        margin: 0;
+        width: 100%;
+        height: 32%;
         position: fixed;
     }
 `;
@@ -46,7 +54,7 @@ const MainText = styled.div`
     height: 50%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: left;
     padding: 2em;
     @media ${device.small} {
@@ -54,15 +62,15 @@ const MainText = styled.div`
         width: 100%;
         position: fixed;
         bottom: 3rem;
-        height: 30%;
+        height: 27%;
         background: #ffda0b;
     }
     @media ${device.medium} {
         font-size: ${(props) => props.theme.fontSizes.medium};
         width: 100%;
         position: fixed;
-        bottom: 3rem;
-        height: 30%;
+        bottom: 4rem;
+        height: 28%;
         background: #ffda0b;
         padding: 1rem 2rem;
     }
@@ -70,43 +78,46 @@ const MainText = styled.div`
         font-size: ${(props) => props.theme.fontSizes.large};
         width: 100%;
         position: fixed;
-        bottom: 12rem;
-        height: 35%;
+        bottom: 4rem;
+        height: 31%;
         background: #ffda0b;
         padding: 1rem 2rem;
-        justify-content: flex-end;
+    }
+    @media ${device.ipad} {
+        font-size: ${(props) => props.theme.fontSizes.large};
+        width: 100%;
+        position: fixed;
+        bottom: 34.5rem;
+        height: 20%;
+        background: #ffda0b;
+        padding: 1rem 2rem;
     }
 `;
+
 const RecipesBtn = styled.label`
     font-size: ${(props) => props.theme.fontSizes.medium};
     text-decoration: none;
     border-radius: 3px;
     color: white;
     background: black;
-    margin: 1em 0;
+    margin: 3em 0;
     padding: 0.5rem;
     display: flex;
     justify-content: center;
-    width: 25%;
+    width: 18%;
+
     @media ${device.small} {
-        flex-grow: 1;
-        width: 30%;
         font-size: ${(props) => props.theme.fontSizes.small};
-        flex-grow: 1;
+        width: 25%;
         margin: 0 auto;
-        width: 30%;
     }
     @media ${device.medium} {
-        font-size: ${(props) => props.theme.fontSizes.small};
-        flex-grow: 1;
+        font-size: ${(props) => props.theme.fontSizes.medium};
         margin: 0 auto;
-        width: 18%;
     }
     @media ${device.large} {
         font-size: ${(props) => props.theme.fontSizes.medium};
-        flex-grow: 1;
         margin: 0 auto;
-        width: 18%;
     }
 `;
 const Yellow = styled.div`
@@ -131,6 +142,13 @@ const Yellow = styled.div`
         justify-content: initial;
         align-items: initial;
     }
+    @media ${device.large} {
+        width: 100%;
+        background: white;
+        height: 100%;
+        justify-content: initial;
+        align-items: initial;
+    }
 `;
 const MainImg = styled.img`
     width: 90%;
@@ -139,15 +157,31 @@ const MainImg = styled.img`
     @media ${device.small} {
         width: 100%;
         max-height: 100%;
-        /* background: white; */
     }
     @media ${device.medium} {
         width: 100%;
         max-height: 100%;
-        /* background: white; */
+    }
+    @media ${device.large} {
+        width: 100%;
+        max-height: 100%;
     }
 `;
-const Text = styled.p``;
+const Text = styled.p`
+    font-size: ${(props) => props.theme.fontSizes.large};
+    margin: 0.2em;
+    @media ${device.small} {
+        font-size: ${(props) => props.theme.fontSizes.small};
+        margin: 0.2em;
+    }
+    @media ${device.medium} {
+        font-size: ${(props) => props.theme.fontSizes.medium};
+        margin: 0.1em;
+    }
+    @media ${device.large} {
+        margin: 0;
+    }
+`;
 export default function Home() {
     return (
         <Box>
@@ -161,6 +195,7 @@ export default function Home() {
                     Recipes
                 </RecipesBtn>
             </MainText>
+
             <Yellow>
                 <MainImg src={pasta} />
             </Yellow>
