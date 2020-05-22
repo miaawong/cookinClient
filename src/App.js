@@ -92,17 +92,51 @@ const Label = styled.label`
     }
 `;
 
+const StyledLink = styled(Link)`
+    color: white;
+    text-decoration: none;
+    display: flex;
+    width: 14rem;
+    height: 5rem;
+    justify-content: center;
+    align-items: center;
+    :nth-last-child(2) {
+        margin-top: auto;
+    }
+
+    & > label {
+        display: none;
+    }
+`;
 const LoggedInNav = styled.nav`
     position: fixed;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     right: 0;
     top: 0;
     background: black;
-    width: 4em;
+    width: 4rem;
     height: 100%;
+    transition: 0.2s;
+    padding-top: 2rem;
+
+    &:hover {
+        width: 20%;
+        transition: 0.5s ease;
+    }
+
+    &:hover label {
+        display: inline;
+        /* margin-left: 1rem; */
+        color: white;
+        font-size: ${(props) => props.theme.fontSizes.medium};
+    }
+
+    &:hover > ${StyledLink} {
+        justify-content: space-between;
+    }
 `;
 const Links = styled.div`
     display: flex;
@@ -119,9 +153,10 @@ const Links = styled.div`
         justify-content: space-around;
     }
 `;
+
 const TopBar = styled.div`
     width: 90%;
-    margin: 0 auto;
+    margin: ${({ JWToken }) => (JWToken ? "0 6em 0 auto" : "0 auto")};
     padding: 1rem 0;
 `;
 const Logo = styled.img`
@@ -133,9 +168,11 @@ const Logo = styled.img`
 
 const App = ({ JWToken }) => {
     const dispatch = useDispatch();
+    const [loggedIn, setLogged] = useState(false);
     useEffect(() => {
         if (!JWToken) {
             dispatch(getJWT());
+            setLogged(true);
         }
         //eslint-disable-next-line
     }, []);
@@ -143,7 +180,7 @@ const App = ({ JWToken }) => {
     return (
         <Router>
             <Theme>
-                <TopBar>
+                <TopBar JWToken={JWToken}>
                     <Link to="/">
                         <Logo src={logo} alt="cookin logo" />
                     </Link>
@@ -179,58 +216,40 @@ const App = ({ JWToken }) => {
                     </Nav>
                 ) : (
                     <LoggedInNav>
-                        <Link
-                            to="/explore"
-                            style={{
-                                color: "white",
-                                textDecoration: "none",
-                            }}
-                        >
+                        <StyledLink to="/explore">
+                            <label>Explore</label>
                             <MdExplore style={{ color: "white" }} size={30} />
-                            {/* Explore */}
-                        </Link>
-                        <Link
-                            to="/myRecipes"
-                            style={{
-                                color: "white",
-                                textDecoration: "none",
-                            }}
-                        >
+                        </StyledLink>
+
+                        <StyledLink to="/dashboard">
+                            <label>My Recipes</label>
                             <MdFavorite style={{ color: "white" }} size={30} />
-                            {/* My Recipe */}
-                        </Link>
-                        <Link
-                            to="/create"
-                            style={{
-                                color: "white",
-                                textDecoration: "none",
-                            }}
-                        >
+                        </StyledLink>
+                        <StyledLink to="/addRecipe">
+                            <label>New Recipe</label>
                             <MdCreate style={{ color: "white" }} size={30} />
-                            {/* Create New Recipe */}
-                        </Link>
-                        <Link
-                            to="/settings"
-                            style={{
-                                color: "white",
-                                textDecoration: "none",
+                        </StyledLink>
+                        <StyledLink to="/settings">
+                            <label>Settings</label>
+                            <MdSettings style={{ color: "white" }} size={30} />
+                        </StyledLink>
+                        <StyledLink
+                            onClick={() => {
+                                dispatch(logout());
                             }}
                         >
-                            <MdSettings style={{ color: "white" }} size={30} />
-                            {/* Settings */}
-                        </Link>
-                        <button style={{ background: "black", border: "none" }}>
+                            <label>Logout</label>
                             <FaSignOutAlt
                                 size={30}
                                 style={{ color: "white" }}
                             />
-                        </button>
+                        </StyledLink>
                     </LoggedInNav>
                 )}
             </Theme>
             <Switch>
                 <Route exact path="/">
-                    <Home />
+                    <Home loggedIn={loggedIn} />
                 </Route>
                 <Route exact path="/signup">
                     <SignUp />
