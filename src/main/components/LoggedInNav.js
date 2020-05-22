@@ -5,6 +5,8 @@ import { connect, useDispatch } from "react-redux";
 import { logout } from "../../auth/authAction";
 import { MdFavorite, MdExplore, MdCreate, MdSettings } from "react-icons/md";
 import { FaSignOutAlt } from "react-icons/fa";
+import { device } from "../../Theme";
+
 const StyledLink = styled(Link)`
     color: white;
     text-decoration: none;
@@ -20,6 +22,26 @@ const StyledLink = styled(Link)`
 
     & > label {
         display: none;
+    }
+    @media ${device.small} {
+        :nth-last-child(2) {
+            margin-top: 0;
+        }
+    }
+    @media ${device.medium} {
+        :nth-last-child(2) {
+            margin-top: 0;
+        }
+    }
+    @media ${device.large} {
+        :nth-last-child(2) {
+            margin-top: 0;
+        }
+    }
+    @media ${device.ipad} {
+        :nth-last-child(2) {
+            margin-top: 0;
+        }
     }
 `;
 const Nav = styled.nav`
@@ -50,6 +72,77 @@ const Nav = styled.nav`
 
     &:hover > ${StyledLink} {
         justify-content: space-between;
+    }
+    @media ${device.small} {
+        padding: 0;
+        bottom: 0;
+        width: 100%;
+        height: 3rem;
+        top: auto;
+        flex-direction: row;
+        &:hover {
+            width: 100%;
+        }
+        &:hover label {
+            display: none;
+            margin: 0 auto;
+        }
+        &:hover > ${StyledLink} {
+            justify-content: center;
+        }
+    }
+    @media ${device.medium} {
+        padding: 0;
+        bottom: 0;
+        width: 100%;
+        height: 3rem;
+        top: auto;
+        flex-direction: row;
+        &:hover {
+            width: 100%;
+        }
+        &:hover label {
+            display: none;
+            margin: 0 auto;
+        }
+        &:hover > ${StyledLink} {
+            justify-content: center;
+        }
+    }
+    @media ${device.large} {
+        padding: 0;
+        bottom: 0;
+        width: 100%;
+        height: 3rem;
+        top: auto;
+        flex-direction: row;
+        &:hover {
+            width: 100%;
+        }
+        &:hover label {
+            display: none;
+            margin: 0 auto;
+        }
+        &:hover > ${StyledLink} {
+            justify-content: center;
+        }
+    }
+    @media ${device.ipad} {
+        padding: 0;
+        bottom: 7.5rem;
+        width: 100%;
+        height: 5rem;
+        flex-direction: row;
+        &:hover {
+            width: 100%;
+        }
+        &:hover label {
+            display: none;
+            margin: 0 auto;
+        }
+        &:hover > ${StyledLink} {
+            justify-content: center;
+        }
     }
 `;
 export default function LoggedInNav() {
