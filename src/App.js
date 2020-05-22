@@ -111,6 +111,9 @@ const TopBar = styled.div`
     width: 90%;
     margin: ${({ JWToken }) => (JWToken ? "0 6em 0 auto" : "0 auto")};
     padding: 1rem 0;
+    @media ${device.small} {
+        width: 70%;
+    }
 `;
 const Logo = styled.img`
     height: 75px;
