@@ -4,7 +4,6 @@ import RecipesList from "../recipes/components/recipe/RecipesList";
 // import Recipe from "../components/Recipe";
 import { Redirect, Link } from "react-router-dom";
 import { getAllRecipes } from "../recipes/recipeAction.js";
-import { logout } from "../auth/authAction";
 
 const Dashboard = ({ name, id, JWToken }) => {
     const dispatch = useDispatch();
@@ -26,14 +25,6 @@ const Dashboard = ({ name, id, JWToken }) => {
             >
                 Dashboard
             </Link>
-
-            <button
-                onClick={() => {
-                    dispatch(logout());
-                }}
-            >
-                Logout
-            </button>
 
             <h1>
                 dashboard,Hi {name}, id: {id}
