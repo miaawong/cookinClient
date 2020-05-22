@@ -12,8 +12,7 @@ import Recipe from "./pages/recipe";
 import { getJWT, logout } from "./auth/authAction";
 import logo from "./images/cookinLogo.png";
 import { device } from "./Theme";
-import { MdFavorite, MdExplore, MdCreate, MdSettings } from "react-icons/md";
-import { FaSignOutAlt } from "react-icons/fa";
+import LoggedInNav from "./main/components/LoggedInNav";
 
 const Theme = styled.div`
     font-family: ${(props) => props.theme.font};
@@ -92,52 +91,6 @@ const Label = styled.label`
     }
 `;
 
-const StyledLink = styled(Link)`
-    color: white;
-    text-decoration: none;
-    display: flex;
-    width: 14rem;
-    height: 5rem;
-    justify-content: center;
-    align-items: center;
-    :nth-last-child(2) {
-        margin-top: auto;
-    }
-
-    & > label {
-        display: none;
-    }
-`;
-const LoggedInNav = styled.nav`
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    right: 0;
-    top: 0;
-    background: black;
-    width: 4rem;
-    height: 100%;
-    transition: 0.2s;
-    padding-top: 2rem;
-
-    &:hover {
-        width: 20%;
-        transition: 0.5s ease;
-    }
-
-    &:hover label {
-        display: inline;
-        /* margin-left: 1rem; */
-        color: white;
-        font-size: ${(props) => props.theme.fontSizes.medium};
-    }
-
-    &:hover > ${StyledLink} {
-        justify-content: space-between;
-    }
-`;
 const Links = styled.div`
     display: flex;
     flex-direction: row;
@@ -215,36 +168,7 @@ const App = ({ JWToken }) => {
                         </Links>
                     </Nav>
                 ) : (
-                    <LoggedInNav>
-                        <StyledLink to="/explore">
-                            <label>Explore</label>
-                            <MdExplore style={{ color: "white" }} size={30} />
-                        </StyledLink>
-
-                        <StyledLink to="/dashboard">
-                            <label>My Recipes</label>
-                            <MdFavorite style={{ color: "white" }} size={30} />
-                        </StyledLink>
-                        <StyledLink to="/addRecipe">
-                            <label>New Recipe</label>
-                            <MdCreate style={{ color: "white" }} size={30} />
-                        </StyledLink>
-                        <StyledLink to="/settings">
-                            <label>Settings</label>
-                            <MdSettings style={{ color: "white" }} size={30} />
-                        </StyledLink>
-                        <StyledLink
-                            onClick={() => {
-                                dispatch(logout());
-                            }}
-                        >
-                            <label>Logout</label>
-                            <FaSignOutAlt
-                                size={30}
-                                style={{ color: "white" }}
-                            />
-                        </StyledLink>
-                    </LoggedInNav>
+                    <LoggedInNav></LoggedInNav>
                 )}
             </Theme>
             <Switch>
