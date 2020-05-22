@@ -10,7 +10,8 @@ const Box = styled.div`
     border: 5px solid black;
     justify-content: center;
     align-self: center;
-    margin: 0 auto;
+    margin: ${({ loggedIn }) => (loggedIn ? "0 6em 0 auto" : "0 auto")};
+
     height: 80%;
     width: 90%;
     align-items: center;
@@ -182,9 +183,10 @@ const Text = styled.p`
         margin: 0;
     }
 `;
-export default function Home() {
+export default function Home({ loggedIn }) {
+    console.log(loggedIn);
     return (
-        <Box>
+        <Box loggedIn={loggedIn}>
             <MainText>
                 <Text>What's are you cookin' for dinner? </Text>
                 <Text>Get inspired, </Text>
