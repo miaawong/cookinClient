@@ -88,15 +88,8 @@ const Links = styled.div`
 `;
 
 const TopBar = styled.div`
-    width: 90%;
-    margin: ${({ JWToken }) => (JWToken ? "0 6em 0 auto" : "0 auto")};
+    margin: ${({ JWToken }) => (JWToken ? "0 6rem 0 2rem" : "0 2rem")};
     padding: 1rem 0;
-    @media ${device.small} {
-        width: 72%;
-    }
-    @media ${device.medium} {
-        width: 85%;
-    }
 `;
 const Logo = styled.img`
     height: 75px;
