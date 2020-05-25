@@ -44,7 +44,7 @@ const Box = styled.div`
         border: none;
         margin: 0;
         width: 100%;
-        height: 32%;
+        height: 52%;
         position: fixed;
     }
 `;
@@ -55,14 +55,14 @@ const MainText = styled.div`
     height: 50%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: left;
-    padding: 2em;
+    padding: 1em 2em;
     @media ${device.small} {
         font-size: ${(props) => props.theme.fontSizes.small};
         width: 100%;
         position: fixed;
-        bottom: 3rem;
+        bottom: 2.5rem;
         height: 27%;
         background: #ffda0b;
     }
@@ -70,7 +70,7 @@ const MainText = styled.div`
         font-size: ${(props) => props.theme.fontSizes.medium};
         width: 100%;
         position: fixed;
-        bottom: 4rem;
+        bottom: 3rem;
         height: 28%;
         background: #ffda0b;
         padding: 1rem 2rem;
@@ -79,26 +79,25 @@ const MainText = styled.div`
         font-size: ${(props) => props.theme.fontSizes.large};
         width: 100%;
         position: fixed;
-        bottom: 4rem;
-        height: 31%;
+        bottom: 3rem;
+        height: 35%;
         background: #ffda0b;
-        padding: 1rem 2rem;
+        padding: 3rem 2rem;
     }
     @media ${device.ipad} {
         font-size: ${(props) => props.theme.fontSizes.large};
         width: 100%;
         position: fixed;
-        bottom: 34.5rem;
-        height: 20%;
+        bottom: 10.8rem;
+        height: 28%;
         background: #ffda0b;
-        padding: 1rem 2rem;
+        padding: 3rem 2rem;
     }
 `;
 
 const RecipesBtn = styled.label`
     font-size: ${(props) => props.theme.fontSizes.medium};
     text-decoration: none;
-    border-radius: 3px;
     color: white;
     background: black;
     margin: 3em 0;
@@ -180,6 +179,10 @@ const Text = styled.p`
         margin: 0.1em;
     }
     @media ${device.large} {
+        margin: 0;
+    }
+    @media ${device.ipad} {
+        /* font-size: ${(props) => props.theme.fontSizes.medium}; */
         margin: 0;
     }
 `;

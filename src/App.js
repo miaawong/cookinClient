@@ -31,7 +31,7 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 3rem;
+        height: 2.5rem;
         padding: 0;
     }
     @media ${device.medium} {
@@ -40,7 +40,7 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 4rem;
+        height: 3rem;
         padding: 0;
     }
     @media ${device.large} {
@@ -49,61 +49,41 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 4rem;
+        height: 3rem;
         padding: 0;
     }
     @media ${device.ipad} {
         background: black;
-        bottom: 0;
+        bottom: 7.9rem;
         left: 0;
         top: auto;
         width: 100%;
-        height: 35rem;
+        height: 3rem;
         padding: 0;
     }
 `;
 const Label = styled.label`
     font-size: ${(props) => props.theme.fontSizes.medium};
-    border-radius: 3px;
     background: black;
     padding: 0.5em;
-    display: flex;
-    justify-content: center;
+    margin: 0 0.3em;
 
     @media ${device.small} {
         font-size: ${(props) => props.theme.fontSizes.small};
-        padding: 0.5em;
-        margin: 0 0.3em;
-        display: flex;
-        align-content: center;
     }
-    @media ${device.medium} {
-        padding: 0.5em;
-        margin: 0 0.3em;
-        display: flex;
-        align-content: center;
-    }
-    @media ${device.large} {
-        padding: 0.5em;
-        margin: 0 0.3em;
-        display: flex;
-        align-content: center;
+
+    @media ${device.full} {
+        margin: 0 auto;
     }
 `;
 
 const Links = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-content: center;
-    @media ${device.small} {
-        justify-content: space-around;
-    }
-    @media ${device.medium} {
-        justify-content: space-around;
-    }
-    @media ${device.large} {
-        justify-content: space-around;
+    justify-content: space-around;
+    @media ${device.full} {
+        justify-content: space-between;
     }
 `;
 
@@ -113,6 +93,9 @@ const TopBar = styled.div`
     padding: 1rem 0;
     @media ${device.small} {
         width: 70%;
+    }
+    @media ${device.medium} {
+        width: 85%;
     }
 `;
 const Logo = styled.img`
@@ -128,8 +111,8 @@ const App = ({ JWToken }) => {
     useEffect(() => {
         if (!JWToken) {
             dispatch(getJWT());
-            setLogged(true);
         }
+        JWToken ? setLogged(true) : setLogged(false);
         //eslint-disable-next-line
     }, []);
 
