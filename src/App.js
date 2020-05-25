@@ -22,7 +22,7 @@ const Nav = styled.div`
     width: 20%;
     position: fixed;
     top: 0;
-    left: 75%;
+    right: 2.5rem;
     padding: 2rem 0;
 
     @media ${device.small} {
@@ -92,7 +92,7 @@ const TopBar = styled.div`
     margin: ${({ JWToken }) => (JWToken ? "0 6em 0 auto" : "0 auto")};
     padding: 1rem 0;
     @media ${device.small} {
-        width: 70%;
+        width: 72%;
     }
     @media ${device.medium} {
         width: 85%;
