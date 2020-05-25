@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import RecipesList from "../recipes/components/recipe/RecipesList";
-// import Recipe from "../components/Recipe";
+import RecipeCard from "../recipes/components/recipe/RecipeCard";
 import { Redirect, Link } from "react-router-dom";
 import { getAllRecipes } from "../recipes/recipeAction.js";
 
-const Dashboard = ({ name, id, JWToken }) => {
+const Dashboard = ({ name, id, JWToken, recipes }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         JWToken && dispatch(getAllRecipes(JWToken));
@@ -14,30 +14,17 @@ const Dashboard = ({ name, id, JWToken }) => {
     if (!id) {
         return <Redirect to="/login"></Redirect>;
     }
-    return (
-        <div>
-            <Link
-                to="/dashboard"
-                style={{
-                    textDecoration: "none",
-                    color: "black",
-                }}
-            >
-                Dashboard
-            </Link>
 
-            <h1>
-                dashboard,Hi {name}, id: {id}
-                <RecipesList />
-                <Link to="/addRecipe">Add New Recipe</Link>
-            </h1>
-        </div>
-    );
+    /* todo: recipelist when fullscreen */
+    /* <RecipesList /> */
+
+    return <RecipeCard recipes={recipes} />;
 };
 const mapStateToProps = (state) => ({
     toDashboard: state["authReducer"].toDashboard,
     name: state["authReducer"].name,
     id: state["authReducer"].id,
     JWToken: state["authReducer"].JWToken,
+    recipes: state["recipeReducer"].recipes,
 });
 export default connect(mapStateToProps)(Dashboard);
