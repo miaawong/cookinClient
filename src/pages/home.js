@@ -9,9 +9,8 @@ const Box = styled.div`
     background: white;
     border: 5px solid black;
     justify-content: center;
-    align-self: center;
+    align-content: center;
     margin: ${({ loggedIn }) => (loggedIn ? "0 6em 0 auto" : "0 auto")};
-
     height: 80%;
     width: 90%;
     align-items: center;
@@ -52,12 +51,14 @@ const MainText = styled.div`
     font-family: ${(props) => props.theme.font};
     background: white;
     width: 50%;
-    height: 50%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: left;
-    padding: 1em 2em;
+    align-content: center;
+    padding: 2rem;
+
     @media ${device.small} {
         font-size: ${(props) => props.theme.fontSizes.small};
         width: 100%;
@@ -100,7 +101,7 @@ const RecipesBtn = styled.label`
     text-decoration: none;
     color: white;
     background: black;
-    margin: 3em 0;
+    margin: 2em 0;
     padding: 0.5rem;
     display: flex;
     justify-content: center;
