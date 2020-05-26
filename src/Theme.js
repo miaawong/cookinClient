@@ -5,8 +5,8 @@ export const theme = {
     },
     font: "Roboto",
     fontSizes: {
-        small: "16px",
-        medium: "20px",
+        small: "18px",
+        medium: "24px",
         large: "28px",
     },
 };
