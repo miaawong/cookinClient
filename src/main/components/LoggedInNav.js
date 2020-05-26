@@ -30,13 +30,14 @@ const StyledLink = styled(Link)`
     }
 `;
 const Nav = styled.nav`
+    z-index: 1;
     position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
     right: 0;
     background: black;
-    transition: 0.2s;
+    /* transition: 0.2s; */
     padding: 0;
     bottom: 0;
     width: 100%;
