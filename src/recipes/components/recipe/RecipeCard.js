@@ -19,7 +19,7 @@ const Main = styled.div`
 
 const CardBox = styled.div`
     background: #f8f8f8;
-    margin: ${({ recipes }) => (recipes.length === 1 ? "5px 0" : "5px auto")};
+    margin: ${({ recipes }) => (recipes.length === 1 ? "1rem 0" : "1rem auto")};
     width: 40rem;
     height: 32rem;
     display: flex;
@@ -47,21 +47,33 @@ const Image = styled.img`
     }
 `;
 
-const Description = styled.div`
+const DescriptionBox = styled.div`
     padding: 1rem 1rem 0 1rem;
     height: 35%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-
-    flex: 1 1 auto;
-    & > h1 {
-        margin: 0;
-        font-size: ${(props) => props.theme.fontSizes.large};
+    align-items: center;
+    align-content: flex-start;
+    & > text {
+        flex: 1 2 13.5rem;
     }
 `;
-
+const RecipeName = styled.text`
+    display: inline-block;
+    flex-wrap: wrap;
+    font-size: 28px;
+    font-weight: 900;
+    flex-basis: 22.5rem;
+`;
+const Duration = styled.text`
+    font-size: 20px;
+    text-align: right;
+`;
+const Description = styled.text`
+    margin: 2rem 0;
+`;
 const RecipeCard = ({ recipes }) => {
     let card = recipes.map((recipe) => {
         const { img, recipeName, recipeDesc, duration } = recipe;
@@ -79,13 +91,11 @@ const RecipeCard = ({ recipes }) => {
                 />
                 {/* onclick change icon to <FaHeart/> */}
 
-                <Description>
-                    <div style={{ width: "100%" }}>
-                        <h1>{recipeName}</h1>
-                        <p>1hr 30mins</p>
-                    </div>
-                </Description>
-                <p>{recipeDesc}</p>
+                <DescriptionBox>
+                    <RecipeName>{recipeName}</RecipeName>
+                    <Duration>1hr 30mins</Duration>
+                    <Description>{recipeDesc}</Description>
+                </DescriptionBox>
             </CardBox>
         );
     });
