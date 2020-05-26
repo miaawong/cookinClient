@@ -110,11 +110,11 @@ const RecipesBtn = styled.label`
     @media ${device.small} {
         font-size: ${(props) => props.theme.fontSizes.small};
         width: 25%;
-        margin: 0 auto;
+        margin: 1.5rem auto 0 auto;
     }
     @media ${device.medium} {
         font-size: ${(props) => props.theme.fontSizes.medium};
-        margin: 0 auto;
+        margin: 2rem auto 0 auto;
     }
     @media ${device.large} {
         font-size: ${(props) => props.theme.fontSizes.medium};
