@@ -72,7 +72,7 @@ const Label = styled.label`
         font-size: ${(props) => props.theme.fontSizes.small};
     }
 
-    @media ${device.full} {
+    @media ${device.laptop} {
         margin: 0 auto;
     }
 `;
@@ -82,7 +82,7 @@ const Links = styled.div`
     flex-direction: row;
     align-content: center;
     justify-content: space-around;
-    @media ${device.full} {
+    @media ${device.laptop} {
         justify-content: space-between;
     }
 `;

@@ -7,9 +7,10 @@ import styled from "styled-components";
 import { device } from "../../../Theme";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
-const Main = styled.div`
+const Dashboard = styled.div`
     font-family: ${(props) => props.theme.font};
     margin: 0 auto 3rem auto;
+    width: 80%;
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
@@ -17,44 +18,45 @@ const Main = styled.div`
     @media ${device.ipad} {
         margin: 0 auto 13rem auto;
     }
-    @media ${device.full} {
-        margin: 0 6rem 0 2rem;
+
+    @media ${device.desktop} {
+        width: 70%;
+        margin: 0 auto;
     }
 `;
 
 const CardBox = styled.div`
     background: #f8f8f8;
     margin: ${({ recipes }) => (recipes.length === 1 ? "1rem 0" : "1rem auto")};
-    width: 40rem;
-    height: 25rem;
+    width: 35rem;
+    height: 30rem;
     display: flex;
     flex-wrap: wrap;
     position: relative;
     box-shadow: 5px 5px 5px 0px rgba(230, 230, 230, 1);
-    padding-bottom: 2rem;
+    /* flex: 0 0 30rem; */
 
-    @media ${device.full} {
-        height: 35rem;
-        padding-bottom: 0;
+    @media ${device.laptop} {
         flex-wrap: ${({ recipes }) =>
             recipes.length === 1 ? "nowrap" : "wrap"};
     }
-    & > * {
-        flex: 2 1;
+    @media ${device.desktop} {
+        flex-wrap: ${({ recipes }) =>
+            recipes.length === 1 ? "nowrap" : "wrap"};
     }
 `;
 const Image = styled.img`
     object-fit: cover;
     width: 100%;
     height: 70%;
-    @media ${device.full} {
+    @media ${device.laptop} {
         width: ${({ recipes }) => (recipes.length === 1 ? "70%" : "100%")};
         height: ${({ recipes }) => (recipes.length === 1 ? "100%" : "70%")};
     }
 `;
 
 const DescriptionBox = styled.div`
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     width: 100%;
     height: auto;
     display: flex;
@@ -69,7 +71,7 @@ const RecipeName = styled.h1`
     font-size: ${(props) => props.theme.fontSizes.medium};
     font-weight: 900;
 
-    @media ${device.full} {
+    @media ${device.laptop} {
         font-size: ${(props) => props.theme.fontSizes.large};
     }
 `;
@@ -149,7 +151,7 @@ const RecipeCard = ({ recipes, JWToken }) => {
             </CardBox>
         );
     });
-    return <Main>{card}</Main>;
+    return <Dashboard>{card}</Dashboard>;
 };
 
 const mapStateToProps = (state) => ({

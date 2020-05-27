@@ -16,5 +16,6 @@ export const device = {
     medium: "(min-width: 751px) and (max-width: 1000px)",
     large: "(min-width:1001px) and (max-width:1024px)",
     ipad: "(max-width:1024px) and (min-height:1366px)",
-    full: "(min-width:1025px)",
+    laptop: "(min-width:1025px) and (max-width:1440px)",
+    desktop: "(min-width:1441px)",
 };
