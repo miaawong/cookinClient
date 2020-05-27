@@ -96,7 +96,7 @@ const MainText = styled.div`
     }
 `;
 
-const RecipesBtn = styled.label`
+const StyledLink = styled(Link)`
     font-size: ${(props) => props.theme.fontSizes.medium};
     text-decoration: none;
     color: white;
@@ -105,11 +105,14 @@ const RecipesBtn = styled.label`
     padding: 0.5rem;
     display: flex;
     justify-content: center;
-    width: 18%;
+    width: 6rem;
+    cursor: pointer;
+    & > label {
+        cursor: pointer;
+    }
 
     @media ${device.small} {
         font-size: ${(props) => props.theme.fontSizes.small};
-        width: 25%;
         margin: 1.5rem auto 0 auto;
     }
     @media ${device.medium} {
@@ -196,10 +199,9 @@ export default function Home({ loggedIn }) {
                 <Text>Get inspired, </Text>
                 <Text>Store your recipes,</Text>
                 <Text>All in one place.</Text>
-                <RecipesBtn>
-                    <Link to="/recipes" />
-                    Recipes
-                </RecipesBtn>
+                <StyledLink to="/recipes">
+                    <label>Recipes</label>
+                </StyledLink>
             </MainText>
 
             <Yellow>
