@@ -15,14 +15,16 @@ const StyledLink = styled(Link)`
     height: 5rem;
     justify-content: center;
     align-items: center;
-    transition: 1s;
+
+    cursor: pointer;
+    & > label {
+        cursor: pointer;
+        display: none;
+    }
     :nth-last-child(2) {
         margin-top: 0;
     }
 
-    & > label {
-        display: none;
-    }
     @media ${device.full} {
         :nth-last-child(2) {
             margin-top: auto;
@@ -62,12 +64,13 @@ const Nav = styled.nav`
         height: 100%;
         width: 4rem;
         &:hover {
-            width: 14rem;
-            transition: 0.5s ease;
+            width: 16rem;
+            transition: 0.6s ease;
         }
 
         &:hover label {
-            display: inline;
+            transition: 1s ease;
+            display: inline-block;
             margin-left: 0.5rem;
             color: white;
             font-size: ${(props) => props.theme.fontSizes.medium};
