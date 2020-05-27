@@ -10,7 +10,7 @@ const Box = styled.div`
     border: 5px solid black;
     justify-content: center;
     align-content: center;
-    margin: ${({ loggedIn }) => (loggedIn ? "0 6em 0 auto" : "0 auto")};
+    margin: ${({ loggedIn }) => (loggedIn ? "0 6rem 0 auto" : "0 auto")};
     height: 80%;
     width: 90%;
     align-items: center;
