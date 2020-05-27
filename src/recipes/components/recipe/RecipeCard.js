@@ -9,11 +9,14 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const Main = styled.div`
     font-family: ${(props) => props.theme.font};
-    margin: 0 auto;
+    margin: 0 auto 3rem auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
 
+    @media ${device.ipad} {
+        margin: 0 auto 13rem auto;
+    }
     @media ${device.full} {
         margin: 0 6rem 0 2rem;
     }
@@ -23,16 +26,16 @@ const CardBox = styled.div`
     background: #f8f8f8;
     margin: ${({ recipes }) => (recipes.length === 1 ? "1rem 0" : "1rem auto")};
     width: 40rem;
-    height: 32rem;
+    height: 25rem;
     display: flex;
     flex-wrap: wrap;
     position: relative;
     box-shadow: 5px 5px 5px 0px rgba(230, 230, 230, 1);
-    @media ${device.small} {
-        width: 22rem;
-        height: 28rem;
-    }
+    padding-bottom: 2rem;
+
     @media ${device.full} {
+        height: 35rem;
+        padding-bottom: 0;
         flex-wrap: ${({ recipes }) =>
             recipes.length === 1 ? "nowrap" : "wrap"};
     }
@@ -51,9 +54,9 @@ const Image = styled.img`
 `;
 
 const DescriptionBox = styled.div`
-    padding: 1rem 1rem 0 1rem;
+    padding: 1rem;
     width: 100%;
-    height: 35%;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -63,8 +66,12 @@ const DescriptionBox = styled.div`
 const RecipeName = styled.h1`
     width: 100%;
     margin: 0;
-    font-size: 28px;
+    font-size: ${(props) => props.theme.fontSizes.medium};
     font-weight: 900;
+
+    @media ${device.full} {
+        font-size: ${(props) => props.theme.fontSizes.large};
+    }
 `;
 
 const Description = styled.p`
@@ -85,6 +92,8 @@ const StyledLink = styled(Link)`
 
     & > label {
         cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 `;
 
