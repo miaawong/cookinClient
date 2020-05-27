@@ -25,7 +25,7 @@ const StyledLink = styled(Link)`
         margin-top: 0;
     }
 
-    @media ${device.full} {
+    @media ${device.laptop}, ${device.desktop} {
         :nth-last-child(2) {
             margin-top: auto;
         }
@@ -56,8 +56,7 @@ const Nav = styled.nav`
     &:hover > ${StyledLink} {
         justify-content: center;
     }
-
-    @media ${device.full} {
+    @media ${device.desktop}, ${device.laptop} {
         flex-direction: column;
         padding-top: 2rem;
         top: 0;
