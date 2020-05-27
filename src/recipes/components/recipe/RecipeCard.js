@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { getCurrentRecipe } from "../../recipeAction";
 import styled from "styled-components";
 import { device } from "../../../Theme";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -25,6 +27,7 @@ const CardBox = styled.div`
     display: flex;
     flex-wrap: wrap;
     position: relative;
+    box-shadow: 5px 5px 5px 0px rgba(230, 230, 230, 1);
     @media ${device.small} {
         width: 22rem;
         height: 28rem;
@@ -40,61 +43,99 @@ const CardBox = styled.div`
 const Image = styled.img`
     object-fit: cover;
     width: 100%;
-    height: 65%;
+    height: 70%;
     @media ${device.full} {
-        width: ${({ recipes }) => (recipes.length === 1 ? "65%" : "100%")};
-        height: ${({ recipes }) => (recipes.length === 1 ? "100%" : "64%")};
+        width: ${({ recipes }) => (recipes.length === 1 ? "70%" : "100%")};
+        height: ${({ recipes }) => (recipes.length === 1 ? "100%" : "70%")};
     }
 `;
 
 const DescriptionBox = styled.div`
     padding: 1rem 1rem 0 1rem;
+    width: 100%;
     height: 35%;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: left;
     align-content: flex-start;
-    & > text {
-        flex: 1 2 13.5rem;
-    }
 `;
-const RecipeName = styled.text`
-    display: inline-block;
-    flex-wrap: wrap;
+const RecipeName = styled.h1`
+    width: 100%;
+    margin: 0;
     font-size: 28px;
     font-weight: 900;
-    flex-basis: 22.5rem;
 `;
-const Duration = styled.text`
-    font-size: 20px;
-    text-align: right;
+
+const Description = styled.p`
+    margin: 1rem 0;
 `;
-const Description = styled.text`
-    margin: 2rem 0;
+
+const StyledLink = styled(Link)`
+    color: #ffffff;
+    width: 5rem;
+    line-height: 2rem;
+    background: black;
+    padding: 2px;
+    text-align: center;
+    margin: 0 auto;
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.73);
+    text-decoration: none;
+    cursor: pointer;
+
+    & > label {
+        cursor: pointer;
+    }
 `;
-const RecipeCard = ({ recipes }) => {
+
+const FavoriteBtn = styled.button`
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background: none;
+    border: none;
+`;
+const RecipeCard = ({ recipes, JWToken }) => {
+    const [favorite, setFavorite] = useState(true);
+    console.log(favorite);
+    const dispatch = useDispatch();
+    let history = useHistory();
     let card = recipes.map((recipe) => {
-        const { img, recipeName, recipeDesc, duration } = recipe;
+        const { img, recipeName, recipeDesc } = recipe;
         return (
             <CardBox recipes={recipes}>
                 <Image src={img} recipes={recipes} />
-                <FaRegHeart
-                    style={{
-                        position: "absolute",
-                        color: "white",
-                        right: "1rem",
-                        top: "1rem",
-                    }}
-                    size={30}
-                />
-                {/* onclick change icon to <FaHeart/> */}
+                <FavoriteBtn
+                    onClick={() => setFavorite((favorite) => !favorite)}
+                >
+                    {favorite ? (
+                        <FaHeart
+                            style={{
+                                color: "white",
+                                // position: "absolute",
+                                // right: "1rem",
+                                // top: "1rem",
+                            }}
+                            size={30}
+                        />
+                    ) : (
+                        <FaRegHeart style={{ color: "white" }} size={30} />
+                    )}
+                </FavoriteBtn>
+                {/* onclick change icon to <FaRegHeart/> */}
 
                 <DescriptionBox>
                     <RecipeName>{recipeName}</RecipeName>
-                    <Duration>1hr 30mins</Duration>
                     <Description>{recipeDesc}</Description>
+                    <StyledLink
+                        onClick={() => {
+                            dispatch(
+                                getCurrentRecipe(recipe._id, JWToken, history)
+                            );
+                        }}
+                    >
+                        <label>Recipe</label>
+                    </StyledLink>
                 </DescriptionBox>
             </CardBox>
         );
@@ -102,4 +143,8 @@ const RecipeCard = ({ recipes }) => {
     return <Main>{card}</Main>;
 };
 
-export default RecipeCard;
+const mapStateToProps = (state) => ({
+    JWToken: state["authReducer"].JWToken,
+});
+
+export default connect(mapStateToProps)(RecipeCard);
