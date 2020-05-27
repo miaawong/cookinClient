@@ -14,7 +14,7 @@ const Box = styled.div`
     height: 80%;
     width: 90%;
     align-items: center;
-    @media ${device.small} {
+    @media ${device.small}, ${device.medium} {
         flex-direction: column;
         border: none;
         margin: 0;
@@ -22,23 +22,7 @@ const Box = styled.div`
         height: 58%;
         position: fixed;
     }
-    @media ${device.medium} {
-        flex-direction: column;
-        border: none;
-        margin: 0;
-        width: 100%;
-        height: 58%;
-        position: fixed;
-    }
-    @media ${device.large} {
-        flex-direction: column;
-        border: none;
-        margin: 0;
-        width: 100%;
-        height: 52%;
-        position: fixed;
-    }
-    @media ${device.ipad} {
+    @media ${device.large}, ${device.ipad} {
         flex-direction: column;
         border: none;
         margin: 0;
@@ -59,7 +43,7 @@ const MainText = styled.div`
     align-content: center;
     padding: 2rem;
 
-    @media ${device.small} {
+    @media ${device.small}, ${device.medium} {
         font-size: ${(props) => props.theme.fontSizes.small};
         width: 100%;
         position: fixed;
@@ -69,11 +53,6 @@ const MainText = styled.div`
     }
     @media ${device.medium} {
         font-size: ${(props) => props.theme.fontSizes.medium};
-        width: 100%;
-        position: fixed;
-        bottom: 3rem;
-        height: 28%;
-        background: #ffda0b;
         padding: 1rem 2rem;
     }
     @media ${device.large} {
@@ -99,13 +78,13 @@ const MainText = styled.div`
 const StyledLink = styled(Link)`
     font-size: ${(props) => props.theme.fontSizes.medium};
     text-decoration: none;
+    width: 8rem;
     color: white;
     background: black;
-    margin: 2em 0;
     padding: 0.5rem;
+    margin: 2em 0;
     display: flex;
     justify-content: center;
-    width: 8rem;
     cursor: pointer;
     & > label {
         cursor: pointer;
