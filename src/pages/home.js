@@ -105,10 +105,12 @@ const StyledLink = styled(Link)`
     padding: 0.5rem;
     display: flex;
     justify-content: center;
-    width: 6rem;
+    width: 8rem;
     cursor: pointer;
     & > label {
         cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     @media ${device.small} {
