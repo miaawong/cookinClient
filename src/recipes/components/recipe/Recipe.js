@@ -17,7 +17,7 @@ const Main = styled.div`
     display: flex;
     flex-direction: column;
 
-    @media ${device.laptop}, ${device.desktop} {
+    @media ${device.laptop}, ${device.wide} {
         margin: 0 6rem 0 auto;
         flex-direction: row;
     }
@@ -27,7 +27,7 @@ const Description = styled.div`
     font-size: ${(props) => props.theme.fontSizes.small};
     padding: 1rem;
     background: ${(props) => props.theme.colors.yellow};
-    @media ${device.laptop}, ${device.desktop} {
+    @media ${device.laptop}, ${device.wide} {
         width: 25%;
     }
 `;
@@ -35,7 +35,7 @@ const Middle = styled.div`
     align-self: center;
     padding: 1rem;
     font-size: ${(props) => props.theme.fontSizes.small};
-    @media ${device.laptop}, ${device.desktop} {
+    @media ${device.laptop}, ${device.wide} {
         width: 35%;
     }
 `;
@@ -46,7 +46,7 @@ const ImgContainer = styled.div`
     flex-direction: column;
     align-self: center;
     padding: 1rem;
-    @media ${device.laptop}, ${device.desktop} {
+    @media ${device.laptop}, ${device.wide} {
         width: 40%;
     }
 `;
