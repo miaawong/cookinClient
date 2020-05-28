@@ -33,11 +33,13 @@ const CardBox = styled.div`
     background: #f8f8f8;
     margin: ${({ recipes }) => (recipes.length === 1 ? "1rem 0" : "1rem auto")};
     width: 35rem;
-    height: 25rem;
+    height: 27rem;
     display: flex;
     flex-wrap: wrap;
     position: relative;
     box-shadow: 5px 5px 5px 0px rgba(230, 230, 230, 1);
+    justify-content: flex-start;
+    align-content: flex-start;
     padding-bottom: 1.5rem;
 
     @media ${device.laptop} {
@@ -58,17 +60,17 @@ const CardBox = styled.div`
 const Image = styled.img`
     object-fit: cover;
     width: 100%;
-    height: 70%;
+    height: 65%;
     @media ${device.laptop} {
-        width: ${({ recipes }) => (recipes.length === 1 ? "70%" : "100%")};
-        height: ${({ recipes }) => (recipes.length === 1 ? "100%" : "70%")};
+        width: ${({ recipes }) => (recipes.length === 1 ? "65%" : "100%")};
+        height: ${({ recipes }) => (recipes.length === 1 ? "100%" : "65%")};
     }
 `;
 
 const DescriptionBox = styled.div`
-    padding: 0.5rem 1rem;
+    padding: 1rem 1rem 0 1rem;
     width: 100%;
-    height: auto;
+    height: 7rem;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -82,22 +84,28 @@ const RecipeName = styled.h1`
     font-weight: 900;
 
     @media ${device.laptop}, ${device.wide} {
-        font-size: ${(props) => props.theme.fontSizes.large};
+        font-size: ${(props) => props.theme.fontSizes.medium};
     }
 `;
 
 const Description = styled.p`
-    margin: 1rem 0;
+    /* position: relative; */
+    margin: 0.5rem 0 1rem 0;
 `;
 
 const StyledLink = styled(Link)`
     color: #ffffff;
     width: 5rem;
+
     line-height: 2rem;
     background: black;
     padding: 2px;
     text-align: center;
     margin: 0 auto;
+    /* bottom: 0.5rem;
+    left: 50%;
+    margin-left: -2.5rem; */
+
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.73);
     text-decoration: none;
     cursor: pointer;
@@ -148,16 +156,16 @@ const RecipeCard = ({ recipes, JWToken }) => {
                 <DescriptionBox>
                     <RecipeName>{recipeName}</RecipeName>
                     <Description>{recipeDesc}</Description>
-                    <StyledLink
-                        onClick={() => {
-                            dispatch(
-                                getCurrentRecipe(recipe._id, JWToken, history)
-                            );
-                        }}
-                    >
-                        <label>Recipe</label>
-                    </StyledLink>
                 </DescriptionBox>
+                <StyledLink
+                    onClick={() => {
+                        dispatch(
+                            getCurrentRecipe(recipe._id, JWToken, history)
+                        );
+                    }}
+                >
+                    <label>Recipe</label>
+                </StyledLink>
             </CardBox>
         );
     });
