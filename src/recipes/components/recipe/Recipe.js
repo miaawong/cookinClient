@@ -11,32 +11,53 @@ import { device } from "../../../Theme";
 
 const Main = styled.div`
     font-family: ${(props) => props.theme.font};
-    width: 90%;
+    width: 100%;
     margin: 0 auto 4rem auto;
-    border: 5px solid #000000;
+
     display: flex;
     flex-direction: column;
 
     @media ${device.laptop}, ${device.wide} {
+        width: 90%;
+        border: 5px solid #000000;
         margin: 0 6rem 0 auto;
         flex-direction: row;
     }
 `;
 const Description = styled.div`
     width: 100%;
+
     font-size: ${(props) => props.theme.fontSizes.small};
     padding: 1rem;
     background: ${(props) => props.theme.colors.yellow};
-    @media ${device.laptop}, ${device.wide} {
+    order: 2;
+
+    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
         width: 25%;
+        order: 0;
+    }
+
+    & > p {
+        margin: 0;
+        font-weight: 700;
+    }
+    & > div > p {
+        margin: 0;
+        font-weight: 700;
     }
 `;
 const Middle = styled.div`
+    width: 100%;
+    height: 100%;
     align-self: center;
     padding: 1rem;
     font-size: ${(props) => props.theme.fontSizes.small};
+    order: 3;
     @media ${device.laptop}, ${device.wide} {
         width: 35%;
+    }
+    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
+        order: 0;
     }
 `;
 
@@ -45,15 +66,22 @@ const ImgContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-self: center;
-    padding: 1rem;
-    @media ${device.laptop}, ${device.wide} {
+    width: 100%;
+    order: 1;
+
+    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
         width: 40%;
+        padding: 1rem;
+        order: 0;
     }
 `;
 const Image = styled.img`
     object-fit: cover;
     width: 100%;
-    height: 50%;
+    height: 100%;
+    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
+        height: 50%;
+    }
 `;
 const Modification = styled.div`
     display: flex;
@@ -63,6 +91,9 @@ const Button = styled.button`
     background: none;
     padding: 0.5rem;
     border: none;
+`;
+const RecipeName = styled.h1`
+    font-size: 30px;
 `;
 const Recipe = ({ currentRecipe, edit, JWToken }) => {
     let dispatch = useDispatch();
@@ -83,18 +114,64 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
     let duration_hour = Math.floor(duration / 60);
     let duration_mins = duration % 60;
 
+    const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+    let month = new Date(createdOn);
+    let createdMonth = months[month.getMonth()];
+    let createdYear = new Date(createdOn).getFullYear();
+
     if (edit) {
         return <EditRecipe />;
     } else if (currentRecipe) {
         return (
             <Main>
                 <Description>
-                    <h1>{recipeName}</h1>
-                    <p>{recipeDesc}</p>
-                    <p>Servings: {servings}</p>
-                    <p>
-                        Time: {duration_hour} hr {duration_mins} mins
-                    </p>
+                    <RecipeName style={{ margin: "0 auto" }}>
+                        {recipeName}
+                    </RecipeName>
+
+                    <p> Serves {servings} people </p>
+                    <span
+                        style={{
+                            display: "inline-block",
+                            textAlign: "center",
+                            margin: "2rem 0",
+                        }}
+                    >
+                        {recipeDesc}
+                    </span>
+
+                    <div
+                        style={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            height: "1rem",
+                        }}
+                    >
+                        <p style={{ textAlign: "left" }}>
+                            Time: {duration_hour} hr {duration_mins} mins
+                        </p>
+                        <p
+                            style={{
+                                textAlign: "right",
+                            }}
+                        >
+                            {createdMonth} {createdYear}
+                        </p>
+                    </div>
                     <h3>Ingredients</h3>
                     <ul>
                         {ingredients &&
@@ -105,18 +182,6 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                                 </li>
                             ))}
                     </ul>
-                </Description>
-                <Middle>
-                    <h2>Directions:</h2>
-                    {directions &&
-                        directions.map((step, index) => (
-                            <p key={index}>
-                                Step {index + 1}: {step}
-                            </p>
-                        ))}
-                </Middle>
-
-                <ImgContainer>
                     <Modification>
                         <Button
                             onClick={() => {
@@ -136,8 +201,19 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                             <FaTrash size={20} />
                         </Button>
                     </Modification>
+                </Description>
+                <Middle>
+                    <h2>Directions:</h2>
+                    {directions &&
+                        directions.map((step, index) => (
+                            <p key={index}>
+                                Step {index + 1}: {step}
+                            </p>
+                        ))}
+                </Middle>
+
+                <ImgContainer>
                     <Image alt={recipeName} src={img} />
-                    <p style={{ textAlign: "right" }}>{createdOn}</p>
                 </ImgContainer>
             </Main>
         );
