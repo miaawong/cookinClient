@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { logout } from "../../auth/authAction";
 import { MdFavorite, MdExplore, MdCreate, MdSettings } from "react-icons/md";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaSearch } from "react-icons/fa";
 import { device } from "../../Theme";
 
 const StyledLink = styled(Link)`
@@ -92,7 +92,7 @@ export default function LoggedInNav() {
         <Nav>
             <StyledLink to="/explore">
                 <label>Explore</label>
-                <MdExplore style={{ color: "white" }} size={30} />
+                <FaSearch style={{ color: "white" }} size={30} />
             </StyledLink>
 
             <StyledLink to="/dashboard">
