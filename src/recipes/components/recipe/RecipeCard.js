@@ -10,7 +10,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 const Dashboard = styled.div`
     font-family: ${(props) => props.theme.font};
     margin: 0 auto 3rem auto;
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
@@ -19,8 +19,12 @@ const Dashboard = styled.div`
         margin: 0 auto 13rem auto;
     }
 
-    @media ${device.desktop} {
-        width: 70%;
+    @media ${device.laptop} {
+        width: 90%;
+        margin: 0 6rem 0 auto;
+    }
+    @media ${device.wide} {
+        width: 80%;
         margin: 0 auto;
     }
 `;
@@ -29,18 +33,24 @@ const CardBox = styled.div`
     background: #f8f8f8;
     margin: ${({ recipes }) => (recipes.length === 1 ? "1rem 0" : "1rem auto")};
     width: 35rem;
-    height: 30rem;
+    height: 25rem;
     display: flex;
     flex-wrap: wrap;
     position: relative;
     box-shadow: 5px 5px 5px 0px rgba(230, 230, 230, 1);
-    /* flex: 0 0 30rem; */
+    padding-bottom: 1.5rem;
 
     @media ${device.laptop} {
+        /* padding-bottom: 2rem; */
+        width: 26rem;
+        height: 25rem;
         flex-wrap: ${({ recipes }) =>
             recipes.length === 1 ? "nowrap" : "wrap"};
     }
-    @media ${device.desktop} {
+    @media ${device.wide} {
+        width: 28rem;
+        height: 27rem;
+        /* padding-bottom: 1.5rem; */
         flex-wrap: ${({ recipes }) =>
             recipes.length === 1 ? "nowrap" : "wrap"};
     }
@@ -71,7 +81,7 @@ const RecipeName = styled.h1`
     font-size: ${(props) => props.theme.fontSizes.medium};
     font-weight: 900;
 
-    @media ${device.laptop} {
+    @media ${device.laptop}, ${device.wide} {
         font-size: ${(props) => props.theme.fontSizes.large};
     }
 `;
