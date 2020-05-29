@@ -12,38 +12,43 @@ import { device } from "../../../Theme";
 const Main = styled.div`
     font-family: ${(props) => props.theme.font};
     width: 100%;
+    height: 85%;
     margin: 0 auto 4rem auto;
-
     display: flex;
     flex-direction: column;
-
+    @media ${device.ipad} {
+        margin: 0 auto 10rem auto;
+    }
     @media ${device.laptop}, ${device.wide} {
         width: 90%;
         border: 5px solid #000000;
         margin: 0 6rem 0 auto;
         flex-direction: row;
     }
+    @media ${device.wide} {
+        margin: 0 8rem 0 auto;
+    }
 `;
 const Description = styled.div`
     width: 100%;
-
     font-size: ${(props) => props.theme.fontSizes.small};
     padding: 1rem;
     background: ${(props) => props.theme.colors.yellow};
     order: 2;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     @media ${device.ipad}, ${device.laptop}, ${device.wide} {
+        font-size: ${(props) => props.theme.fontSizes.medium};
+    }
+    @media ${device.laptop}, ${device.wide} {
         width: 25%;
         order: 0;
     }
 
-    & > p {
-        margin: 0;
-        font-weight: 700;
-    }
     & > div > p {
         margin: 0;
-        font-weight: 700;
+        font-weight: 600;
     }
 `;
 const Middle = styled.div`
@@ -51,12 +56,16 @@ const Middle = styled.div`
     height: 100%;
     align-self: center;
     padding: 1rem;
-    font-size: ${(props) => props.theme.fontSizes.small};
     order: 3;
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @media ${device.small} {
+        font-size: ${(props) => props.theme.fontSizes.small};
+    }
     @media ${device.laptop}, ${device.wide} {
         width: 35%;
-    }
-    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
         order: 0;
     }
 `;
@@ -65,11 +74,11 @@ const ImgContainer = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-self: center;
     width: 100%;
     order: 1;
+    justify-content: center;
 
-    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
+    @media ${device.laptop}, ${device.wide} {
         width: 40%;
         padding: 1rem;
         order: 0;
@@ -79,7 +88,7 @@ const Image = styled.img`
     object-fit: cover;
     width: 100%;
     height: 100%;
-    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
+    @media ${device.laptop}, ${device.wide} {
         height: 50%;
     }
 `;
@@ -93,7 +102,19 @@ const Button = styled.button`
     border: none;
 `;
 const RecipeName = styled.h1`
-    font-size: 30px;
+    font-weight: 800;
+    font-size: ${(props) => props.theme.fontSizes.XL};
+    @media ${device.small} {
+        font-size: ${(props) => props.theme.fontSizes.large};
+    }
+`;
+const Category = styled.h2`
+    margin: 0;
+    font-size: ${(props) => props.theme.fontSizes.large};
+    font-weight: 600;
+    @media ${device.small} {
+        font-size: ${(props) => props.theme.fontSizes.medium};
+    }
 `;
 const Recipe = ({ currentRecipe, edit, JWToken }) => {
     let dispatch = useDispatch();
@@ -138,29 +159,28 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
         return (
             <Main>
                 <Description>
-                    <RecipeName style={{ margin: "0 auto" }}>
-                        {recipeName}
-                    </RecipeName>
+                    <RecipeName>{recipeName}</RecipeName>
 
-                    <p> Serves {servings} people </p>
                     <span
                         style={{
-                            display: "inline-block",
                             textAlign: "center",
-                            margin: "2rem 0",
                         }}
                     >
                         {recipeDesc}
                     </span>
-
                     <div
                         style={{
                             width: "100%",
                             display: "flex",
+                            flexWrap: "wrap",
                             justifyContent: "space-between",
-                            height: "1rem",
+                            margin: "1rem 0",
                         }}
                     >
+                        <p style={{ width: "100%" }}>
+                            Serves {servings} people
+                        </p>
+
                         <p style={{ textAlign: "left" }}>
                             Time: {duration_hour} hr {duration_mins} mins
                         </p>
@@ -172,38 +192,42 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                             {createdMonth} {createdYear}
                         </p>
                     </div>
-                    <h3>Ingredients</h3>
-                    <ul>
-                        {ingredients &&
-                            ingredients.map((ingredient, index) => (
-                                <li key={index}>
-                                    {ingredient.ingName} - {ingredient.amount}{" "}
-                                    {ingredient.unit}
-                                </li>
-                            ))}
-                    </ul>
-                    <Modification>
-                        <Button
-                            onClick={() => {
-                                dispatch({
-                                    type: recipeActionTypes.EDIT_STATE,
-                                    payload: true,
-                                });
-                            }}
-                        >
-                            <FaEdit size={22} />
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                dispatch(deleteRecipe(_id, JWToken, history));
-                            }}
-                        >
-                            <FaTrash size={20} />
-                        </Button>
-                    </Modification>
+                    <div>
+                        <Category>Ingredients</Category>
+                        <ul>
+                            {ingredients &&
+                                ingredients.map((ingredient, index) => (
+                                    <li key={index}>
+                                        {ingredient.amount} {ingredient.unit}{" "}
+                                        {ingredient.ingName}
+                                    </li>
+                                ))}
+                        </ul>
+                        <Modification>
+                            <Button
+                                onClick={() => {
+                                    dispatch({
+                                        type: recipeActionTypes.EDIT_STATE,
+                                        payload: true,
+                                    });
+                                }}
+                            >
+                                <FaEdit size={22} />
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    dispatch(
+                                        deleteRecipe(_id, JWToken, history)
+                                    );
+                                }}
+                            >
+                                <FaTrash size={20} />
+                            </Button>
+                        </Modification>
+                    </div>
                 </Description>
                 <Middle>
-                    <h2>Directions:</h2>
+                    <Category>Directions:</Category>
                     {directions &&
                         directions.map((step, index) => (
                             <p key={index}>
