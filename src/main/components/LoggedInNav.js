@@ -80,9 +80,7 @@ const Nav = styled.nav`
         }
     }
 
-    @media ${device.ipad} {
-        bottom: 4.5rem;
-        width: 100%;
+    @media ${device.large}, ${device.ipad} {
         height: 5rem;
     }
 `;
