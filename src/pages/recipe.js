@@ -19,11 +19,7 @@ const Recipe = ({ currentRecipe, JWToken }) => {
         //eslint-disable-next-line
     }, []);
 
-    return (
-        <div>
-            <RecipeComponent />
-        </div>
-    );
+    return <RecipeComponent />;
 };
 const mapStateToProps = (state) => ({
     currentRecipe: state["recipeReducer"].currentRecipe,
