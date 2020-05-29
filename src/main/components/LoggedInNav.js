@@ -81,7 +81,7 @@ const Nav = styled.nav`
     }
 
     @media ${device.ipad} {
-        bottom: 7.5rem;
+        bottom: 4.5rem;
         width: 100%;
         height: 5rem;
     }
