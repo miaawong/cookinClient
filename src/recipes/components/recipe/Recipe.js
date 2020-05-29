@@ -12,14 +12,15 @@ import { device } from "../../../Theme";
 const Main = styled.div`
     font-family: ${(props) => props.theme.font};
     width: 100%;
-    height: 85%;
+
     margin: 0 auto 4rem auto;
     display: flex;
     flex-direction: column;
-    @media ${device.ipad} {
-        margin: 0 auto 10rem auto;
+    @media ${device.large}, ${device.ipad} {
+        margin: 0 auto 5rem auto;
     }
     @media ${device.laptop}, ${device.wide} {
+        height: 85%;
         width: 90%;
         border: 5px solid #000000;
         margin: 0 6rem 0 auto;
@@ -31,6 +32,7 @@ const Main = styled.div`
 `;
 const Description = styled.div`
     width: 100%;
+    height: 100%;
     font-size: ${(props) => props.theme.fontSizes.small};
     padding: 1rem;
     background: ${(props) => props.theme.colors.yellow};
@@ -42,13 +44,8 @@ const Description = styled.div`
         font-size: ${(props) => props.theme.fontSizes.medium};
     }
     @media ${device.laptop}, ${device.wide} {
-        width: 25%;
+        width: 30%;
         order: 0;
-    }
-
-    & > div > p {
-        margin: 0;
-        font-weight: 600;
     }
 `;
 const Middle = styled.div`
@@ -57,15 +54,18 @@ const Middle = styled.div`
     align-self: center;
     padding: 1rem;
     order: 3;
-    font-size: ${(props) => props.theme.fontSizes.medium};
+    font-size: ${(props) => props.theme.fontSizes.small};
     display: flex;
     flex-direction: column;
     justify-content: center;
-    @media ${device.small} {
-        font-size: ${(props) => props.theme.fontSizes.small};
+    & > p {
+        margin: 0.5rem 0;
+    }
+    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
+        font-size: ${(props) => props.theme.fontSizes.medium};
     }
     @media ${device.laptop}, ${device.wide} {
-        width: 35%;
+        width: 30%;
         order: 0;
     }
 `;
@@ -107,13 +107,24 @@ const RecipeName = styled.h1`
     @media ${device.small} {
         font-size: ${(props) => props.theme.fontSizes.large};
     }
+    @media ${device.small}, ${device.medium}, ${device.large}, ${device.ipad} {
+        text-align: center;
+    }
 `;
 const Category = styled.h2`
-    margin: 0;
-    font-size: ${(props) => props.theme.fontSizes.large};
+    margin: 1rem 0 0.5rem 0;
+    font-size: ${(props) => props.theme.fontSizes.medium};
     font-weight: 600;
-    @media ${device.small} {
-        font-size: ${(props) => props.theme.fontSizes.medium};
+`;
+const BottomDesc = styled.div`
+    margin: 2rem 0 0 0;
+    & > div > p {
+        margin: 0;
+        font-weight: 600;
+        font-size: ${(props) => props.theme.fontSizes.small};
+    }
+    & > ul {
+        margin: 0 auto;
     }
 `;
 const Recipe = ({ currentRecipe, edit, JWToken }) => {
@@ -168,31 +179,28 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                     >
                         {recipeDesc}
                     </span>
-                    <div
-                        style={{
-                            width: "100%",
-                            display: "flex",
-                            flexWrap: "wrap",
-                            justifyContent: "space-between",
-                            margin: "1rem 0",
-                        }}
-                    >
-                        <p style={{ width: "100%" }}>
-                            Serves {servings} people
-                        </p>
-
-                        <p style={{ textAlign: "left" }}>
-                            Time: {duration_hour} hr {duration_mins} mins
-                        </p>
-                        <p
+                    <BottomDesc>
+                        <div
                             style={{
-                                textAlign: "right",
+                                width: "100%",
+                                display: "flex",
+                                flexWrap: "wrap",
+                                justifyContent: "space-between",
                             }}
                         >
-                            {createdMonth} {createdYear}
-                        </p>
-                    </div>
-                    <div>
+                            <p style={{ width: "100%" }}>Serves {servings}</p>
+
+                            <p>
+                                Time: {duration_hour}hr {duration_mins}mins
+                            </p>
+                            <p
+                                style={{
+                                    textAlign: "right",
+                                }}
+                            >
+                                {createdMonth} {createdYear}
+                            </p>
+                        </div>
                         <Category>Ingredients</Category>
                         <ul>
                             {ingredients &&
@@ -224,15 +232,13 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                                 <FaTrash size={20} />
                             </Button>
                         </Modification>
-                    </div>
+                    </BottomDesc>
                 </Description>
                 <Middle>
-                    <Category>Directions:</Category>
+                    <Category>Directions</Category>
                     {directions &&
                         directions.map((step, index) => (
-                            <p key={index}>
-                                Step {index + 1}: {step}
-                            </p>
+                            <p key={index}> - {step}</p>
                         ))}
                 </Middle>
 
