@@ -7,11 +7,11 @@ import { device } from "../Theme";
 const Box = styled.div`
     display: flex;
     background: white;
-    border: 5px solid black;
+    /* border: 5px solid black; */
     justify-content: center;
     align-content: center;
     margin: ${({ loggedIn }) => (loggedIn ? "0 6rem 0 auto" : "0 auto")};
-    height: 80%;
+    height: 90%;
     width: 90%;
     align-items: center;
     @media ${device.small}, ${device.medium} {
