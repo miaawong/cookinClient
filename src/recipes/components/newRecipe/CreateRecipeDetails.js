@@ -15,6 +15,7 @@ const CreateRecipeDetails = ({}) => {
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <h1>Details</h1>
+
             <TextInput
                 type="text"
                 name="recipeName"
@@ -22,8 +23,7 @@ const CreateRecipeDetails = ({}) => {
                 ref={register({
                     required: "I cannot be empty",
                 })}
-            />
-            <br></br>
+            ></TextInput>
             {errors["recipeName"] && <p>{errors["recipeName"].message}</p>}
 
             <TextInput
@@ -32,8 +32,8 @@ const CreateRecipeDetails = ({}) => {
                 placeholder="Description"
                 ref={register}
             />
-            <br></br>
             {errors["recipeDesc"] && <p>{errors["recipeDesc"].message}</p>}
+
             <TextInput
                 type="text"
                 name="servings"
@@ -45,63 +45,60 @@ const CreateRecipeDetails = ({}) => {
                     },
                 })}
             />
-            <br></br>
             {errors["servings"] && <p>{errors["servings"].message}</p>}
 
             <Box
                 direction="row-responsive"
-                gap="large"
-                // style={{
-                //     display: "flex",
-                //     width: "100%",
-                //     justifyContent: "space-between",
-                //     alignContent: "space-between",
-
-                //     flexWrap: "no-wrap",
-                // }}
+                justify="between"
+                align="center"
+                pad={{ right: "small" }}
             >
-                <TextInput
-                    style={{ width: "50%" }}
-                    type="number"
-                    name="duration_hour"
-                    placeholder="Hour"
-                    ref={register({
-                        pattern: {
-                            value: /^(0|[1-9][0-9]*)$/,
-                            message: "must be a number",
-                        },
-                    })}
-                />
+                <Box direction="row-responsive" gap="small" align="center">
+                    <TextInput
+                        type="number"
+                        name="duration_hour"
+                        placeholder="Hour"
+                        ref={register({
+                            pattern: {
+                                value: /^(0|[1-9][0-9]*)$/,
+                                message: "must be a number",
+                            },
+                        })}
+                    />
+                    <span>hr</span>
 
-                <br></br>
-                {errors["duration_hour"] && (
-                    <p>{errors["duration_hour"].message}</p>
-                )}
-                <TextInput
-                    style={{ width: "50%" }}
-                    type="number"
-                    name="duration_mins"
-                    placeholder="Mins"
-                    ref={register({
-                        pattern: {
-                            value: /^(0|[1-9][0-9]*)$/,
-                            message: "must be a number",
-                        },
-                    })}
-                />
-
-                {errors["duration_mins"] && (
-                    <p>{errors["duration_mins"].message}</p>
-                )}
+                    {errors["duration_hour"] && (
+                        <p style={{ padding: 0, margin: 0 }}>
+                            {errors["duration_hour"].message}
+                        </p>
+                    )}
+                </Box>
+                <Box direction="row-responsive" gap="small" align="center">
+                    <TextInput
+                        type="number"
+                        name="duration_mins"
+                        placeholder="Mins"
+                        ref={register({
+                            pattern: {
+                                value: /^(0|[1-9][0-9]*)$/,
+                                message: "must be a number",
+                            },
+                        })}
+                    />
+                    <span>mins</span>
+                    {errors["duration_mins"] && (
+                        <p>{errors["duration_mins"].message}</p>
+                    )}
+                </Box>
             </Box>
-            <br></br>
+
             <TextInput
                 type="text"
                 name="img"
                 placeholder="Image"
                 ref={register}
             />
-            <br></br>
+
             <div>
                 <Submit type="submit" value="Submit">
                     {" "}
