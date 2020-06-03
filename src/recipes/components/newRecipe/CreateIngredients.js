@@ -58,6 +58,7 @@ const CreateIngredients = ({ draftRecipe }) => {
 
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
+            <h1>Ingredients</h1>
             {fields.map((input, index) => {
                 const unit = watch(`ingredients[${index}].unit`);
 
