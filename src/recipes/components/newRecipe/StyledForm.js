@@ -1,20 +1,29 @@
 import styled from "styled-components";
-import { Grommet, Form, FormField, TextInput, Box } from "grommet";
 import { device } from "../../../Theme";
+import { Grommet, Form, FormField, TextInput, Box } from "grommet";
 export const StyledForm = styled(Form)`
     width: 80%;
-    height: 90%;
-    margin: 0 auto;
+    height: 100%;
+    margin: 5rem auto 0 auto;
     font-family: ${(props) => props.theme.font};
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     align-content: flex-start;
-
+    overflow: auto;
     @media ${device.laptop}, ${device.desktop} {
-        margin: 0 auto 0 6rem;
+        margin: 5rem auto 0 6rem;
     }
-    position: relative;
+
+    & > p {
+        margin: 0;
+        padding: -1rem 0 0 0;
+        font-size: 16px;
+        color: #ff0000;
+    }
+    & > div {
+        margin: 1rem 0;
+    }
 `;
 export const Submit = styled.button`
     font-family: ${(props) => props.theme.font};
