@@ -43,15 +43,12 @@ const CreateIngredients = ({ draftRecipe }) => {
         dispatch(setDraftRecipe(draftRecipe));
     };
     // const [otherOption, setOtherOption] = useState(false);
-    const [newOpt, setNew] = useState("");
+    const [option, setOpt] = useState("");
     const handleChange = (e) => {
-        if (e.value === "other") {
-            return newOpt;
-        } else {
-            return e.value;
-        }
+        return e.value;
     };
     console.log(options);
+    console.log(option);
 
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -74,7 +71,7 @@ const CreateIngredients = ({ draftRecipe }) => {
                         />
 
                         <Controller
-                            as={<Select value="" options={options} />}
+                            as={<Select options={options} value={option} />}
                             name={`ingredients[${index}].unit`}
                             control={control}
                             onChange={([e]) => handleChange(e)}
@@ -83,13 +80,13 @@ const CreateIngredients = ({ draftRecipe }) => {
                         <TextInput
                             name="otherOptions"
                             ref={register}
-                            onChange={(event) => setNew(event.target.value)}
-                            value={newOpt}
+                            onChange={(event) => setOpt(event.target.value)}
                         />
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
-                                setOptions([...options, newOpt]);
+                                setOptions([...options, option]);
+                                setValue(`ingredients[${index}].unit`, option);
                             }}
                         >
                             hi
