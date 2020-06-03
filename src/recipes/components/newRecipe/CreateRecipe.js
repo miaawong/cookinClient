@@ -12,6 +12,31 @@ const grommetTheme = {
         },
         colors: {
             focus: "#ffda0b",
+            selected: "#ffda0b",
+        },
+        selected: {
+            color: "#000000",
+        },
+        hover: {
+            background: "#ffda0b",
+            color: "#000000",
+        },
+        control: {
+            border: {
+                radius: "0",
+            },
+        },
+    },
+    button: {
+        height: "3.5rem",
+    },
+    textInput: {
+        container: {
+            extend: {
+                width: "auto",
+                border: "none",
+                borderRadius: "0",
+            },
         },
     },
 };
