@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import EditRecipe from "../updateRecipe/EditRecipe";
+import EditRecipe from "../../../pages/EditRecipe";
 import * as recipeActionTypes from "../../recipeActionTypes";
 import { deleteRecipe } from "../../recipeAction";
 import { FaTrash, FaEdit } from "react-icons/fa";
