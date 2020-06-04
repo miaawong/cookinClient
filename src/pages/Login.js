@@ -3,6 +3,53 @@ import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { connect, useDispatch } from "react-redux";
 import { login } from "../auth/authAction";
+import { StyledForm, Submit } from "../StyledForm";
+import { Grommet, FormField, TextInput } from "grommet";
+
+const grommetTheme = {
+    global: {
+        font: {
+            family: "Roboto",
+            size: "24px",
+        },
+        colors: {
+            focus: "#ffda0b",
+            selected: "#ffda0b",
+        },
+        selected: {
+            color: "#000000",
+        },
+        hover: {
+            background: "#ffda0b",
+            color: "#000000",
+        },
+        // control: {
+        //     border: {
+        //         radius: "0",
+        //     },
+        // },
+    },
+
+    textInput: {
+        container: {
+            extend: {
+                width: "auto",
+                border: "none",
+                borderRadius: "0",
+            },
+        },
+    },
+    select: {
+        control: {
+            extend: {
+                border: "2px solid black",
+            },
+        },
+        icons: {
+            color: "#ffda0b",
+        },
+    },
+};
 
 const Login = ({ id }) => {
     const dispatch = useDispatch();
@@ -16,14 +63,16 @@ const Login = ({ id }) => {
         return <Redirect to="/dashboard" />;
     }
     return (
-        <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <label>
-                    Email
-                    <input
+        <Grommet
+            theme={grommetTheme}
+            style={{ display: "flex", alignItems: "center" }}
+        >
+            <StyledForm onSubmit={handleSubmit(onSubmit)}>
+                <FormField label="Email">
+                    <TextInput
                         type="text"
                         name="email"
-                        placeholder="email"
+                        placeholder="Email"
                         ref={register({
                             required: "I cannot be empty",
                             pattern: {
@@ -33,13 +82,12 @@ const Login = ({ id }) => {
                         })}
                     />
                     <p>{errors.email && errors.email.message}</p>
-                </label>
-                <label>
-                    Password
-                    <input
+                </FormField>
+                <FormField label="Password">
+                    <TextInput
                         type="password"
                         name="password"
-                        placeholder="password"
+                        placeholder="Password"
                         ref={register({
                             required: "I cannot be empty",
                             minLength: {
@@ -50,10 +98,19 @@ const Login = ({ id }) => {
                         })}
                     />
                     <p>{errors.password && errors.password.message}</p>
-                </label>
-                <input type="submit" />
-            </form>
-        </div>
+                </FormField>
+
+                <div>
+                    <Submit
+                        type="submit"
+                        value="Submit"
+                        style={{ float: "right", margin: "2rem 0" }}
+                    >
+                        Submit
+                    </Submit>
+                </div>
+            </StyledForm>
+        </Grommet>
     );
 };
 
