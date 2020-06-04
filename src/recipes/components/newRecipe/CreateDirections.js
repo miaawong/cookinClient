@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
+import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createRecipe } from "../../recipeAction";
 import { StyledForm, Submit } from "./StyledForm";
-import { Grommet, TextInput, Box } from "grommet";
+import { FormField, TextInput } from "grommet";
+import { FaPlus } from "react-icons/fa";
+const AddMore = styled.button`
+    width: 4rem;
+    padding: 0.5rem;
+    border: none;
+    background: #000;
+`;
 
 const CreateDirections = ({ JWToken, draftRecipe }) => {
     const history = useHistory();
@@ -27,37 +35,30 @@ const CreateDirections = ({ JWToken, draftRecipe }) => {
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <h1>Directions</h1>
-            <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    append({ directions: "directions" });
-                }}
-            >
-                Add more steps
-            </button>
             {fields.map((input, index) => {
                 return (
-                    <label key={index}>
-                        directions
+                    <FormField label={`Step ${index + 1}`} key={index}>
                         <TextInput
                             type="text"
                             name={`directions[${index}]`}
                             ref={register}
                         />
-                    </label>
+                    </FormField>
                 );
             })}
+            <AddMore
+                onClick={(e) => {
+                    e.preventDefault();
+                    append({ directions: "directions" });
+                }}
+            >
+                <FaPlus style={{ color: "white" }} size={22} />
+            </AddMore>
             <br></br>
             <Submit type="submit" value="Submit">
                 {" "}
                 Submit
             </Submit>
-            {/* {errors["instructions"] && (
-            //             <p>{errors["instructions"].message}</p>
-            //         )} */}{" "}
-            {/* <br></br>
-            // {errors["img"] && <p>{errors["img"].message}</p>}
-            // <input type="submit" />  */}
         </StyledForm>
     );
 };
