@@ -202,3 +202,11 @@ export const deleteRecipe = (recipeId, token, history) => {
             });
     };
 };
+
+export const reset = () => {
+    return (dispatch) => {
+        dispatch({
+            type: recipeActionTypes.RESET_RECIPE,
+        });
+    };
+};

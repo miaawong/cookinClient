@@ -51,12 +51,20 @@ const recipeReducer = (state = initState, action) => {
                 ...state,
                 edit: action.payload,
             };
+        case recipeActionTypes.RESET_RECIPE:
+            return {
+                ...state,
+                edit: false,
+                draftRecipe: {},
+                draftRecipeProgress: 0,
+            };
         case authActionTypes.LOGOUT:
             return {
                 recipes: initState.recipes,
                 currentRecipe: initState.currentRecipe,
                 edit: initState.edit,
             };
+
         default:
             return state;
     }
