@@ -4,7 +4,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createRecipe } from "../../recipeAction";
-import { StyledForm, Submit } from "./StyledForm";
+import { StyledForm, Submit } from "../../../StyledForm";
 import { FormField, TextInput } from "grommet";
 import { FaPlus } from "react-icons/fa";
 const AddMore = styled.button`
@@ -54,11 +54,15 @@ const CreateDirections = ({ JWToken, draftRecipe }) => {
             >
                 <FaPlus style={{ color: "white" }} size={22} />
             </AddMore>
-            <br></br>
-            <Submit type="submit" value="Submit">
-                {" "}
-                Submit
-            </Submit>
+            <div>
+                <Submit
+                    type="submit"
+                    value="Submit"
+                    style={{ float: "right", margin: "2rem 0" }}
+                >
+                    Submit
+                </Submit>
+            </div>
         </StyledForm>
     );
 };

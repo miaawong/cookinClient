@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { device } from "../../../Theme";
+import { device } from "./Theme";
 import { Grommet, Form, FormField, TextInput, Box } from "grommet";
 export const StyledForm = styled(Form)`
     width: 80%;
