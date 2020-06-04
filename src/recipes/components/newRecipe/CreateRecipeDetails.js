@@ -151,13 +151,6 @@ const CreateRecipeDetails = ({}) => {
                 </Box>
             </Box>
 
-            {/* <Keyboard
-                onEnter={(e) => {
-                    e.preventDefault();
-                    submitRef.current.focus();
-                }}
-            > */}
-
             <FormField label="Image">
                 <TextInput
                     type="text"
@@ -169,7 +162,6 @@ const CreateRecipeDetails = ({}) => {
                     }}
                 />
             </FormField>
-            {/* </Keyboard> */}
 
             <div>
                 <Submit type="submit" value="Submit">
