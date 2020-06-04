@@ -1,9 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import CreateRecipeDetails from "./CreateRecipeDetails";
-import CreateIngredients from "./CreateIngredients";
-import CreateDirections from "./CreateDirections";
+import React, { useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
+import CreateRecipeDetails from "../recipes/components/newRecipe/CreateRecipeDetails";
+import CreateIngredients from "../recipes/components/newRecipe/CreateIngredients";
+import CreateDirections from "../recipes/components/newRecipe/CreateDirections";
 import { Grommet } from "grommet";
+import { reset } from "../recipes/recipeAction";
 const grommetTheme = {
     global: {
         font: {
@@ -42,6 +43,13 @@ const grommetTheme = {
 };
 
 const CreateRecipe = ({ JWToken, draftRecipeProgress }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        return () => {
+            dispatch(reset());
+        };
+    }, []);
     if (draftRecipeProgress === 0) {
         return (
             <Grommet
