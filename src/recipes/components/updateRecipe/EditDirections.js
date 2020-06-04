@@ -3,7 +3,17 @@ import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { editRecipe } from "../../recipeAction";
+import { StyledForm, Submit } from "../../../StyledForm";
+import { FormField, TextInput } from "grommet";
+import styled from "styled-components";
+import { FaPlus } from "react-icons/fa";
 
+const AddMore = styled.button`
+    width: 4rem;
+    padding: 0.5rem;
+    border: none;
+    background: #000;
+`;
 const EditDirections = ({ JWToken, draftRecipe, recipe }) => {
     let { _id, directions } = recipe;
     const history = useHistory();
@@ -25,39 +35,37 @@ const EditDirections = ({ JWToken, draftRecipe, recipe }) => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                directions
-                <button
-                    onClick={(e) => {
-                        e.preventDefault();
-                        append({ directions: "directions" });
-                    }}
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+            <h1>Directions</h1>
+            {fields.map((input, index) => {
+                return (
+                    <FormField label={`Step ${index + 1}`} key={index}>
+                        <TextInput
+                            type="text"
+                            name={`directions[${index}]`}
+                            ref={register}
+                        />
+                    </FormField>
+                );
+            })}
+            <AddMore
+                onClick={(e) => {
+                    e.preventDefault();
+                    append({ directions: "directions" });
+                }}
+            >
+                <FaPlus style={{ color: "white" }} size={22} />
+            </AddMore>
+            <div>
+                <Submit
+                    type="submit"
+                    value="Submit"
+                    style={{ float: "right", margin: "2rem 0" }}
                 >
-                    Add more steps
-                </button>
-                {fields.map((input, index) => {
-                    return (
-                        <label key={index}>
-                            directions
-                            <input
-                                type="text"
-                                name={`directions[${index}]`}
-                                ref={register}
-                            />
-                        </label>
-                    );
-                })}
-                <br></br>
-                <input type="submit" />
-            </form>{" "}
-            {/* {errors["instructions"] && (
-            //             <p>{errors["instructions"].message}</p>
-            //         )} */}{" "}
-            {/* <br></br>
-            // {errors["img"] && <p>{errors["img"].message}</p>}
-            // <input type="submit" />  */}
-        </div>
+                    Submit
+                </Submit>
+            </div>
+        </StyledForm>
     );
 };
 
