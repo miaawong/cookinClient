@@ -7,13 +7,14 @@ import { device } from "../Theme";
 const Box = styled.div`
     display: flex;
     background: white;
-    /* border: 5px solid black; */
+    border: 5px solid black;
     justify-content: center;
     align-content: center;
     margin: ${({ loggedIn }) => (loggedIn ? "0 6rem 0 auto" : "0 auto")};
-    height: 90%;
-    width: 90%;
+    height: 89%;
+    width: 91%;
     align-items: center;
+
     @media ${device.small}, ${device.medium} {
         flex-direction: column;
         border: none;
@@ -44,11 +45,12 @@ const MainText = styled.div`
     padding: 2rem;
 
     @media ${device.small}, ${device.medium} {
-        font-size: ${(props) => props.theme.fontSizes.small};
+        font-size: ${(props) => props.theme.fontSizes.medium};
+        padding: 1rem;
         width: 100%;
         position: fixed;
-        bottom: 3rem;
-        height: 28%;
+        bottom: 4rem;
+        height: 30%;
         background: #ffda0b;
     }
     @media ${device.medium} {
@@ -59,7 +61,7 @@ const MainText = styled.div`
         font-size: ${(props) => props.theme.fontSizes.large};
         width: 100%;
         position: fixed;
-        bottom: 3rem;
+        bottom: 4rem;
         height: 35%;
         background: #ffda0b;
         padding: 3rem 2rem;
@@ -156,7 +158,7 @@ const Text = styled.p`
     font-size: ${(props) => props.theme.fontSizes.large};
     margin: 0.2em;
     @media ${device.small} {
-        font-size: ${(props) => props.theme.fontSizes.small};
+        font-size: ${(props) => props.theme.fontSizes.medium};
         margin: 0.2em;
     }
     @media ${device.medium} {
@@ -176,7 +178,7 @@ export default function Home({ loggedIn }) {
     return (
         <Box loggedIn={loggedIn}>
             <MainText>
-                <Text>What's are you cookin' for dinner? </Text>
+                <Text>What's cookin' for dinner? </Text>
                 <Text>Get inspired, </Text>
                 <Text>Store your recipes,</Text>
                 <Text>All in one place.</Text>
