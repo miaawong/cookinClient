@@ -68,14 +68,11 @@ export const createRecipe = (token, data, history) => {
             recipeName,
             recipeDesc,
             servings,
-            duration_hour,
-            duration_mins,
+            duration,
             ingredients,
             directions,
             img,
         } = data;
-        let duration = parseInt(duration_hour) * 60;
-        duration = duration + parseInt(duration_mins);
 
         const draftRecipe = {
             recipeName,
@@ -116,14 +113,12 @@ export const editRecipe = (recipeId, data, token, history) => {
             recipeName,
             recipeDesc,
             servings,
-            duration_hour,
-            duration_mins,
+            duration,
             ingredients,
             directions,
             img,
         } = data;
-        let duration = parseInt(duration_hour) * 60;
-        duration = duration + parseInt(duration_mins);
+
         const updateRecipe = {
             recipeName,
             recipeDesc,
