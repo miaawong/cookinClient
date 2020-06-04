@@ -1,18 +1,55 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { connect, useDispatch } from "react-redux";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { setDraftRecipe } from "../../recipeAction";
+import { StyledForm, Submit } from "../../../StyledForm";
+import { TextInput, Select, Box, Keyboard, FormField } from "grommet";
+import styled from "styled-components";
+import { FaPlus } from "react-icons/fa";
+
+const Ingredient = styled.div`
+    display: flex;
+    flex-wrap: ${({ unit }) => (unit === "other" ? "wrap" : "no-wrap")};
+    justify-content: space-evenly;
+    align-items: center;
+`;
+
+const AddIngredients = styled.button`
+    border: none;
+    height: 3.5rem;
+    background-color: #000;
+`;
 
 const EditIngredients = ({ draftRecipe, recipe }) => {
+    const [options, setOptions] = useState([
+        " ",
+        "tsp",
+        "tbsp",
+        "cup",
+        "oz",
+        "lb",
+        "g",
+        "kg",
+        "ml",
+        "l",
+        "other",
+    ]);
     let { ingredients } = recipe;
 
     const dispatch = useDispatch();
-    const { register, handleSubmit, errors, control, formState } = useForm({
+    const {
+        register,
+        handleSubmit,
+        errors,
+        control,
+        setValue,
+        watch,
+    } = useForm({
         defaultValues: {
             ingredients: ingredients,
         },
     });
-    const { fields, append, remove, insert } = useFieldArray({
+    const { fields, append } = useFieldArray({
         control,
         name: "ingredients",
     });
@@ -20,56 +57,143 @@ const EditIngredients = ({ draftRecipe, recipe }) => {
         draftRecipe.ingredients = data.ingredients;
         dispatch(setDraftRecipe(draftRecipe));
     };
+    const [option, setOpt] = useState("");
+    const ingredientRef = useRef();
+    const amountRef = useRef();
+    const unitRef = useRef();
     return (
-        <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {fields.map((ingredient, index) => {
-                    console.log(ingredient, "in");
-                    return (
-                        <div key={ingredient.id}>
-                            <input
-                                type="text"
-                                name={`ingredients[${index}].ingName`}
-                                placeholder="ingredient"
-                                ref={register()}
-                            />
-                            <input
-                                type="Number"
-                                name={`ingredients[${index}].amount`}
-                                placeholder="how much?"
-                                ref={register()}
-                            />
-                            <select
-                                name={`ingredients[${index}].unit`}
-                                ref={register()}
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+            <h1>Ingredients</h1>
+            {fields.map((input, index) => {
+                const unit = watch(`ingredients[${index}].unit`);
+
+                return (
+                    <Ingredient key={input.id} unit={unit}>
+                        <Box
+                            direction="row-responsive"
+                            align="center"
+                            justify="between"
+                            width="100%"
+                        >
+                            <Keyboard
+                                onEnter={(e) => {
+                                    e.preventDefault();
+                                    amountRef.current.focus();
+                                }}
                             >
-                                <option value=""></option>
-                                <option value="tsp">tsp</option>
-                                <option value="tbsp">tbsp</option>
-                                <option value="cup">cup</option>
-                                <option value="oz">oz</option>
-                                <option value="lb">lb</option>
-                                <option value="g">g</option>
-                                <option value="kg">kg</option>
-                                <option value="mL">mL</option>
-                                <option value="L">L</option>
-                            </select>
-                        </div>
-                    );
-                })}
-                <button
-                    onClick={(e) => {
-                        e.preventDefault();
-                        append({ ingredients: "ingredients" });
-                    }}
-                ></button>
-                <input type="submit" />
-                <br></br>
-                {/* {errors["ingredients"] && (
-                        <p>{errors["ingredients"].message}</p>
-                    )} */}
-            </form>
-        </div>
+                                <FormField label="Ingredient" margin="xsmall">
+                                    <TextInput
+                                        type="text"
+                                        name={`ingredients[${index}].ingName`}
+                                        placeholder="ingredient"
+                                        ref={(e) => {
+                                            register(e);
+                                            ingredientRef.current = e;
+                                        }}
+                                    />
+                                </FormField>
+                            </Keyboard>
+                            <Keyboard
+                                onEnter={(e) => {
+                                    e.preventDefault();
+                                    unitRef.current.focus();
+                                }}
+                            >
+                                <FormField label="Amount" margin="xsmall">
+                                    <TextInput
+                                        type="Number"
+                                        name={`ingredients[${index}].amount`}
+                                        placeholder="how much?"
+                                        ref={(e) => {
+                                            register(e);
+                                            amountRef.current = e;
+                                        }}
+                                    />
+                                </FormField>
+                            </Keyboard>
+                            <FormField label="Unit" margin="xsmall">
+                                <Controller
+                                    as={
+                                        <Select
+                                            options={options}
+                                            value={option}
+                                            dropHeight="small"
+                                            ref={(e) => {
+                                                register(e);
+                                                unitRef.current = e;
+                                            }}
+                                        />
+                                    }
+                                    name={`ingredients[${index}].unit`}
+                                    control={control}
+                                    onChange={([e]) => e.value}
+                                />
+                            </FormField>
+
+                            <FormField label="Add" margin="xsmall">
+                                <AddIngredients
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        append({ ingredients: "ingredients" });
+                                    }}
+                                >
+                                    <FaPlus
+                                        style={{ color: "white" }}
+                                        size={22}
+                                    />
+                                </AddIngredients>
+                            </FormField>
+                        </Box>
+
+                        {unit === "other" && (
+                            <div
+                                style={{
+                                    width: "100%",
+                                }}
+                            >
+                                <Keyboard
+                                    onEnter={(e) => {
+                                        e.preventDefault();
+                                        setOptions([...options, option]);
+                                        setValue(
+                                            `ingredients[${index}].unit`,
+                                            option
+                                        );
+                                    }}
+                                >
+                                    <FormField
+                                        label="Add New Option"
+                                        margin="xsmall"
+                                        style={{
+                                            width: "17.5rem",
+                                            margin: "1rem 42rem",
+                                        }}
+                                    >
+                                        <TextInput
+                                            placeholder="new option"
+                                            name="otherOptions"
+                                            ref={register}
+                                            onChange={(event) =>
+                                                setOpt(event.target.value)
+                                            }
+                                        />
+                                    </FormField>
+                                </Keyboard>
+                            </div>
+                        )}
+                    </Ingredient>
+                );
+            })}
+            <div>
+                <Submit
+                    type="submit"
+                    value="Submit"
+                    style={{ float: "right", margin: "2rem 0" }}
+                >
+                    Submit
+                </Submit>
+            </div>
+        </StyledForm>
     );
 };
 
