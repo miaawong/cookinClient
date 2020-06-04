@@ -31,7 +31,7 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 2.5rem;
+        height: 4rem;
         padding: 0;
     }
     @media ${device.medium} {
@@ -40,7 +40,7 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 3rem;
+        height: 4rem;
         padding: 0;
     }
     @media ${device.large} {
@@ -49,7 +49,7 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 3rem;
+        height: 4rem;
         padding: 0;
     }
     @media ${device.ipad} {
@@ -58,7 +58,7 @@ const Nav = styled.div`
         left: 0;
         top: auto;
         width: 100%;
-        height: 3rem;
+        height: 4rem;
         padding: 0;
     }
 `;
@@ -67,10 +67,6 @@ const Label = styled.label`
     background: black;
     padding: 0.5em;
     margin: 0 0.3em;
-
-    @media ${device.small} {
-        font-size: ${(props) => props.theme.fontSizes.small};
-    }
 
     @media ${device.laptop} {
         margin: 0 auto;
