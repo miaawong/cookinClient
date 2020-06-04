@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { setDraftRecipe } from "../../recipeAction";
-import { StyledForm, Submit } from "./StyledForm";
+import { StyledForm, Submit } from "../../../StyledForm";
 import { TextInput, Box, FormField, Keyboard } from "grommet";
 
 const CreateRecipeDetails = ({}) => {
@@ -70,7 +70,7 @@ const CreateRecipeDetails = ({}) => {
                         name="servings"
                         placeholder="Servings"
                         ref={(e) => {
-                            register({
+                            register(e, {
                                 pattern: {
                                     value: /^(0|[1-9][0-9]*)$/,
                                     message: "must be a number",
@@ -103,7 +103,7 @@ const CreateRecipeDetails = ({}) => {
                                 name="duration_hour"
                                 placeholder="Hour"
                                 ref={(e) => {
-                                    register({
+                                    register(e, {
                                         pattern: {
                                             value: /^(0|[1-9][0-9]*)$/,
                                             message: "must be a number",
@@ -133,7 +133,7 @@ const CreateRecipeDetails = ({}) => {
                                 name="duration_mins"
                                 placeholder="Mins"
                                 ref={(e) => {
-                                    register({
+                                    register(e, {
                                         pattern: {
                                             value: /^(0|[1-9][0-9]*)$/,
                                             message: "must be a number",
