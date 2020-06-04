@@ -5,6 +5,7 @@ import CreateIngredients from "../recipes/components/newRecipe/CreateIngredients
 import CreateDirections from "../recipes/components/newRecipe/CreateDirections";
 import { Grommet } from "grommet";
 import { reset } from "../recipes/recipeAction";
+import { icons } from "react-icons/lib/cjs";
 const grommetTheme = {
     global: {
         font: {
@@ -22,15 +23,13 @@ const grommetTheme = {
             background: "#ffda0b",
             color: "#000000",
         },
-        control: {
-            border: {
-                radius: "0",
-            },
-        },
+        // control: {
+        //     border: {
+        //         radius: "0",
+        //     },
+        // },
     },
-    button: {
-        height: "3.5rem",
-    },
+
     textInput: {
         container: {
             extend: {
@@ -38,6 +37,16 @@ const grommetTheme = {
                 border: "none",
                 borderRadius: "0",
             },
+        },
+    },
+    select: {
+        control: {
+            extend: {
+                border: "2px solid black",
+            },
+        },
+        icons: {
+            color: "#ffda0b",
         },
     },
 };
@@ -54,7 +63,7 @@ const CreateRecipe = ({ JWToken, draftRecipeProgress }) => {
         return (
             <Grommet
                 theme={grommetTheme}
-                style={{ height: "90%", display: "flex", alignItems: "center" }}
+                style={{ display: "flex", alignItems: "center" }}
             >
                 <CreateRecipeDetails />
             </Grommet>
@@ -63,7 +72,7 @@ const CreateRecipe = ({ JWToken, draftRecipeProgress }) => {
         return (
             <Grommet
                 theme={grommetTheme}
-                style={{ height: "90%", display: "flex", alignItems: "center" }}
+                style={{ display: "flex", alignItems: "center" }}
             >
                 <CreateIngredients />
             </Grommet>
@@ -72,7 +81,7 @@ const CreateRecipe = ({ JWToken, draftRecipeProgress }) => {
         return (
             <Grommet
                 theme={grommetTheme}
-                style={{ height: "90%", display: "flex", alignItems: "center" }}
+                style={{ display: "flex", alignItems: "center" }}
             >
                 <CreateDirections />
             </Grommet>
