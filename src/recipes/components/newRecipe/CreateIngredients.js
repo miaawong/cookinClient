@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { setDraftRecipe } from "../../recipeAction";
-import { StyledForm, Submit } from "./StyledForm";
+import { StyledForm, Submit } from "../../../StyledForm";
 import { TextInput, Select, Box, Keyboard, FormField } from "grommet";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
@@ -22,6 +22,7 @@ const AddIngredients = styled.button`
 
 const CreateIngredients = ({ draftRecipe }) => {
     const [options, setOptions] = useState([
+        " ",
         "tsp",
         "tbsp",
         "cup",
@@ -183,11 +184,15 @@ const CreateIngredients = ({ draftRecipe }) => {
                     </Ingredient>
                 );
             })}
-            <Submit type="submit"> Submit</Submit>
-            <br></br>
-            {/* {errors["ingredients"] && (
-                        <p>{errors["ingredients"].message}</p>
-                    )} */}
+            <div>
+                <Submit
+                    type="submit"
+                    value="Submit"
+                    style={{ float: "right", margin: "2rem 0" }}
+                >
+                    Submit
+                </Submit>
+            </div>
         </StyledForm>
     );
 };
