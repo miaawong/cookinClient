@@ -32,7 +32,7 @@ export const Submit = styled.button`
     height: auto;
     background: black;
     color: white;
-    padding: 1rem;
+    padding: 0.5rem;
     float: right;
     border: none;
 `;
