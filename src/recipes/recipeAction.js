@@ -62,7 +62,7 @@ export const setDraftRecipe = (data) => {
     };
 };
 
-export const createRecipe = (token, data, history) => {
+export const createRecipe = (token, data, img, history) => {
     return (dispatch) => {
         const {
             recipeName,
@@ -71,7 +71,6 @@ export const createRecipe = (token, data, history) => {
             duration,
             ingredients,
             directions,
-            img,
         } = data;
 
         const draftRecipe = {
@@ -198,6 +197,33 @@ export const deleteRecipe = (recipeId, token, history) => {
     };
 };
 
+export const uploadImage = (file, token) => {
+    return (dispatch) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        let data = new FormData();
+        let uploadFile = file[0];
+        let originalname = uploadFile.name;
+        data.append("file", uploadFile);
+        data.append("originalname", originalname);
+        console.log(data, "data");
+        return axios
+            .post(`http://localhost:3000/api/recipes/upload`, data, config)
+            .then((res) => {
+                console.log(res.data);
+                dispatch({
+                    type: recipeActionTypes.UPLOAD_IMAGE_URL,
+                    payload: res.data.data.Location,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+};
 export const reset = () => {
     return (dispatch) => {
         dispatch({
