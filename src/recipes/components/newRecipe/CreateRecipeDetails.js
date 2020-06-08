@@ -1,18 +1,18 @@
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { setDraftRecipe } from "../../recipeAction";
+import { setDraftRecipe, uploadImage } from "../../recipeAction";
 import { StyledForm, Submit } from "../../../StyledForm";
 import { TextInput, Box, FormField, Keyboard } from "grommet";
+import Dropzone from "react-dropzone";
 
-const CreateRecipeDetails = ({}) => {
+const CreateRecipeDetails = ({ JWToken }) => {
     const { register, handleSubmit, errors } = useForm();
     const recipeNameRef = useRef();
     const recipeDescRef = useRef();
     const servingsRef = useRef();
     const hourRef = useRef();
     const minutesRef = useRef();
-    const imageRef = useRef();
     const dispatch = useDispatch();
     const onSubmit = (data) => {
         dispatch(setDraftRecipe(data));
@@ -152,17 +152,24 @@ const CreateRecipeDetails = ({}) => {
             </Box>
 
             <FormField label="Image">
-                <TextInput
-                    type="text"
-                    name="img"
-                    placeholder="Image"
-                    ref={(e) => {
-                        register(e);
-                        imageRef.current = e;
+                <Dropzone
+                    onDrop={(acceptedFiles) => {
+                        dispatch(uploadImage(acceptedFiles, JWToken));
                     }}
-                />
+                >
+                    {({ getRootProps, getInputProps }) => (
+                        <section>
+                            <div {...getRootProps()}>
+                                <input {...getInputProps()} />
+                                <p>
+                                    Drag 'n' drop some files here, or click to
+                                    select files
+                                </p>
+                            </div>
+                        </section>
+                    )}
+                </Dropzone>
             </FormField>
-
             <div>
                 <Submit type="submit" value="Submit">
                     {" "}
@@ -173,5 +180,7 @@ const CreateRecipeDetails = ({}) => {
     );
 };
 
-// const mapStateToProps = (state) => {};
-export default CreateRecipeDetails;
+const mapStateToProps = (state) => ({
+    JWToken: state["authReducer"].JWToken,
+});
+export default connect(mapStateToProps)(CreateRecipeDetails);
