@@ -14,7 +14,7 @@ const AddMore = styled.button`
     background: #000;
 `;
 
-const CreateDirections = ({ JWToken, draftRecipe }) => {
+const CreateDirections = ({ JWToken, draftRecipe, image }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ const CreateDirections = ({ JWToken, draftRecipe }) => {
 
     const onSubmit = (data) => {
         draftRecipe.directions = data.directions;
-        dispatch(createRecipe(JWToken, draftRecipe, history));
+        dispatch(createRecipe(JWToken, draftRecipe, image, history));
     };
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -70,5 +70,6 @@ const CreateDirections = ({ JWToken, draftRecipe }) => {
 const mapStateToProps = (state) => ({
     JWToken: state["authReducer"].JWToken,
     draftRecipe: state["recipeReducer"].draftRecipe,
+    image: state["recipeReducer"].image,
 });
 export default connect(mapStateToProps)(CreateDirections);
