@@ -37,6 +37,7 @@ export const setDraftRecipe = (data) => {
             directions,
             img,
         } = data;
+        console.log(img, "img in setdraft");
         let { duration } = data;
 
         if (duration_hour && duration_mins) {
@@ -62,7 +63,7 @@ export const setDraftRecipe = (data) => {
     };
 };
 
-export const createRecipe = (token, data, img, history) => {
+export const createRecipe = (token, data, history) => {
     return (dispatch) => {
         const {
             recipeName,
@@ -71,8 +72,9 @@ export const createRecipe = (token, data, img, history) => {
             duration,
             ingredients,
             directions,
+            img,
         } = data;
-
+        console.log(img);
         const draftRecipe = {
             recipeName,
             recipeDesc,
@@ -213,11 +215,7 @@ export const uploadImage = (file, token) => {
         return axios
             .post(`http://localhost:3000/api/recipes/upload`, data, config)
             .then((res) => {
-                console.log(res.data);
-                dispatch({
-                    type: recipeActionTypes.UPLOAD_IMAGE_URL,
-                    payload: res.data.data.Location,
-                });
+                return res.data.data.Location;
             })
             .catch((err) => {
                 console.log(err);

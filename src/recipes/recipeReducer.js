@@ -7,7 +7,6 @@ const initState = {
     draftRecipe: {},
     draftRecipeProgress: 0,
     edit: false,
-    image: "",
 };
 
 const recipeReducer = (state = initState, action) => {
@@ -31,11 +30,7 @@ const recipeReducer = (state = initState, action) => {
                 recipes: [...state.recipes, action.payload],
                 draftRecipeProgress: 0,
             };
-        case recipeActionTypes.UPLOAD_IMAGE_URL:
-            return {
-                ...state,
-                image: action.payload,
-            };
+
         case recipeActionTypes.EDIT_RECIPE:
             return {
                 ...state,
