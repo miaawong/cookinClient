@@ -30,7 +30,7 @@ const CreateDirections = ({ JWToken, draftRecipe, image }) => {
 
     const onSubmit = (data) => {
         draftRecipe.directions = data.directions;
-        dispatch(createRecipe(JWToken, draftRecipe, image, history));
+        dispatch(createRecipe(JWToken, draftRecipe, history));
     };
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
