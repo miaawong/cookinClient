@@ -4,11 +4,21 @@ import { useForm } from "react-hook-form";
 import { setDraftRecipe, uploadImage } from "../../recipeAction";
 import { StyledForm, Submit } from "../../../StyledForm";
 import { TextInput, Box, FormField, Keyboard } from "grommet";
-import Dropzone from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 
 const CreateRecipeDetails = ({ JWToken }) => {
     const { register, handleSubmit, errors } = useForm();
-    const [newFile, setNewFile] = useState({});
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+        onDrop: (acceptedFiles) => {
+            return acceptedFiles;
+        },
+    });
+    const filepath = acceptedFiles.map((file) => (
+        <li key={file.path}>
+            {file.path} - {file.size} bytes
+        </li>
+    ));
+
     const recipeNameRef = useRef();
     const recipeDescRef = useRef();
     const servingsRef = useRef();
@@ -17,7 +27,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
 
     const dispatch = useDispatch();
     const onSubmit = (data) => {
-        dispatch(uploadImage(newFile, JWToken))
+        dispatch(uploadImage(acceptedFiles, JWToken))
             .then((url) => {
                 const updatedData = { ...data, img: url };
                 dispatch(setDraftRecipe(updatedData));
@@ -161,25 +171,23 @@ const CreateRecipeDetails = ({ JWToken }) => {
                 </Box>
             </Box>
 
-            <FormField label="Image">
-                <Dropzone
-                    onDrop={(acceptedFiles) => {
-                        setNewFile(acceptedFiles);
-                    }}
-                >
-                    {({ getRootProps, getInputProps }) => (
-                        <section>
-                            <div {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                <p>
-                                    Drag 'n' drop some files here, or click to
-                                    select files
-                                </p>
-                            </div>
-                        </section>
-                    )}
-                </Dropzone>
-            </FormField>
+            <section
+                style={{
+                    margin: "1rem auto",
+                    width: "100%",
+                    height: "40%",
+                    border: "2px dashed black",
+                    padding: "2rem",
+                    textAlign: "center",
+                }}
+            >
+                <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p>Drop files here or click to upload</p>
+                </div>
+                <ul>{filepath}</ul>
+            </section>
+
             <div>
                 <Submit type="submit" value="Submit">
                     {" "}
