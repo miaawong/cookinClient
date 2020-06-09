@@ -1,25 +1,93 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { setDraftRecipe } from "../../recipeAction";
+import { setDraftRecipe, uploadImage } from "../../recipeAction";
 import { StyledForm, Submit } from "../../../StyledForm";
 import { FormField, TextInput, Keyboard, Box } from "grommet";
+import { useDropzone } from "react-dropzone";
+import styled from "styled-components";
+import blankImage from "../../../images/blankimage.jpg";
+const Dropzone = styled.section`
+    margin: 1rem auto;
+    width: 100%;
+    height: 40%;
+    border: 2px dashed black;
+    padding: 2rem;
+    text-align: center;
+`;
 
-const EditRecipeDetails = ({ recipe }) => {
+const EditRecipeDetails = ({ recipe, JWToken }) => {
     let { recipeName, recipeDesc, servings, duration, img } = recipe;
     let duration_hour = Math.floor(duration / 60);
     let duration_mins = duration % 60;
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
+    const [file, setFile] = useState(img);
+    const [dropped, setDropped] = useState(false);
+
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        isDragAccept,
+        isDragReject,
+        isDragActive,
+    } = useDropzone({
+        onDrop: (acceptedFiles) => {
+            setFile(acceptedFiles);
+            setDropped(true);
+        },
+    });
+
+    const filepath = acceptedFiles.map((file) => {
+        Object.assign(file, {
+            preview: URL.createObjectURL(file),
+        });
+        console.log(file.preview);
+        return (
+            // <li key={file.path} style={{ listStyle: "none" }}>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    textAlign: "center",
+                    padding: "0 2rem",
+                }}
+            >
+                <img
+                    src={file.preview}
+                    style={{
+                        width: "100px",
+                        height: "100px",
+                    }}
+                />
+                <p>{file.path}</p>
+            </div>
+            // </li>
+        );
+    });
     const onSubmit = (data) => {
-        dispatch(setDraftRecipe(data));
+        if (!dropped) {
+            const updatedData = { ...data, img: img };
+            dispatch(setDraftRecipe(updatedData));
+        } else {
+            dispatch(uploadImage(file, JWToken))
+                .then((url) => {
+                    const updatedData = { ...data, img: url };
+                    dispatch(setDraftRecipe(updatedData));
+                })
+                .catch((err) => {
+                    console.log(err, "no img");
+                    return err;
+                });
+        }
     };
     const recipeNameRef = useRef();
     const recipeDescRef = useRef();
     const servingsRef = useRef();
     const hourRef = useRef();
     const minutesRef = useRef();
-    const imageRef = useRef();
+
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <h1>Details</h1>
@@ -128,30 +196,23 @@ const EditRecipeDetails = ({ recipe }) => {
                     )}
                 </Box>
                 <Box direction="row-responsive" gap="small" align="center">
-                    <Keyboard
-                        onEnter={(e) => {
-                            e.preventDefault();
-                            imageRef.current.focus();
-                        }}
-                    >
-                        <FormField label="Minutes">
-                            <TextInput
-                                type="number"
-                                name="duration_mins"
-                                placeholder="Mins"
-                                ref={(e) => {
-                                    register(e, {
-                                        pattern: {
-                                            value: /^(0|[1-9][0-9]*)$/,
-                                            message: "must be a number",
-                                        },
-                                    });
-                                    minutesRef.current = e;
-                                }}
-                                defaultValue={duration_mins}
-                            />
-                        </FormField>
-                    </Keyboard>
+                    <FormField label="Minutes">
+                        <TextInput
+                            type="number"
+                            name="duration_mins"
+                            placeholder="Mins"
+                            ref={(e) => {
+                                register(e, {
+                                    pattern: {
+                                        value: /^(0|[1-9][0-9]*)$/,
+                                        message: "must be a number",
+                                    },
+                                });
+                                minutesRef.current = e;
+                            }}
+                            defaultValue={duration_mins}
+                        />
+                    </FormField>
 
                     {errors["duration_mins"] && (
                         <p>{errors["duration_mins"].message}</p>
@@ -159,18 +220,17 @@ const EditRecipeDetails = ({ recipe }) => {
                 </Box>
             </Box>
 
-            <FormField label="Image">
-                <TextInput
-                    type="text"
-                    name="img"
-                    placeholder="Image"
-                    ref={(e) => {
-                        register(e);
-                        imageRef.current = e;
-                    }}
-                    defaultValue={img}
-                />
-            </FormField>
+            <Dropzone>
+                <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+
+                    {dropped ? (
+                        <div>{filepath}</div>
+                    ) : (
+                        <p>Drop or click to upload image</p>
+                    )}
+                </div>
+            </Dropzone>
 
             <div>
                 <Submit type="submit" value="Submit">
@@ -181,5 +241,7 @@ const EditRecipeDetails = ({ recipe }) => {
     );
 };
 
-// const mapStateToProps = (state) => {};
-export default EditRecipeDetails;
+const mapStateToProps = (state) => ({
+    JWToken: state["authReducer"].JWToken,
+});
+export default connect(mapStateToProps)(EditRecipeDetails);
