@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { setDraftRecipe, uploadImage } from "../../recipeAction";
@@ -8,14 +8,24 @@ import Dropzone from "react-dropzone";
 
 const CreateRecipeDetails = ({ JWToken }) => {
     const { register, handleSubmit, errors } = useForm();
+    const [newFile, setNewFile] = useState({});
     const recipeNameRef = useRef();
     const recipeDescRef = useRef();
     const servingsRef = useRef();
     const hourRef = useRef();
     const minutesRef = useRef();
+
     const dispatch = useDispatch();
     const onSubmit = (data) => {
-        dispatch(setDraftRecipe(data));
+        dispatch(uploadImage(newFile, JWToken))
+            .then((url) => {
+                const updatedData = { ...data, img: url };
+                dispatch(setDraftRecipe(updatedData));
+            })
+            .catch((err) => {
+                console.log(err);
+                return err;
+            });
     };
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -124,7 +134,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
                     <Keyboard
                         onEnter={(e) => {
                             e.preventDefault();
-                            imageRef.current.focus();
+                            // imageRef.current.focus();
                         }}
                     >
                         <FormField label="Minutes">
@@ -154,7 +164,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
             <FormField label="Image">
                 <Dropzone
                     onDrop={(acceptedFiles) => {
-                        dispatch(uploadImage(acceptedFiles, JWToken));
+                        setNewFile(acceptedFiles);
                     }}
                 >
                     {({ getRootProps, getInputProps }) => (
