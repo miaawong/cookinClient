@@ -136,7 +136,7 @@ export const editRecipe = (recipeId, data, token, history) => {
             },
         };
 
-        axios
+        return axios
             .put(
                 `http://localhost:3000/api/recipes/${recipeId}`,
                 updateRecipe,
