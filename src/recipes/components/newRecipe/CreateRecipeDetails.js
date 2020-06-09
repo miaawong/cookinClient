@@ -6,6 +6,7 @@ import { StyledForm, Submit } from "../../../StyledForm";
 import { TextInput, Box, FormField, Keyboard } from "grommet";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
+import blankImage from "../../../images/blankimage.jpg";
 
 const Dropzone = styled.section`
     margin: 1rem auto;
@@ -71,15 +72,21 @@ const CreateRecipeDetails = ({ JWToken }) => {
 
     const dispatch = useDispatch();
     const onSubmit = (data) => {
-        dispatch(uploadImage(file, JWToken))
-            .then((url) => {
-                const updatedData = { ...data, img: url };
-                dispatch(setDraftRecipe(updatedData));
-            })
-            .catch((err) => {
-                console.log(err);
-                return err;
-            });
+        if (!dropped) {
+            console.log("no image uploaded");
+            const updatedData = { ...data, img: blankImage };
+            dispatch(setDraftRecipe(updatedData));
+        } else {
+            dispatch(uploadImage(file, JWToken))
+                .then((url) => {
+                    const updatedData = { ...data, img: url };
+                    dispatch(setDraftRecipe(updatedData));
+                })
+                .catch((err) => {
+                    console.log(err, "no img");
+                    return err;
+                });
+        }
     };
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -228,7 +235,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
             </Dropzone>
 
             <div>
-                <Submit type="submit" value="Submit">
+                <Submit type="submit" value="Submit" name="Submit">
                     {" "}
                     Submit
                 </Submit>
