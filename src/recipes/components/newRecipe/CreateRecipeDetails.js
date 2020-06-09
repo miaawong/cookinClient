@@ -5,19 +5,63 @@ import { setDraftRecipe, uploadImage } from "../../recipeAction";
 import { StyledForm, Submit } from "../../../StyledForm";
 import { TextInput, Box, FormField, Keyboard } from "grommet";
 import { useDropzone } from "react-dropzone";
+import styled from "styled-components";
+
+const Dropzone = styled.section`
+    margin: 1rem auto;
+    width: 100%;
+    height: 40%;
+    border: 2px dashed black;
+    padding: 2rem;
+    text-align: center;
+`;
 
 const CreateRecipeDetails = ({ JWToken }) => {
     const { register, handleSubmit, errors } = useForm();
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    const [file, setFile] = useState({});
+    const [dropped, setDropped] = useState(false);
+
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        isDragAccept,
+        isDragReject,
+        isDragActive,
+    } = useDropzone({
         onDrop: (acceptedFiles) => {
-            return acceptedFiles;
+            setFile(acceptedFiles);
+            setDropped(true);
         },
     });
-    const filepath = acceptedFiles.map((file) => (
-        <li key={file.path}>
-            {file.path} - {file.size} bytes
-        </li>
-    ));
+
+    const filepath = acceptedFiles.map((file) => {
+        Object.assign(file, {
+            preview: URL.createObjectURL(file),
+        });
+        console.log(file.preview);
+        return (
+            // <li key={file.path} style={{ listStyle: "none" }}>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    textAlign: "center",
+                    padding: "0 2rem",
+                }}
+            >
+                <img
+                    src={file.preview}
+                    style={{
+                        width: "100px",
+                        height: "100px",
+                    }}
+                />
+                <p>{file.path}</p>
+            </div>
+            // </li>
+        );
+    });
 
     const recipeNameRef = useRef();
     const recipeDescRef = useRef();
@@ -27,7 +71,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
 
     const dispatch = useDispatch();
     const onSubmit = (data) => {
-        dispatch(uploadImage(acceptedFiles, JWToken))
+        dispatch(uploadImage(file, JWToken))
             .then((url) => {
                 const updatedData = { ...data, img: url };
                 dispatch(setDraftRecipe(updatedData));
@@ -171,22 +215,17 @@ const CreateRecipeDetails = ({ JWToken }) => {
                 </Box>
             </Box>
 
-            <section
-                style={{
-                    margin: "1rem auto",
-                    width: "100%",
-                    height: "40%",
-                    border: "2px dashed black",
-                    padding: "2rem",
-                    textAlign: "center",
-                }}
-            >
+            <Dropzone>
                 <div {...getRootProps()}>
                     <input {...getInputProps()} />
-                    <p>Drop files here or click to upload</p>
+
+                    {dropped ? (
+                        <div>{filepath}</div>
+                    ) : (
+                        <p>Drop or click to upload image</p>
+                    )}
                 </div>
-                <ul>{filepath}</ul>
-            </section>
+            </Dropzone>
 
             <div>
                 <Submit type="submit" value="Submit">
