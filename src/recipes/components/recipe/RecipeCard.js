@@ -9,7 +9,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const Dashboard = styled.div`
     font-family: ${(props) => props.theme.font};
-    margin: 0 auto 3rem auto;
+    margin: 0 auto 5rem auto;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
