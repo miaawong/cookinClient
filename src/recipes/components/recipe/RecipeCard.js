@@ -31,7 +31,8 @@ const Dashboard = styled.div`
 
 const CardBox = styled.div`
     background: #f8f8f8;
-    margin: ${({ recipes }) => (recipes.length === 1 ? "1rem 0" : "1rem auto")};
+    margin: ${({ recipes }) =>
+        recipes.length === 1 ? "1rem auto" : "1rem auto"};
     width: 35rem;
     height: 27rem;
     display: flex;
@@ -41,16 +42,9 @@ const CardBox = styled.div`
     justify-content: flex-start;
     align-content: flex-start;
 
-    @media ${device.laptop} {
-        width: 26rem;
+    @media ${device.laptop}, ${device.wide} {
+        width: 90%;
         height: 25rem;
-        flex-wrap: ${({ recipes }) =>
-            recipes.length === 1 ? "nowrap" : "wrap"};
-    }
-    @media ${device.wide} {
-        width: 28rem;
-        height: 27rem;
-        padding-bottom: 0;
         flex-wrap: ${({ recipes }) =>
             recipes.length === 1 ? "nowrap" : "wrap"};
     }
@@ -59,9 +53,9 @@ const Image = styled.img`
     object-fit: cover;
     width: 100%;
     height: 65%;
-    @media ${device.laptop} {
-        width: ${({ recipes }) => (recipes.length === 1 ? "65%" : "100%")};
-        height: ${({ recipes }) => (recipes.length === 1 ? "100%" : "65%")};
+    @media ${device.laptop}, ${device.wide} {
+        width: 65%;
+        height: 100%;
     }
 `;
 
@@ -75,13 +69,18 @@ const DescriptionBox = styled.div`
     align-items: left;
     align-content: flex-start;
     justify-content: center;
-    font-size: 18px;
     font-size: ${(props) => props.theme.fontSizes.small};
+    text-align: center;
+    @media ${device.laptop}, ${device.wide} {
+        width: 35%;
+        height: 100%;
+        justify-content: space-around;
+    }
 `;
 const RecipeName = styled.h1`
     width: 100%;
     margin: 0;
-    font-size: ${(props) => props.theme.fontSizes.large};
+    font-size: ${(props) => props.theme.fontSizes.XL};
     font-weight: 800;
 
     @media ${device.small} {
