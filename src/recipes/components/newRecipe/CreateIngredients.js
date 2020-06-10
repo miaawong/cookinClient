@@ -101,7 +101,7 @@ const CreateIngredients = ({ draftRecipe }) => {
                             >
                                 <FormField label="Amount" margin="xsmall">
                                     <TextInput
-                                        type="Number"
+                                        type="text"
                                         name={`ingredients[${index}].amount`}
                                         placeholder="how much?"
                                         ref={(e) => {
@@ -115,6 +115,7 @@ const CreateIngredients = ({ draftRecipe }) => {
                                 <Controller
                                     as={
                                         <Select
+                                            name="options"
                                             options={options}
                                             value={option}
                                             dropHeight="small"
