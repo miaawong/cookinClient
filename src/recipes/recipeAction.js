@@ -1,6 +1,20 @@
 import * as recipeActionTypes from "./recipeActionTypes";
 import axios from "axios";
 
+export const exploreRecipes = () => {
+    return (dispatch) => {
+        return axios
+            .get("http://localhost:3000/api/recipes/allRecipes")
+            .then((res) => {
+                return res.data.all;
+            })
+
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+};
+
 export const getAllRecipes = (token) => {
     return (dispatch) => {
         const config = {
