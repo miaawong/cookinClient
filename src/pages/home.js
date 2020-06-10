@@ -6,8 +6,10 @@ import { device } from "../Theme";
 const OuterBox = styled.div`
     display: flex;
     justify-content: center;
-    align-items: center;
     height: 90%;
+    @media ${device.laptop}, ${device.desktop}, ${device.wide} {
+        align-items: center;
+    }
 `;
 
 const Box = styled.div`
