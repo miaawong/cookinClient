@@ -5,7 +5,7 @@ import CreateIngredients from "../recipes/components/newRecipe/CreateIngredients
 import CreateDirections from "../recipes/components/newRecipe/CreateDirections";
 import { Grommet } from "grommet";
 import { reset } from "../recipes/recipeAction";
-import { icons } from "react-icons/lib/cjs";
+
 const grommetTheme = {
     global: {
         font: {
@@ -53,40 +53,27 @@ const grommetTheme = {
 
 const CreateRecipe = ({ JWToken, draftRecipeProgress }) => {
     const dispatch = useDispatch();
-
     useEffect(() => {
         return () => {
             dispatch(reset());
         };
     }, []);
+    let currentStep;
     if (draftRecipeProgress === 0) {
-        return (
-            <Grommet
-                theme={grommetTheme}
-                style={{ display: "flex", alignItems: "center" }}
-            >
-                <CreateRecipeDetails />
-            </Grommet>
-        );
+        currentStep = <CreateRecipeDetails />;
     } else if (draftRecipeProgress === 1) {
-        return (
-            <Grommet
-                theme={grommetTheme}
-                style={{ display: "flex", alignItems: "center" }}
-            >
-                <CreateIngredients />
-            </Grommet>
-        );
+        currentStep = <CreateIngredients />;
     } else if (draftRecipeProgress === 2) {
-        return (
-            <Grommet
-                theme={grommetTheme}
-                style={{ display: "flex", alignItems: "center" }}
-            >
-                <CreateDirections />
-            </Grommet>
-        );
+        currentStep = <CreateDirections />;
     }
+    return (
+        <Grommet
+            theme={grommetTheme}
+            style={{ display: "flex", alignItems: "center", height: "85%" }}
+        >
+            {currentStep}
+        </Grommet>
+    );
 };
 
 const mapStateToProps = (state) => ({
