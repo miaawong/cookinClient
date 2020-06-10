@@ -34,7 +34,7 @@ const CardBox = styled.div`
     margin: ${({ recipes }) =>
         recipes.length === 1 ? "1rem auto" : "1rem auto"};
     width: 35rem;
-    height: 27rem;
+    height: 28rem;
     display: flex;
     flex-wrap: wrap;
     position: relative;
@@ -80,11 +80,11 @@ const DescriptionBox = styled.div`
 const RecipeName = styled.h1`
     width: 100%;
     margin: 0;
-    font-size: ${(props) => props.theme.fontSizes.XL};
     font-weight: 800;
+    font-size: ${(props) => props.theme.fontSizes.large};
 
-    @media ${device.small} {
-        font-size: ${(props) => props.theme.fontSizes.medium};
+    @media ${device.laptop}, ${device.desktop}, ${device.wide} {
+        font-size: ${(props) => props.theme.fontSizes.XL};
     }
 `;
 
@@ -150,7 +150,11 @@ const RecipeCard = ({ recipes, JWToken }) => {
 
                 <DescriptionBox>
                     <RecipeName>{recipeName}</RecipeName>
-                    <Description>{recipeDesc}</Description>
+                    <Description>
+                        {recipeDesc.length > 100
+                            ? `${recipeDesc.substr(0, 100)}...`
+                            : recipeDesc}
+                    </Description>
                     <StyledLink
                         onClick={() => {
                             dispatch(
