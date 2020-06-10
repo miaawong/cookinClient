@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createRecipe } from "../../recipeAction";
 import { StyledForm, Submit } from "../../../StyledForm";
-import { FormField, TextInput } from "grommet";
+import { FormField, TextInput, TextArea } from "grommet";
 import { FaPlus } from "react-icons/fa";
 const AddMore = styled.button`
     width: 4rem;
@@ -38,10 +38,11 @@ const CreateDirections = ({ JWToken, draftRecipe, image }) => {
             {fields.map((input, index) => {
                 return (
                     <FormField label={`Step ${index + 1}`} key={index}>
-                        <TextInput
+                        <TextArea
                             type="text"
                             name={`directions[${index}]`}
                             ref={register}
+                            style={{ height: "8rem" }}
                         />
                     </FormField>
                 );
