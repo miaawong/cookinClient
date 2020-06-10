@@ -8,11 +8,11 @@ export const StyledForm = styled(Form)`
     font-family: ${(props) => props.theme.font};
     display: flex;
     flex-direction: column;
-    /* justify-content: space-evenly; */
+    justify-content: space-evenly;
     align-content: flex-start;
     overflow: auto;
-    @media ${device.laptop}, ${device.desktop} {
-        margin: 5rem auto 0 6rem;
+    @media ${device.laptop}, ${device.desktop}, ${device.wide} {
+        margin: 0 auto 0 6rem;
     }
 
     & > p {
@@ -22,7 +22,7 @@ export const StyledForm = styled(Form)`
         color: #ff0000;
     }
     & > div {
-        margin: 1rem 0;
+        margin: 0.5rem 0;
     }
 `;
 export const Submit = styled.button`
