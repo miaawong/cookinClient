@@ -12,7 +12,6 @@ import { device } from "../../../Theme";
 const Main = styled.div`
     font-family: ${(props) => props.theme.font};
     width: 100%;
-
     margin: 0 auto 4rem auto;
     display: flex;
     flex-direction: column;
@@ -20,11 +19,8 @@ const Main = styled.div`
         margin: 0 auto 5rem auto;
     }
     @media ${device.laptop}, ${device.wide} {
-        height: 85%;
-        width: 90%;
-        border: 5px solid #000000;
+        width: 96.2%;
         margin: 0 6rem 0 auto;
-        flex-direction: row;
     }
     @media ${device.wide} {
         margin: 0 8rem 0 auto;
@@ -42,10 +38,7 @@ const Description = styled.div`
     justify-content: space-between;
     @media ${device.ipad}, ${device.laptop}, ${device.wide} {
         font-size: ${(props) => props.theme.fontSizes.medium};
-    }
-    @media ${device.laptop}, ${device.wide} {
-        width: 30%;
-        order: 0;
+        padding: 2rem;
     }
 `;
 const Middle = styled.div`
@@ -62,35 +55,23 @@ const Middle = styled.div`
         margin: 0.5rem 0;
     }
     @media ${device.ipad}, ${device.laptop}, ${device.wide} {
+        padding: 2rem;
         font-size: ${(props) => props.theme.fontSizes.medium};
-    }
-    @media ${device.laptop}, ${device.wide} {
-        width: 30%;
-        order: 0;
     }
 `;
 
 const ImgContainer = styled.div`
-    height: 100%;
+    height: 65%;
     display: flex;
     flex-direction: column;
     width: 100%;
     order: 1;
     justify-content: center;
-
-    @media ${device.laptop}, ${device.wide} {
-        width: 40%;
-        padding: 1rem;
-        order: 0;
-    }
 `;
 const Image = styled.img`
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
     height: 100%;
-    @media ${device.laptop}, ${device.wide} {
-        height: 50%;
-    }
 `;
 const Modification = styled.div`
     display: flex;
@@ -102,6 +83,7 @@ const Button = styled.button`
     border: none;
 `;
 const RecipeName = styled.h1`
+    text-align: center;
     font-weight: 800;
     font-size: ${(props) => props.theme.fontSizes.XL};
     @media ${device.small} {
@@ -205,7 +187,10 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                         <ul>
                             {ingredients &&
                                 ingredients.map((ingredient, index) => (
-                                    <li key={index}>
+                                    <li
+                                        key={index}
+                                        style={{ listStyle: "none" }}
+                                    >
                                         {ingredient.amount} {ingredient.unit}{" "}
                                         {ingredient.ingName}
                                     </li>
