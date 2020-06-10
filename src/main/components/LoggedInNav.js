@@ -106,6 +106,7 @@ export default function LoggedInNav() {
                 <MdSettings style={{ color: "white" }} size={30} />
             </StyledLink>
             <StyledLink
+                to="/"
                 onClick={() => {
                     dispatch(logout());
                 }}
