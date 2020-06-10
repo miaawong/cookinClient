@@ -19,13 +19,9 @@ const Dashboard = styled.div`
         margin: 0 auto 13rem auto;
     }
 
-    @media ${device.laptop} {
-        width: 90%;
+    @media ${device.laptop}, ${device.wide} {
+        width: 96.2%;
         margin: 0 6rem 0 auto;
-    }
-    @media ${device.wide} {
-        width: 80%;
-        margin: 0 auto;
     }
 `;
 
@@ -33,18 +29,19 @@ const CardBox = styled.div`
     background: #f8f8f8;
     margin: ${({ recipes }) =>
         recipes.length === 1 ? "1rem auto" : "1rem auto"};
-    width: 35rem;
+    width: 38rem;
     height: 28rem;
     display: flex;
     flex-wrap: wrap;
     position: relative;
     box-shadow: 5px 5px 5px 0px rgba(230, 230, 230, 1);
-    justify-content: flex-start;
+    /* justify-content: flex-start; */
     align-content: flex-start;
 
     @media ${device.laptop}, ${device.wide} {
-        width: 90%;
+        width: 27rem;
         height: 25rem;
+
         flex-wrap: ${({ recipes }) =>
             recipes.length === 1 ? "nowrap" : "wrap"};
     }
@@ -53,10 +50,6 @@ const Image = styled.img`
     object-fit: cover;
     width: 100%;
     height: 65%;
-    @media ${device.laptop}, ${device.wide} {
-        width: 65%;
-        height: 100%;
-    }
 `;
 
 const DescriptionBox = styled.div`
@@ -72,20 +65,14 @@ const DescriptionBox = styled.div`
     font-size: ${(props) => props.theme.fontSizes.small};
     text-align: center;
     @media ${device.laptop}, ${device.wide} {
-        width: 35%;
-        height: 100%;
-        justify-content: space-around;
+        /* height: 45%; */
     }
 `;
 const RecipeName = styled.h1`
     width: 100%;
-    margin: 0;
+    margin: 0%;
     font-weight: 800;
     font-size: ${(props) => props.theme.fontSizes.large};
-
-    @media ${device.laptop}, ${device.desktop}, ${device.wide} {
-        font-size: ${(props) => props.theme.fontSizes.XL};
-    }
 `;
 
 const Description = styled.p`
@@ -151,8 +138,8 @@ const RecipeCard = ({ recipes, JWToken }) => {
                 <DescriptionBox>
                     <RecipeName>{recipeName}</RecipeName>
                     <Description>
-                        {recipeDesc.length > 100
-                            ? `${recipeDesc.substr(0, 100)}...`
+                        {recipeDesc.length > 40
+                            ? `${recipeDesc.substr(0, 40)}...`
                             : recipeDesc}
                     </Description>
                     <StyledLink
