@@ -3,6 +3,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import pasta from "../images/Creamy-Salmon-Pasta-with-Spinach-2.jpg";
 import { device } from "../Theme";
+const OuterBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+`;
 
 const Box = styled.div`
     display: flex;
@@ -11,7 +17,7 @@ const Box = styled.div`
     justify-content: center;
     align-content: center;
     margin: ${({ loggedIn }) => (loggedIn ? "0 6rem 0 auto" : "0 auto")};
-    height: 89%;
+    height: 75%;
     width: 91%;
     align-items: center;
 
@@ -174,22 +180,23 @@ const Text = styled.p`
     }
 `;
 export default function Home({ loggedIn }) {
-    console.log(loggedIn);
     return (
-        <Box loggedIn={loggedIn}>
-            <MainText>
-                <Text>What's cookin' for dinner? </Text>
-                <Text>Get inspired, </Text>
-                <Text>Store your recipes,</Text>
-                <Text>All in one place.</Text>
-                <StyledLink to="/recipes">
-                    <label>Recipes</label>
-                </StyledLink>
-            </MainText>
+        <OuterBox>
+            <Box loggedIn={loggedIn}>
+                <MainText>
+                    <Text>What's cookin' for dinner? </Text>
+                    <Text>Get inspired, </Text>
+                    <Text>Store your recipes,</Text>
+                    <Text>All in one place.</Text>
+                    <StyledLink to="/recipes">
+                        <label>Recipes</label>
+                    </StyledLink>
+                </MainText>
 
-            <Yellow>
-                <MainImg src={pasta} />
-            </Yellow>
-        </Box>
+                <Yellow>
+                    <MainImg src={pasta} alt="pasta" />
+                </Yellow>
+            </Box>
+        </OuterBox>
     );
 }
