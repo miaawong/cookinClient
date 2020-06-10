@@ -10,15 +10,17 @@ import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./pages/CreateRecipe";
 import Recipe from "./pages/recipe";
 import { getJWT } from "./auth/authAction";
-import logo from "./images/cookinLogo.png";
+import logo from "./images/cover.png";
 import { device } from "./Theme";
 import LoggedInNav from "./main/components/LoggedInNav";
+import Explore from "./pages/explore";
 
 const Theme = styled.div`
     font-family: ${(props) => props.theme.font};
 `;
 
 const Nav = styled.div`
+    height: 10%;
     width: 20%;
     position: fixed;
     top: 0;
@@ -147,6 +149,9 @@ const App = ({ JWToken }) => {
                 )}
             </Theme>
             <Switch>
+                <Route exact path="/explore">
+                    <Explore />
+                </Route>
                 <Route exact path="/">
                     <Home loggedIn={loggedIn} />
                 </Route>
