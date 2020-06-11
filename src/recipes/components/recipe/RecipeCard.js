@@ -37,13 +37,9 @@ const CardBox = styled.div`
     box-shadow: 5px 5px 5px 0px rgba(230, 230, 230, 1);
     /* justify-content: flex-start; */
     align-content: flex-start;
-
     @media ${device.laptop}, ${device.wide} {
         width: 27rem;
         height: 25rem;
-
-        flex-wrap: ${({ recipes }) =>
-            recipes.length === 1 ? "nowrap" : "wrap"};
     }
 `;
 const Image = styled.img`
