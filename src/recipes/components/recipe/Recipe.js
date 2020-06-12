@@ -123,8 +123,9 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
         directions,
         img,
         createdOn,
+        creator,
     } = currentRecipe;
-
+    let capCreator = creator.charAt(0).toUpperCase() + creator.slice(1);
     let duration_hour = Math.floor(duration / 60);
     let duration_mins = duration % 60;
 
@@ -182,6 +183,7 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
                             >
                                 {createdMonth} {createdYear}
                             </p>
+                            <p>Created by {capCreator}</p>
                         </div>
                         <Category>Ingredients</Category>
                         <ul>
