@@ -246,3 +246,58 @@ export const reset = () => {
         });
     };
 };
+
+export const likeRecipe = (recipeId, token) => {
+    return (dispatch) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        axios
+            .put(
+                `http://localhost:3000/api/recipes/${recipeId}/like`,
+                null,
+                config
+            )
+            .then((res) => {
+                let recipe = res.data;
+                console.log(recipe);
+                dispatch({
+                    type: recipeActionTypes.EDIT_RECIPE,
+                    payload: recipe,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+};
+export const unlikeRecipe = (recipeId, token) => {
+    console.log("unlike");
+    return (dispatch) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        axios
+            .put(
+                `http://localhost:3000/api/recipes/${recipeId}/unlike`,
+                null,
+                config
+            )
+            .then((res) => {
+                let recipe = res.data;
+                dispatch({
+                    type: recipeActionTypes.EDIT_RECIPE,
+                    payload: recipe,
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+};
