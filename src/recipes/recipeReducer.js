@@ -1,5 +1,6 @@
 import * as recipeActionTypes from "./recipeActionTypes";
 import * as authActionTypes from "../auth/authActionTypes";
+import { bindActionCreators } from "redux";
 
 const initState = {
     recipes: [],
@@ -32,11 +33,25 @@ const recipeReducer = (state = initState, action) => {
             };
 
         case recipeActionTypes.EDIT_RECIPE:
+            let updatedLikesRecipe = state.recipes.map((recipe) => {
+                // if the recipeId matches the updated recipeId
+                if (recipe._id === action.payload._id) {
+                    // update the recipe's likes
+                    return { ...recipe, likes: action.payload.likes };
+                } else {
+                    // else if it doesn't then just return the recipe
+                    return {
+                        ...recipe,
+                    };
+                }
+            });
             return {
                 ...state,
-                currentRecipe: action.payload,
+                recipes: updatedLikesRecipe,
+                currentRecipes: action.payload,
                 edit: false,
             };
+
         case recipeActionTypes.GET_CURRENT_RECIPE:
             return {
                 ...state,
