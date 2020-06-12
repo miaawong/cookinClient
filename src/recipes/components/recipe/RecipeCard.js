@@ -102,34 +102,36 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
-const RecipeCard = ({ recipes, JWToken }) => {
-    const [favorite, setFavorite] = useState(true);
-    console.log(favorite);
+const RecipeCard = ({ id, recipes, JWToken }) => {
     const dispatch = useDispatch();
     let history = useHistory();
     let card = recipes.map((recipe) => {
-        const { img, recipeName, recipeDesc } = recipe;
+        const { img, recipeName, recipeDesc, likes } = recipe;
+
         return (
             <CardBox recipes={recipes}>
                 <Image src={img} recipes={recipes} />
-                <FavoriteBtn
-                    onClick={() => setFavorite((favorite) => !favorite)}
-                >
-                    {favorite ? (
-                        <FaHeart
-                            style={{
-                                color: "white",
-                                // position: "absolute",
-                                // right: "1rem",
-                                // top: "1rem",
-                            }}
-                            size={30}
-                        />
-                    ) : (
-                        <FaRegHeart style={{ color: "white" }} size={30} />
-                    )}
-                </FavoriteBtn>
-                {/* onclick change icon to <FaRegHeart/> */}
+
+                {likes.length !== 0 && likes.map((like) => like === id) ? (
+                    <FaHeart
+                        style={{
+                            color: "white",
+                            position: "absolute",
+                            right: "1rem",
+                            top: "1rem",
+                        }}
+                        size={30}
+                    />
+                ) : (
+                    <FaRegHeart
+                        style={{
+                            position: "absolute",
+                            right: "1rem",
+                            top: "1rem",
+                        }}
+                        size={30}
+                    />
+                )}
 
                 <DescriptionBox>
                     <RecipeName>{recipeName}</RecipeName>
@@ -155,6 +157,7 @@ const RecipeCard = ({ recipes, JWToken }) => {
 };
 
 const mapStateToProps = (state) => ({
+    id: state["authReducer"].id,
     JWToken: state["authReducer"].JWToken,
 });
 
