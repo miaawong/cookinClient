@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { getCurrentRecipe } from "../../recipeAction";
+import { getCurrentRecipe, likeRecipe, unlikeRecipe } from "../../recipeAction";
 import styled from "styled-components";
 import { device } from "../../../Theme";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -102,37 +102,43 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
-const RecipeCard = ({ id, recipes, JWToken }) => {
+const RecipeCard = ({ userId, recipes, JWToken }) => {
     const dispatch = useDispatch();
     let history = useHistory();
     let card = recipes.map((recipe) => {
-        const { img, recipeName, recipeDesc, likes } = recipe;
+        const { img, recipeName, recipeDesc, likes, _id } = recipe;
 
         return (
             <CardBox recipes={recipes}>
                 <Image src={img} recipes={recipes} />
-
-                {likes.length !== 0 && likes.map((like) => like === id) ? (
-                    <FaHeart
-                        style={{
-                            color: "white",
-                            position: "absolute",
-                            right: "1rem",
-                            top: "1rem",
-                        }}
-                        size={30}
-                    />
+                {likes.length !== 0 && likes.map((like) => like === userId) ? (
+                    <FavoriteBtn
+                        onClick={() => dispatch(unlikeRecipe(_id, JWToken))}
+                    >
+                        <FaHeart
+                            style={{
+                                color: "white",
+                                position: "absolute",
+                                right: "1rem",
+                                top: "1rem",
+                            }}
+                            size={30}
+                        />
+                    </FavoriteBtn>
                 ) : (
-                    <FaRegHeart
-                        style={{
-                            position: "absolute",
-                            right: "1rem",
-                            top: "1rem",
-                        }}
-                        size={30}
-                    />
+                    <FavoriteBtn
+                        onClick={() => dispatch(likeRecipe(_id, JWToken))}
+                    >
+                        <FaRegHeart
+                            style={{
+                                position: "absolute",
+                                right: "1rem",
+                                top: "1rem",
+                            }}
+                            size={30}
+                        />
+                    </FavoriteBtn>
                 )}
-
                 <DescriptionBox>
                     <RecipeName>{recipeName}</RecipeName>
                     <Description>
@@ -157,7 +163,7 @@ const RecipeCard = ({ id, recipes, JWToken }) => {
 };
 
 const mapStateToProps = (state) => ({
-    id: state["authReducer"].id,
+    userId: state["authReducer"].id,
     JWToken: state["authReducer"].JWToken,
 });
 
