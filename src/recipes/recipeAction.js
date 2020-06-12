@@ -110,7 +110,9 @@ export const createRecipe = (token, data, history) => {
             .then((res) => {
                 let recipeId = res.data.recipe._id;
                 let recipe = res.data.recipe;
+                recipe.creator = res.data.user;
                 history.push(`/recipes/${recipeId}`);
+                console.log(res, "res createreipce");
                 dispatch({
                     type: recipeActionTypes.ADD_RECIPE,
                     payload: recipe,
@@ -182,6 +184,7 @@ export const getCurrentRecipe = (recipeId, token, history) => {
             .get(`http://localhost:3000/api/recipes/${recipeId}`, config)
             .then((res) => {
                 let recipe = res.data.recipe;
+                recipe.creator = res.data.user;
                 dispatch({
                     type: recipeActionTypes.GET_CURRENT_RECIPE,
                     payload: recipe,
