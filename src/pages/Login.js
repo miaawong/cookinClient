@@ -3,53 +3,11 @@ import { Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { connect, useDispatch } from "react-redux";
 import { login } from "../auth/authAction";
-import { StyledForm, Submit } from "../StyledForm";
-import { Grommet, FormField, TextInput } from "grommet";
-
-const grommetTheme = {
-    global: {
-        font: {
-            family: "Roboto",
-            size: "24px",
-        },
-        colors: {
-            focus: "#ffda0b",
-            selected: "#ffda0b",
-        },
-        selected: {
-            color: "#000000",
-        },
-        hover: {
-            background: "#ffda0b",
-            color: "#000000",
-        },
-        // control: {
-        //     border: {
-        //         radius: "0",
-        //     },
-        // },
-    },
-
-    textInput: {
-        container: {
-            extend: {
-                width: "auto",
-                border: "none",
-                borderRadius: "0",
-            },
-        },
-    },
-    select: {
-        control: {
-            extend: {
-                border: "2px solid black",
-            },
-        },
-        icons: {
-            color: "#ffda0b",
-        },
-    },
-};
+import {
+    StyledForm,
+    Submit,
+    TextInput,
+} from "../recipes/components/StyledForm";
 
 const Login = ({ id }) => {
     const dispatch = useDispatch();
@@ -63,12 +21,10 @@ const Login = ({ id }) => {
         return <Redirect to="/dashboard" />;
     }
     return (
-        <Grommet
-            theme={grommetTheme}
-            style={{ display: "flex", alignItems: "center" }}
-        >
+        <div>
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
-                <FormField label="Email">
+                <label>
+                    Email
                     <TextInput
                         type="text"
                         name="email"
@@ -82,8 +38,9 @@ const Login = ({ id }) => {
                         })}
                     />
                     <p>{errors.email && errors.email.message}</p>
-                </FormField>
-                <FormField label="Password">
+                </label>
+                <label>
+                    Password
                     <TextInput
                         type="password"
                         name="password"
@@ -98,7 +55,7 @@ const Login = ({ id }) => {
                         })}
                     />
                     <p>{errors.password && errors.password.message}</p>
-                </FormField>
+                </label>
 
                 <div>
                     <Submit
@@ -110,7 +67,7 @@ const Login = ({ id }) => {
                     </Submit>
                 </div>
             </StyledForm>
-        </Grommet>
+        </div>
     );
 };
 
