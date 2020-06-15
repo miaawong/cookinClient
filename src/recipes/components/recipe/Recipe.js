@@ -1,13 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import EditRecipe from "../../../pages/EditRecipe";
 import * as recipeActionTypes from "../../recipeActionTypes";
 import { deleteRecipe } from "../../recipeAction";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { device } from "../../../Theme";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { likeRecipe, unlikeRecipe } from "../../recipeAction";
 
 const Main = styled.div`
     font-family: ${(props) => props.theme.font};
@@ -109,11 +109,17 @@ const BottomDesc = styled.div`
         margin: 0 auto;
     }
 `;
-const Recipe = ({ currentRecipe, edit, JWToken }) => {
+const FavoriteBtn = styled.button`
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background: none;
+    border: none;
+`;
+const Recipe = ({ currentRecipe, JWToken, userId }) => {
     let dispatch = useDispatch();
-
     let history = useHistory();
-    let {
+    const {
         _id,
         recipeName,
         recipeDesc,
@@ -124,8 +130,15 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
         img,
         createdOn,
         creator,
+        likes,
     } = currentRecipe;
-    let capCreator = creator.charAt(0).toUpperCase() + creator.slice(1);
+
+    let capCreator = "";
+    if (!creator) {
+        return "";
+    } else {
+        capCreator = creator.charAt(0).toUpperCase() + creator.slice(1);
+    }
     let duration_hour = Math.floor(duration / 60);
     let duration_mins = duration % 60;
 
@@ -147,99 +160,118 @@ const Recipe = ({ currentRecipe, edit, JWToken }) => {
     let createdMonth = months[month.getMonth()];
     let createdYear = new Date(createdOn).getFullYear();
 
-    if (edit) {
-        return <EditRecipe />;
-    } else if (currentRecipe) {
-        return (
-            <Main>
-                <Description>
-                    <RecipeName>{recipeName}</RecipeName>
+    return (
+        <Main>
+            <Description>
+                <RecipeName>{recipeName}</RecipeName>
 
-                    <span
+                <span
+                    style={{
+                        textAlign: "center",
+                    }}
+                >
+                    {recipeDesc}
+                </span>
+                <BottomDesc>
+                    <div
                         style={{
-                            textAlign: "center",
+                            width: "100%",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            justifyContent: "space-between",
                         }}
                     >
-                        {recipeDesc}
-                    </span>
-                    <BottomDesc>
-                        <div
+                        <p style={{ width: "100%" }}>Serves {servings}</p>
+
+                        <p>
+                            Time: {duration_hour}hr {duration_mins}mins
+                        </p>
+                        <p
                             style={{
-                                width: "100%",
-                                display: "flex",
-                                flexWrap: "wrap",
-                                justifyContent: "space-between",
+                                textAlign: "right",
                             }}
                         >
-                            <p style={{ width: "100%" }}>Serves {servings}</p>
+                            {createdMonth} {createdYear}
+                        </p>
+                        <p>Created by {capCreator}</p>
+                    </div>
+                    <Category>Ingredients</Category>
+                    <ul>
+                        {ingredients &&
+                            ingredients.map((ingredient, index) => (
+                                <li key={index} style={{ listStyle: "none" }}>
+                                    {ingredient.amount} {ingredient.unit}{" "}
+                                    {ingredient.ingName}
+                                </li>
+                            ))}
+                    </ul>
+                    <Modification>
+                        <Button
+                            onClick={() => {
+                                dispatch({
+                                    type: recipeActionTypes.EDIT_STATE,
+                                    payload: true,
+                                });
+                            }}
+                        >
+                            <FaEdit size={22} />
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                dispatch(deleteRecipe(_id, JWToken, history));
+                            }}
+                        >
+                            <FaTrash size={20} />
+                        </Button>
+                    </Modification>
+                </BottomDesc>
+            </Description>
+            <Middle>
+                <Category>Directions</Category>
+                {directions &&
+                    directions.map((step, index) => (
+                        <p key={index}> - {step}</p>
+                    ))}
+            </Middle>
+            <ImgContainer>
+                <Image
+                    alt={recipeName}
+                    src={img}
+                    style={{ position: "relative" }}
+                />
+                {console.log(likes.indexOf(userId))}
 
-                            <p>
-                                Time: {duration_hour}hr {duration_mins}mins
-                            </p>
-                            <p
-                                style={{
-                                    textAlign: "right",
-                                }}
-                            >
-                                {createdMonth} {createdYear}
-                            </p>
-                            <p>Created by {capCreator}</p>
-                        </div>
-                        <Category>Ingredients</Category>
-                        <ul>
-                            {ingredients &&
-                                ingredients.map((ingredient, index) => (
-                                    <li
-                                        key={index}
-                                        style={{ listStyle: "none" }}
-                                    >
-                                        {ingredient.amount} {ingredient.unit}{" "}
-                                        {ingredient.ingName}
-                                    </li>
-                                ))}
-                        </ul>
-                        <Modification>
-                            <Button
-                                onClick={() => {
-                                    dispatch({
-                                        type: recipeActionTypes.EDIT_STATE,
-                                        payload: true,
-                                    });
-                                }}
-                            >
-                                <FaEdit size={22} />
-                            </Button>
-                            <Button
-                                onClick={() => {
-                                    dispatch(
-                                        deleteRecipe(_id, JWToken, history)
-                                    );
-                                }}
-                            >
-                                <FaTrash size={20} />
-                            </Button>
-                        </Modification>
-                    </BottomDesc>
-                </Description>
-                <Middle>
-                    <Category>Directions</Category>
-                    {directions &&
-                        directions.map((step, index) => (
-                            <p key={index}> - {step}</p>
-                        ))}
-                </Middle>
-
-                <ImgContainer>
-                    <Image alt={recipeName} src={img} />
-                </ImgContainer>
-            </Main>
-        );
-    }
+                {likes.indexOf(userId) === -1 ? (
+                    <FavoriteBtn
+                        onClick={() => dispatch(likeRecipe(_id, JWToken))}
+                    >
+                        <FaRegHeart
+                            style={{
+                                position: "absolute",
+                                right: "1rem",
+                                top: "7rem",
+                            }}
+                            size={30}
+                        />
+                    </FavoriteBtn>
+                ) : (
+                    <FavoriteBtn
+                        onClick={() => dispatch(unlikeRecipe(_id, JWToken))}
+                    >
+                        <FaHeart
+                            style={{
+                                color: "#FB170A",
+                                position: "absolute",
+                                right: "1rem",
+                                top: "7rem",
+                            }}
+                            size={30}
+                        />
+                    </FavoriteBtn>
+                )}
+            </ImgContainer>
+        </Main>
+    );
 };
 
-const mapStateToProps = (state) => ({
-    currentRecipe: state["recipeReducer"].currentRecipe,
-    edit: state["recipeReducer"].edit,
-    JWToken: state["authReducer"].JWToken,
-});
-export default connect(mapStateToProps)(Recipe);
+export default Recipe;
