@@ -2,23 +2,16 @@ import React, { useRef, useState, useCallback } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { setDraftRecipe, uploadImage } from "../../recipeAction";
-import { StyledForm, Submit } from "../../../StyledForm";
-import { TextInput, Box, FormField, Keyboard, TextArea } from "grommet";
+import {
+    StyledForm,
+    Submit,
+    TextInput,
+    TextArea,
+    HourMinute,
+    ImageUpload,
+} from "../StyledForm";
 import { useDropzone } from "react-dropzone";
-import styled from "styled-components";
 import blankImage from "../../../images/blankimage.jpg";
-
-const ImageUpload = styled.div`
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: black;
-    color: white;
-    width: 100%;
-    height: 10rem;
-    text-align: center;
-`;
 
 const CreateRecipeDetails = ({ JWToken }) => {
     const { register, handleSubmit, errors } = useForm();
@@ -83,7 +76,6 @@ const CreateRecipeDetails = ({ JWToken }) => {
     const dispatch = useDispatch();
     const onSubmit = (data) => {
         if (!dropped) {
-            console.log("no image uploaded");
             const updatedData = { ...data, img: blankImage };
             dispatch(setDraftRecipe(updatedData));
         } else {
@@ -93,35 +85,36 @@ const CreateRecipeDetails = ({ JWToken }) => {
                     dispatch(setDraftRecipe(updatedData));
                 })
                 .catch((err) => {
-                    console.log(err, "no img");
                     return err;
                 });
         }
     };
+    console.log(errors);
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-            <Keyboard
-                onEnter={(e) => {
-                    e.preventDefault();
-                    recipeDescRef.current.focus();
-                }}
-            >
-                <FormField label="Name">
-                    <TextInput
-                        type="text"
-                        name="recipeName"
-                        placeholder="Recipe Name"
-                        ref={(e) => {
-                            register(e, {
-                                required: "Name is required",
-                            });
-                            recipeNameRef.current = e;
-                        }}
-                    ></TextInput>
-                </FormField>
-            </Keyboard>
+            <label>
+                Name
+                <TextInput
+                    type="text"
+                    name="recipeName"
+                    placeholder="Recipe Name"
+                    ref={(e) => {
+                        register(e, {
+                            required: "Name is required",
+                        });
+                        recipeNameRef.current = e;
+                    }}
+                    onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            recipeDescRef.current.focus();
+                        }
+                    }}
+                />
+            </label>
             {errors["recipeName"] && <p>{errors["recipeName"].message}</p>}
-            <FormField label="Description">
+            <label>
+                Description
                 <TextArea
                     type="text"
                     name="recipeDesc"
@@ -131,71 +124,70 @@ const CreateRecipeDetails = ({ JWToken }) => {
                         recipeDescRef.current = e;
                     }}
                     style={{ height: "8rem" }}
+                    // cannot keypress cause it's textarea
                 />
-            </FormField>
-            <Keyboard
-                onEnter={(e) => {
-                    e.preventDefault();
-                    hourRef.current.focus();
-                }}
-            >
-                <FormField label="Servings">
+            </label>
+            <label>
+                Servings
+                <TextInput
+                    type="number"
+                    name="servings"
+                    placeholder="Servings"
+                    ref={(e) => {
+                        register(e, {
+                            pattern: /^[0-9]*$/,
+                        });
+                        servingsRef.current = e;
+                    }}
+                    onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            hourRef.current.focus();
+                        }
+                    }}
+                />
+            </label>
+
+            {errors["servings"] && <p>{errors["servings"].message}</p>}
+            <HourMinute>
+                <label>
+                    Hour
                     <TextInput
                         type="number"
-                        name="servings"
-                        placeholder="Servings"
+                        name="duration_hour"
+                        placeholder="Hour"
                         ref={(e) => {
                             register(e);
-                            servingsRef.current = e;
+                            hourRef.current = e;
+                        }}
+                        style={{ width: "90%" }}
+                        onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                minutesRef.current.focus();
+                            }
                         }}
                     />
-                </FormField>
-            </Keyboard>
-            <Box
-                direction="row-responsive"
-                gap="large"
-                justify="start"
-                align="center"
-                pad={{ right: "small" }}
-            >
-                <Box direction="row-responsive" gap="small" align="center">
-                    <Keyboard
-                        onEnter={(e) => {
-                            e.preventDefault();
-                            minutesRef.current.focus();
+                </label>
+
+                <label>
+                    Minutes
+                    <TextInput
+                        type="number"
+                        name="duration_mins"
+                        placeholder="Mins"
+                        ref={(e) => {
+                            register(e);
+                            minutesRef.current = e;
                         }}
-                    >
-                        <FormField label="Hour">
-                            <TextInput
-                                type="number"
-                                name="duration_hour"
-                                placeholder="Hour"
-                                ref={(e) => {
-                                    register(e);
-                                    hourRef.current = e;
-                                }}
-                            />
-                        </FormField>
-                    </Keyboard>
-                </Box>
-                <Box direction="row-responsive" gap="small" align="center">
-                    <FormField label="Minutes">
-                        <TextInput
-                            type="number"
-                            name="duration_mins"
-                            placeholder="Mins"
-                            ref={(e) => {
-                                register(e);
-                            }}
-                        />
-                    </FormField>
-                </Box>
-            </Box>
+                        style={{ width: "90%" }}
+                    />
+                </label>
+            </HourMinute>
             <div>
                 <ImageUpload {...getRootProps()}>
                     <input {...getInputProps()} />
-
-                    <p>Upload Image</p>
+                    <p>Drop or click to upload image</p>
                     <div>{filepath}</div>
                 </ImageUpload>
             </div>
