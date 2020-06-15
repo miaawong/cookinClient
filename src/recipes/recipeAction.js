@@ -51,14 +51,12 @@ export const setDraftRecipe = (data) => {
             directions,
             img,
         } = data;
-        console.log(img, "img in setdraft");
         let { duration } = data;
 
         if (duration_hour && duration_mins) {
             duration = parseInt(duration_hour) * 60;
             duration = duration + parseInt(duration_mins);
         }
-
         const recipe = {
             recipeName,
             recipeDesc,
@@ -68,8 +66,6 @@ export const setDraftRecipe = (data) => {
             directions,
             img,
         };
-        console.log(recipe, "recipe new");
-
         dispatch({
             type: recipeActionTypes.DRAFT_RECIPE,
             payload: recipe,
@@ -88,7 +84,6 @@ export const createRecipe = (token, data, history) => {
             directions,
             img,
         } = data;
-        console.log(img);
         const draftRecipe = {
             recipeName,
             recipeDesc,
@@ -112,7 +107,6 @@ export const createRecipe = (token, data, history) => {
                 let recipe = res.data.recipe;
                 recipe.creator = res.data.user;
                 history.push(`/recipes/${recipeId}`);
-                console.log(res, "res createreipce");
                 dispatch({
                     type: recipeActionTypes.ADD_RECIPE,
                     payload: recipe,
@@ -124,7 +118,6 @@ export const createRecipe = (token, data, history) => {
     };
 };
 export const editRecipe = (recipeId, data, token, history) => {
-    console.log("edit");
     return (dispatch) => {
         const {
             recipeName,
@@ -159,7 +152,6 @@ export const editRecipe = (recipeId, data, token, history) => {
                 config
             )
             .then((res) => {
-                console.log(res);
                 let recipe = res.data.recipe;
                 history.push(`/recipes/${recipeId}`);
                 dispatch({
@@ -207,7 +199,6 @@ export const deleteRecipe = (recipeId, token, history) => {
         axios
             .delete(`http://localhost:3000/api/recipes/${recipeId}`, config)
             .then((res) => {
-                console.log("deleted");
                 history.push("/dashboard");
             })
             .catch((err) => {
@@ -228,7 +219,6 @@ export const uploadImage = (file, token) => {
         let originalname = uploadFile.name;
         data.append("file", uploadFile);
         data.append("originalname", originalname);
-        console.log(data, "data");
         return axios
             .post(`http://localhost:3000/api/recipes/upload`, data, config)
             .then((res) => {
@@ -263,7 +253,6 @@ export const likeRecipe = (recipeId, token) => {
             )
             .then((res) => {
                 let recipe = res.data;
-                console.log(recipe);
                 dispatch({
                     type: recipeActionTypes.EDIT_RECIPE,
                     payload: recipe,
@@ -275,7 +264,6 @@ export const likeRecipe = (recipeId, token) => {
     };
 };
 export const unlikeRecipe = (recipeId, token) => {
-    console.log("unlike");
     return (dispatch) => {
         const config = {
             headers: {
