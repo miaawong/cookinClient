@@ -4,9 +4,9 @@ import { useForm, useFieldArray } from "react-hook-form";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createRecipe } from "../../recipeAction";
-import { StyledForm, Submit } from "../../../StyledForm";
-import { FormField, TextInput, TextArea } from "grommet";
+import { StyledForm, Submit, TextArea } from "../StyledForm";
 import { FaPlus } from "react-icons/fa";
+
 const AddMore = styled.button`
     width: 4rem;
     padding: 0.5rem;
@@ -29,22 +29,27 @@ const CreateDirections = ({ JWToken, draftRecipe, image }) => {
     });
 
     const onSubmit = (data) => {
+        console.log("hi");
         draftRecipe.directions = data.directions;
         dispatch(createRecipe(JWToken, draftRecipe, history));
     };
     return (
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <StyledForm
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ justifyContent: "flex-start" }}
+        >
             <h1>Directions</h1>
             {fields.map((input, index) => {
                 return (
-                    <FormField label={`Step ${index + 1}`} key={index}>
+                    <label key={index}>
+                        {`Step ${index + 1}`}
                         <TextArea
                             type="text"
                             name={`directions[${index}]`}
                             ref={register}
                             style={{ height: "8rem" }}
                         />
-                    </FormField>
+                    </label>
                 );
             })}
             <AddMore
