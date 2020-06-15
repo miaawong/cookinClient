@@ -2,19 +2,24 @@ import React, { useRef, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { setDraftRecipe, uploadImage } from "../../recipeAction";
-import { StyledForm, Submit } from "../../../StyledForm";
-import { FormField, TextInput, Keyboard, Box } from "grommet";
+import {
+    StyledForm,
+    Submit,
+    TextInput,
+    HourMinute,
+    ImageUpload,
+} from "../StyledForm";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
-import blankImage from "../../../images/blankimage.jpg";
-const Dropzone = styled.section`
-    margin: 1rem auto;
-    width: 100%;
-    height: 40%;
-    border: 2px dashed black;
-    padding: 2rem;
-    text-align: center;
-`;
+
+// const Dropzone = styled.section`
+//     margin: 1rem auto;
+//     width: 100%;
+//     height: 40%;
+//     border: 2px dashed black;
+//     padding: 2rem;
+//     text-align: center;
+// `;
 
 const EditRecipeDetails = ({ recipe, JWToken }) => {
     let { recipeName, recipeDesc, servings, duration, img } = recipe;
@@ -25,14 +30,7 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
     const [file, setFile] = useState(img);
     const [dropped, setDropped] = useState(false);
 
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps,
-        isDragAccept,
-        isDragReject,
-        isDragActive,
-    } = useDropzone({
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
         onDrop: (acceptedFiles) => {
             setFile(acceptedFiles);
             setDropped(true);
@@ -43,7 +41,6 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
         Object.assign(file, {
             preview: URL.createObjectURL(file),
         });
-        console.log(file.preview);
         return (
             // <li key={file.path} style={{ listStyle: "none" }}>
             <div
@@ -91,57 +88,83 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <h1>Details</h1>
-            <Keyboard
-                onEnter={(e) => {
-                    e.preventDefault();
-                    recipeDescRef.current.focus();
-                }}
-            >
-                <FormField label="Name">
-                    <TextInput
-                        type="text"
-                        name="recipeName"
-                        placeholder="Recipe Name"
-                        ref={(e) => {
-                            register(e, { pattern: "I cannot be empty" });
-                            recipeNameRef.current = e;
-                        }}
-                        defaultValue={recipeName}
-                    ></TextInput>
-                </FormField>
-            </Keyboard>
+
+            <label>
+                Name
+                <TextInput
+                    type="text"
+                    name="recipeName"
+                    placeholder="Recipe Name"
+                    ref={(e) => {
+                        register(e, { pattern: "I cannot be empty" });
+                        recipeNameRef.current = e;
+                    }}
+                    defaultValue={recipeName}
+                    onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            recipeDescRef.current.focus();
+                        }
+                    }}
+                ></TextInput>
+            </label>
+
             {errors["recipeName"] && <p>{errors["recipeName"].message}</p>}
-            <Keyboard
-                onEnter={(e) => {
-                    e.preventDefault();
-                    servingsRef.current.focus();
-                }}
-            >
-                <FormField label="Description">
+
+            <label>
+                Description
+                <TextInput
+                    type="text"
+                    name="recipeDesc"
+                    placeholder="Description"
+                    ref={(e) => {
+                        register(e);
+                        recipeDescRef.current = e;
+                    }}
+                    defaultValue={recipeDesc}
+                    onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            servingsRef.current.focus();
+                        }
+                    }}
+                />
+            </label>
+
+            <label>
+                Servings
+                <TextInput
+                    type="text"
+                    name="servings"
+                    placeholder="Servings"
+                    ref={(e) => {
+                        register(e, {
+                            pattern: {
+                                value: /^(0|[1-9][0-9]*)$/,
+                                message: "must be a number",
+                            },
+                        });
+                        servingsRef.current = e;
+                    }}
+                    onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            hourRef.current.focus();
+                        }
+                    }}
+                    defaultValue={servings}
+                />
+            </label>
+
+            {errors["servings"] && <p>{errors["servings"].message}</p>}
+
+            <HourMinute>
+                <label>
+                    Hour
                     <TextInput
-                        type="text"
-                        name="recipeDesc"
-                        placeholder="Description"
-                        ref={(e) => {
-                            register(e);
-                            recipeDescRef.current = e;
-                        }}
-                        defaultValue={recipeDesc}
-                    />
-                </FormField>
-            </Keyboard>
-            {errors["recipeDesc"] && <p>{errors["recipeDesc"].message}</p>}
-            <Keyboard
-                onEnter={(e) => {
-                    e.preventDefault();
-                    hourRef.current.focus();
-                }}
-            >
-                <FormField label="Servings">
-                    <TextInput
-                        type="text"
-                        name="servings"
-                        placeholder="Servings"
+                        type="number"
+                        name="duration_hour"
+                        placeholder="Hour"
                         ref={(e) => {
                             register(e, {
                                 pattern: {
@@ -149,88 +172,55 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
                                     message: "must be a number",
                                 },
                             });
-                            servingsRef.current = e;
+                            hourRef.current = e;
                         }}
-                        defaultValue={servings}
+                        onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                minutesRef.current.focus();
+                            }
+                        }}
+                        defaultValue={duration_hour}
                     />
-                </FormField>
-            </Keyboard>
-            {errors["servings"] && <p>{errors["servings"].message}</p>}
+                </label>
 
-            <Box
-                direction="row-responsive"
-                gap="large"
-                justify="start"
-                align="center"
-                pad={{ right: "small" }}
-            >
-                <Box direction="row-responsive" gap="small" align="center">
-                    <Keyboard
-                        onEnter={(e) => {
-                            e.preventDefault();
-                            minutesRef.current.focus();
+                {errors["duration_hour"] && (
+                    <p style={{ padding: 0, margin: 0 }}>
+                        {errors["duration_hour"].message}
+                    </p>
+                )}
+
+                <label>
+                    Minutes
+                    <TextInput
+                        type="number"
+                        name="duration_mins"
+                        placeholder="Mins"
+                        ref={(e) => {
+                            register(e, {
+                                pattern: {
+                                    value: /^(0|[1-9][0-9]*)$/,
+                                    message: "must be a number",
+                                },
+                            });
+                            minutesRef.current = e;
                         }}
-                    >
-                        <FormField label="Hour">
-                            <TextInput
-                                type="number"
-                                name="duration_hour"
-                                placeholder="Hour"
-                                ref={(e) => {
-                                    register(e, {
-                                        pattern: {
-                                            value: /^(0|[1-9][0-9]*)$/,
-                                            message: "must be a number",
-                                        },
-                                    });
-                                    hourRef.current = e;
-                                }}
-                                defaultValue={duration_hour}
-                            />
-                        </FormField>
-                    </Keyboard>
-                    {errors["duration_hour"] && (
-                        <p style={{ padding: 0, margin: 0 }}>
-                            {errors["duration_hour"].message}
-                        </p>
-                    )}
-                </Box>
-                <Box direction="row-responsive" gap="small" align="center">
-                    <FormField label="Minutes">
-                        <TextInput
-                            type="number"
-                            name="duration_mins"
-                            placeholder="Mins"
-                            ref={(e) => {
-                                register(e, {
-                                    pattern: {
-                                        value: /^(0|[1-9][0-9]*)$/,
-                                        message: "must be a number",
-                                    },
-                                });
-                                minutesRef.current = e;
-                            }}
-                            defaultValue={duration_mins}
-                        />
-                    </FormField>
+                        defaultValue={duration_mins}
+                    />
+                </label>
 
-                    {errors["duration_mins"] && (
-                        <p>{errors["duration_mins"].message}</p>
-                    )}
-                </Box>
-            </Box>
+                {errors["duration_mins"] && (
+                    <p>{errors["duration_mins"].message}</p>
+                )}
+            </HourMinute>
 
-            <Dropzone>
-                <div {...getRootProps()}>
+            <div>
+                <ImageUpload {...getRootProps()}>
                     <input {...getInputProps()} />
-
-                    {dropped ? (
-                        <div>{filepath}</div>
-                    ) : (
-                        <p>Drop or click to upload image</p>
-                    )}
-                </div>
-            </Dropzone>
+                    <p>Drop or click to upload image</p>
+                    <div>{filepath}</div>
+                </ImageUpload>
+            </div>
 
             <div>
                 <Submit type="submit" value="Submit">
