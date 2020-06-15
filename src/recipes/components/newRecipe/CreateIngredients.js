@@ -1,38 +1,67 @@
 import React, { useState, useRef } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
+import Select from "react-select";
 import { setDraftRecipe } from "../../recipeAction";
-import { StyledForm, Submit } from "../../../StyledForm";
-import { TextInput, Select, Box, Keyboard, FormField } from "grommet";
+import { StyledForm, Submit, TextInput } from "../StyledForm";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
+import { theme } from "../../../Theme";
 
 const Ingredient = styled.div`
     display: flex;
-    flex-wrap: ${({ unit }) => (unit === "other" ? "wrap" : "no-wrap")};
+    flex-wrap: ${({ unit }) => (unit.value === "other" ? "wrap" : "no-wrap")};
     justify-content: space-evenly;
     align-items: center;
 `;
-
-const AddIngredients = styled.button`
+const IngredientRow = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+`;
+const AddButton = styled.button`
+    color: white;
     border: none;
-    height: 3.5rem;
+    height: 3rem;
     background-color: #000;
 `;
 
+const customStyles = {
+    option: (provided, state) => ({
+        ...provided,
+        borderBottom: "1px solid #d0d5da",
+        color: "#000000",
+        backgroundColor: state.isSelected ? `${theme.colors.yellow}` : "white",
+        "&:hover": {
+            background: `${theme.colors.yellow}`,
+        },
+    }),
+    control: (provided) => ({
+        ...provided,
+        border: "2px solid black",
+        borderRadius: 0,
+        // This line disable the blue border
+        boxShadow: "none",
+        "&:hover": {
+            border: "2px solid black",
+        },
+    }),
+};
+
 const CreateIngredients = ({ draftRecipe }) => {
     const [options, setOptions] = useState([
-        " ",
-        "tsp",
-        "tbsp",
-        "cup",
-        "oz",
-        "lb",
-        "g",
-        "kg",
-        "ml",
-        "l",
-        "other",
+        { value: " ", label: " " },
+        { value: "tsp", label: "tsp" },
+        { value: "tbsp", label: "tbsp" },
+        { value: "cup", label: "cup" },
+        { value: "oz", label: "oz" },
+        { value: "lb", label: "lb" },
+        { value: "g", label: "g" },
+        { value: "kg", label: "kg" },
+        { value: "ml", label: "ml" },
+        { value: "l", label: "l" },
+        { value: "other", label: "other" },
     ]);
     const dispatch = useDispatch();
     const {
@@ -62,77 +91,80 @@ const CreateIngredients = ({ draftRecipe }) => {
     const unitRef = useRef();
 
     return (
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <StyledForm
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ justifyContent: "flex-start" }}
+        >
             <h1>Ingredients</h1>
             {fields.map((input, index) => {
                 const unit = watch(`ingredients[${index}].unit`);
+                console.log(unit);
 
                 return (
                     <Ingredient key={input.id} unit={unit}>
-                        <Box
-                            direction="row-responsive"
-                            align="center"
-                            justify="between"
-                            width="100%"
-                        >
-                            <Keyboard
-                                onEnter={(e) => {
-                                    e.preventDefault();
-                                    amountRef.current.focus();
-                                }}
-                            >
-                                <FormField label="Ingredient" margin="xsmall">
-                                    <TextInput
-                                        type="text"
-                                        name={`ingredients[${index}].ingName`}
-                                        placeholder="ingredient"
-                                        ref={(e) => {
-                                            register(e);
-                                            ingredientRef.current = e;
-                                        }}
-                                    />
-                                </FormField>
-                            </Keyboard>
-                            <Keyboard
-                                onEnter={(e) => {
-                                    e.preventDefault();
-                                    unitRef.current.focus();
-                                }}
-                            >
-                                <FormField label="Amount" margin="xsmall">
-                                    <TextInput
-                                        type="text"
-                                        name={`ingredients[${index}].amount`}
-                                        placeholder="how much?"
-                                        ref={(e) => {
-                                            register(e);
-                                            amountRef.current = e;
-                                        }}
-                                    />
-                                </FormField>
-                            </Keyboard>
-                            <FormField label="Unit" margin="xsmall">
+                        <IngredientRow>
+                            <label>
+                                Ingredient
+                                <TextInput
+                                    type="text"
+                                    name={`ingredients[${index}].ingName`}
+                                    placeholder="ingredient"
+                                    ref={(e) => {
+                                        register(e);
+                                        ingredientRef.current = e;
+                                    }}
+                                    onKeyPress={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            amountRef.current.focus();
+                                        }
+                                    }}
+                                />
+                            </label>
+
+                            <label>
+                                Amount
+                                <TextInput
+                                    type="text"
+                                    name={`ingredients[${index}].amount`}
+                                    placeholder="how much?"
+                                    ref={(e) => {
+                                        register(e);
+                                        amountRef.current = e;
+                                    }}
+                                    onKeyPress={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            unitRef.current.focus();
+                                        }
+                                    }}
+                                />
+                            </label>
+
+                            <label style={{ width: "15rem" }}>
+                                Unit
                                 <Controller
                                     as={
                                         <Select
-                                            name="options"
-                                            options={options}
-                                            value={option}
-                                            dropHeight="small"
+                                            onChange={([e]) => e.value}
                                             ref={(e) => {
                                                 register(e);
                                                 unitRef.current = e;
                                             }}
+                                            styles={customStyles}
                                         />
                                     }
+                                    value={option}
+                                    option={option}
+                                    options={options}
                                     name={`ingredients[${index}].unit`}
                                     control={control}
-                                    onChange={([e]) => e.value}
                                 />
-                            </FormField>
+                            </label>
 
-                            <FormField label="Add" margin="xsmall">
-                                <AddIngredients
+                            <label>
+                                Add
+                                <AddButton
                                     onClick={(e) => {
                                         e.preventDefault();
                                         append({ ingredients: "ingredients" });
@@ -142,19 +174,45 @@ const CreateIngredients = ({ draftRecipe }) => {
                                         style={{ color: "white" }}
                                         size={22}
                                     />
-                                </AddIngredients>
-                            </FormField>
-                        </Box>
-
-                        {unit === "other" && (
+                                </AddButton>
+                            </label>
+                        </IngredientRow>
+                        {console.log(unit, "unit")}
+                        {unit && unit.value === "other" && (
                             <div
                                 style={{
                                     width: "100%",
+                                    display: "flex",
                                 }}
                             >
-                                <Keyboard
-                                    onEnter={(e) => {
-                                        e.preventDefault();
+                                <TextInput
+                                    placeholder="New Unit"
+                                    name="otherOptions"
+                                    ref={register}
+                                    onChange={(event) =>
+                                        setOpt({
+                                            value: event.target.value,
+                                            label: event.target.value,
+                                        })
+                                    }
+                                    onKeyPress={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            setOptions([...options, option]);
+                                            setValue(
+                                                `ingredients[${index}].unit`,
+                                                option
+                                            );
+                                        }
+                                    }}
+                                    style={{
+                                        width: "20rem",
+                                        margin: "0",
+                                    }}
+                                />
+                                <AddButton
+                                    onClick={(event) => {
+                                        event.preventDefault();
                                         setOptions([...options, option]);
                                         setValue(
                                             `ingredients[${index}].unit`,
@@ -162,24 +220,8 @@ const CreateIngredients = ({ draftRecipe }) => {
                                         );
                                     }}
                                 >
-                                    <FormField
-                                        label="Add New Option"
-                                        margin="xsmall"
-                                        style={{
-                                            width: "17.5rem",
-                                            margin: "1rem 42rem",
-                                        }}
-                                    >
-                                        <TextInput
-                                            placeholder="new option"
-                                            name="otherOptions"
-                                            ref={register}
-                                            onChange={(event) =>
-                                                setOpt(event.target.value)
-                                            }
-                                        />
-                                    </FormField>
-                                </Keyboard>
+                                    Add New Unit
+                                </AddButton>
                             </div>
                         )}
                     </Ingredient>
