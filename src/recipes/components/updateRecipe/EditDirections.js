@@ -3,8 +3,7 @@ import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { editRecipe } from "../../recipeAction";
-import { StyledForm, Submit } from "../../../StyledForm";
-import { FormField, TextInput } from "grommet";
+import { StyledForm, Submit, TextArea } from "../StyledForm";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
 
@@ -39,13 +38,14 @@ const EditDirections = ({ JWToken, draftRecipe, recipe }) => {
             <h1>Directions</h1>
             {fields.map((input, index) => {
                 return (
-                    <FormField label={`Step ${index + 1}`} key={index}>
-                        <TextInput
+                    <label key={index}>
+                        {`Step ${index + 1}`}
+                        <TextArea
                             type="text"
                             name={`directions[${index}]`}
                             ref={register}
                         />
-                    </FormField>
+                    </label>
                 );
             })}
             <AddMore
