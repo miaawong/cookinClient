@@ -107,17 +107,15 @@ const RecipeCard = ({ userId, recipes, JWToken }) => {
     let history = useHistory();
     let card = recipes.map((recipe) => {
         const { img, recipeName, recipeDesc, likes, _id } = recipe;
-
         return (
             <CardBox recipes={recipes}>
                 <Image src={img} recipes={recipes} />
-                {likes.length !== 0 && likes.map((like) => like === userId) ? (
+                {likes.indexOf(userId) === -1 ? (
                     <FavoriteBtn
-                        onClick={() => dispatch(unlikeRecipe(_id, JWToken))}
+                        onClick={() => dispatch(likeRecipe(_id, JWToken))}
                     >
-                        <FaHeart
+                        <FaRegHeart
                             style={{
-                                color: "white",
                                 position: "absolute",
                                 right: "1rem",
                                 top: "1rem",
@@ -127,10 +125,11 @@ const RecipeCard = ({ userId, recipes, JWToken }) => {
                     </FavoriteBtn>
                 ) : (
                     <FavoriteBtn
-                        onClick={() => dispatch(likeRecipe(_id, JWToken))}
+                        onClick={() => dispatch(unlikeRecipe(_id, JWToken))}
                     >
-                        <FaRegHeart
+                        <FaHeart
                             style={{
+                                color: "#FB170A",
                                 position: "absolute",
                                 right: "1rem",
                                 top: "1rem",
