@@ -5,53 +5,11 @@ import { useForm } from "react-hook-form";
 import { signUp } from "../auth/authAction";
 import styled from "styled-components";
 import { device } from "../Theme";
-import { StyledForm, Submit } from "../StyledForm";
-import { Grommet, FormField, TextInput } from "grommet";
-
-const grommetTheme = {
-    global: {
-        font: {
-            family: "Roboto",
-            size: "24px",
-        },
-        colors: {
-            focus: "#ffda0b",
-            selected: "#ffda0b",
-        },
-        selected: {
-            color: "#000000",
-        },
-        hover: {
-            background: "#ffda0b",
-            color: "#000000",
-        },
-        // control: {
-        //     border: {
-        //         radius: "0",
-        //     },
-        // },
-    },
-
-    textInput: {
-        container: {
-            extend: {
-                width: "auto",
-                border: "none",
-                borderRadius: "0",
-            },
-        },
-    },
-    select: {
-        control: {
-            extend: {
-                border: "2px solid black",
-            },
-        },
-        icons: {
-            color: "#ffda0b",
-        },
-    },
-};
+import {
+    StyledForm,
+    Submit,
+    TextInput,
+} from "../recipes/components/StyledForm";
 
 const SignUp = () => {
     const { register, handleSubmit, errors } = useForm();
@@ -63,15 +21,10 @@ const SignUp = () => {
     };
 
     return (
-        <Grommet
-            theme={grommetTheme}
-            style={{
-                display: "flex",
-                alignItems: "center",
-            }}
-        >
+        <div>
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
-                <FormField label="Name">
+                <label>
+                    Name
                     <TextInput
                         type="text"
                         name="name"
@@ -85,9 +38,10 @@ const SignUp = () => {
                         placeholder="John"
                     />
                     <p>{errors.name && errors.name.message}</p>
-                </FormField>
+                </label>
 
-                <FormField label="Email">
+                <label>
+                    Email
                     <TextInput
                         type="text"
                         name="email"
@@ -101,9 +55,10 @@ const SignUp = () => {
                         placeholder="Email"
                     />
                     <p>{errors.email && errors.email.message}</p>
-                </FormField>
+                </label>
 
-                <FormField label="Password">
+                <label>
+                    Password
                     <TextInput
                         type="password"
                         name="password"
@@ -118,7 +73,7 @@ const SignUp = () => {
                         placeholder="Password"
                     />
                     <p>{errors.password && errors.password.message}</p>
-                </FormField>
+                </label>
 
                 <div>
                     <Submit
@@ -130,7 +85,7 @@ const SignUp = () => {
                     </Submit>
                 </div>
             </StyledForm>
-        </Grommet>
+        </div>
     );
 };
 export default SignUp;
