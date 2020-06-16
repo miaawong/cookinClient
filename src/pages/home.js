@@ -3,14 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import pasta from "../images/Creamy-Salmon-Pasta-with-Spinach-2.jpg";
 import { device } from "../Theme";
-const OuterBox = styled.div`
-    display: flex;
-    justify-content: center;
-    height: 90%;
-    @media ${device.laptop}, ${device.desktop}, ${device.wide} {
-        align-items: center;
-    }
-`;
+import { Main } from "../main/components/StyledMain";
 
 const Box = styled.div`
     display: flex;
@@ -18,9 +11,8 @@ const Box = styled.div`
     border: 5px solid black;
     justify-content: center;
     align-content: center;
-    margin: ${({ loggedIn }) => (loggedIn ? "0 6rem 0 auto" : "0 auto")};
     height: 75%;
-    width: 91%;
+    width: 100%;
     align-items: center;
 
     @media ${device.small}, ${device.medium} {
@@ -28,8 +20,8 @@ const Box = styled.div`
         border: none;
         margin: 0;
         width: 100%;
-        height: 58%;
         position: fixed;
+        top: 7rem;
     }
     @media ${device.large}, ${device.ipad} {
         flex-direction: column;
@@ -151,7 +143,7 @@ const MainImg = styled.img`
     object-fit: cover;
     @media ${device.small} {
         width: 100%;
-        max-height: 100%;
+        max-height: 65%;
     }
     @media ${device.medium} {
         width: 100%;
@@ -173,17 +165,13 @@ const Text = styled.p`
         font-size: ${(props) => props.theme.fontSizes.medium};
         margin: 0.1em;
     }
-    @media ${device.large} {
-        margin: 0;
-    }
-    @media ${device.ipad} {
-        /* font-size: ${(props) => props.theme.fontSizes.medium}; */
+    @media ${device.large}, ${device.ipad} {
         margin: 0;
     }
 `;
 export default function Home({ loggedIn }) {
     return (
-        <OuterBox>
+        <Main loggedIn={loggedIn} style={{ width: "95%" }}>
             <Box loggedIn={loggedIn}>
                 <MainText>
                     <Text>What's cookin' for dinner? </Text>
@@ -199,6 +187,6 @@ export default function Home({ loggedIn }) {
                     <MainImg src={pasta} alt="pasta" />
                 </Yellow>
             </Box>
-        </OuterBox>
+        </Main>
     );
 }
