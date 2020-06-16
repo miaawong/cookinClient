@@ -5,7 +5,7 @@ import RecipeCard from "../recipes/components/recipe/RecipeCard";
 import { Redirect, Link } from "react-router-dom";
 import { getAllRecipes } from "../recipes/recipeAction.js";
 
-const Dashboard = ({ name, id, JWToken, recipes }) => {
+const Dashboard = ({ name, id, JWToken, recipes, loggedIn }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         JWToken && dispatch(getAllRecipes(JWToken));
@@ -18,7 +18,7 @@ const Dashboard = ({ name, id, JWToken, recipes }) => {
     /* todo: recipelist when fullscreen */
     /* <RecipesList /> */
 
-    return <RecipeCard recipes={recipes} />;
+    return <RecipeCard recipes={recipes} loggedIn={loggedIn} />;
 };
 const mapStateToProps = (state) => ({
     toDashboard: state["authReducer"].toDashboard,
