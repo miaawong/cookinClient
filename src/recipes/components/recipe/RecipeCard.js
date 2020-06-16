@@ -6,25 +6,7 @@ import { getCurrentRecipe, likeRecipe, unlikeRecipe } from "../../recipeAction";
 import styled from "styled-components";
 import { device } from "../../../Theme";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-
-const Dashboard = styled.div`
-    font-family: ${(props) => props.theme.font};
-    margin: 0 auto 5rem auto;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: start;
-
-    @media ${device.ipad} {
-        margin: 0 auto 13rem auto;
-    }
-
-    @media ${device.laptop}, ${device.wide} {
-        width: 96.2%;
-        margin: 0 6rem 0 auto;
-    }
-`;
-
+import { Main } from "../../../main/components/StyledMain";
 const CardBox = styled.div`
     background: #f8f8f8;
     margin: ${({ recipes }) =>
@@ -102,7 +84,7 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
-const RecipeCard = ({ userId, recipes, JWToken }) => {
+const RecipeCard = ({ userId, recipes, JWToken }, loggedIn) => {
     const dispatch = useDispatch();
     let history = useHistory();
     let card = recipes.map((recipe) => {
@@ -129,7 +111,8 @@ const RecipeCard = ({ userId, recipes, JWToken }) => {
                     >
                         <FaHeart
                             style={{
-                                color: "#FB170A",
+                                color: "#FFDA0B",
+
                                 position: "absolute",
                                 right: "1rem",
                                 top: "1rem",
@@ -158,7 +141,7 @@ const RecipeCard = ({ userId, recipes, JWToken }) => {
             </CardBox>
         );
     });
-    return <Dashboard>{card}</Dashboard>;
+    return <Main loggedIn={loggedIn}>{card}</Main>;
 };
 
 const mapStateToProps = (state) => ({
