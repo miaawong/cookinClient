@@ -171,14 +171,14 @@ const Text = styled.p`
 `;
 export default function Home({ loggedIn }) {
     return (
-        <Main loggedIn={loggedIn} style={{ width: "95%" }}>
+        <Main loggedIn={loggedIn} style={{ width: "92%" }}>
             <Box loggedIn={loggedIn}>
                 <MainText>
                     <Text>What's cookin' for dinner? </Text>
                     <Text>Get inspired, </Text>
                     <Text>Store your recipes,</Text>
                     <Text>All in one place.</Text>
-                    <StyledLink to="/recipes">
+                    <StyledLink to="/explore">
                         <label>Recipes</label>
                     </StyledLink>
                 </MainText>
