@@ -6,7 +6,7 @@ import { getCurrentRecipe, getAllRecipes } from "../recipes/recipeAction";
 import * as recipeActionTypes from "../recipes/recipeActionTypes";
 import EditRecipe from "./EditRecipe";
 
-const Recipe = ({ currentRecipe, JWToken, edit, userId }) => {
+const Recipe = ({ currentRecipe, JWToken, edit, userId, loggedIn }) => {
     const { recipeId } = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -27,6 +27,7 @@ const Recipe = ({ currentRecipe, JWToken, edit, userId }) => {
                 currentRecipe={currentRecipe}
                 JWToken={JWToken}
                 userId={userId}
+                loggedIn={loggedIn}
             />
         );
     } else if (edit) {
