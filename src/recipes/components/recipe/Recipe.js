@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -17,7 +17,7 @@ const Main = styled.div`
     flex-direction: column;
 
     @media ${device.laptop} {
-        width: 95%;
+        width: 96%;
     }
 
     @media ${device.wide} {
@@ -113,7 +113,35 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
+const DeleteModal = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+    z-index: 1;
+    width: 50%;
+    height: 30%;
+    background: white;
+    color: black;
+    position: fixed;
+    top: 30rem;
+    left: 16rem;
+    border-radius: 5px;
+`;
+const DeleteBtns = styled.button`
+    width: 10rem;
+    height: 5rem;
+    color: white;
+    background: black;
+    border: none;
+    font-size: ${(props) => props.theme.fontSizes.large};
+`;
+const DeleteRow = styled.div`
+    display: flex;
+    justify-content: space-around;
+`;
 const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
+    const [deleteModal, setDeleteModal] = useState(false);
     let dispatch = useDispatch();
     let history = useHistory();
     const {
@@ -127,6 +155,7 @@ const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
         img,
         createdOn,
         creator,
+        ownerId,
         likes,
     } = currentRecipe;
 
@@ -202,30 +231,64 @@ const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
                         {ingredients &&
                             ingredients.map((ingredient, index) => (
                                 <li key={index} style={{ listStyle: "none" }}>
-                                    {ingredient.amount} {ingredient.unit.value}{" "}
+                                    {ingredient.amount}
+                                    {ingredient.unit && ingredient.unit.value}
                                     {ingredient.ingName}
                                 </li>
                             ))}
                     </ul>
-                    <Modification>
-                        <Button
-                            onClick={() => {
-                                dispatch({
-                                    type: recipeActionTypes.EDIT_STATE,
-                                    payload: true,
-                                });
-                            }}
-                        >
-                            <FaEdit size={22} />
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                dispatch(deleteRecipe(_id, JWToken, history));
-                            }}
-                        >
-                            <FaTrash size={20} />
-                        </Button>
-                    </Modification>
+                    {ownerId === userId && (
+                        <Modification>
+                            <Button
+                                onClick={() => {
+                                    dispatch({
+                                        type: recipeActionTypes.EDIT_STATE,
+                                        payload: true,
+                                    });
+                                }}
+                            >
+                                <FaEdit size={22} />
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setDeleteModal(true);
+                                }}
+                            >
+                                <FaTrash size={20} />
+                            </Button>
+
+                            {deleteModal && (
+                                <DeleteModal>
+                                    <h3>
+                                        Are you sure about deleting this recipe?{" "}
+                                    </h3>
+                                    <DeleteRow>
+                                        <DeleteBtns
+                                            onClick={() => {
+                                                setDeleteModal(false);
+                                            }}
+                                        >
+                                            Cancel
+                                        </DeleteBtns>
+                                        <DeleteBtns
+                                            onClick={() => {
+                                                dispatch(
+                                                    deleteRecipe(
+                                                        _id,
+                                                        JWToken,
+                                                        history
+                                                    )
+                                                );
+                                            }}
+                                            style={{ background: "red" }}
+                                        >
+                                            Delete
+                                        </DeleteBtns>
+                                    </DeleteRow>
+                                </DeleteModal>
+                            )}
+                        </Modification>
+                    )}
                 </BottomDesc>
             </Description>
             <Middle>
