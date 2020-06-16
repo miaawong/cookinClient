@@ -113,7 +113,7 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
-const Recipe = ({ currentRecipe, JWToken, userId }, loggedIn) => {
+const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
     let dispatch = useDispatch();
     let history = useHistory();
     const {
@@ -241,7 +241,6 @@ const Recipe = ({ currentRecipe, JWToken, userId }, loggedIn) => {
                     src={img}
                     style={{ position: "relative" }}
                 />
-                {console.log(likes.indexOf(userId))}
 
                 {likes.indexOf(userId) === -1 ? (
                     <FavoriteBtn
