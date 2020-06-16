@@ -84,7 +84,7 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
-const RecipeCard = ({ userId, recipes, JWToken }, loggedIn) => {
+const RecipeCard = ({ userId, recipes, JWToken, loggedIn }) => {
     const dispatch = useDispatch();
     let history = useHistory();
     let card = recipes.map((recipe) => {
