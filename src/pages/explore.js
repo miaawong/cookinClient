@@ -67,7 +67,7 @@ const Description = styled.p`
     margin: 0.5rem 0 1rem 0;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.button`
     color: #ffffff;
     width: 5rem;
     line-height: 2rem;
@@ -75,6 +75,7 @@ const StyledLink = styled(Link)`
     padding: 2px;
     text-align: center;
     margin: 0 auto;
+    border: none;
 
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.73);
     text-decoration: none;
@@ -94,7 +95,7 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
-const Explore = ({ JWToken, userId, recipes }) => {
+const Explore = ({ JWToken, userId, recipes, loggedIn }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(exploreRecipes());
@@ -106,7 +107,7 @@ const Explore = ({ JWToken, userId, recipes }) => {
     let card = recipes.map((recipe) => {
         const { img, recipeName, recipeDesc, likes, _id } = recipe;
         return (
-            <CardBox recipes={recipes}>
+            <CardBox recipes={recipes} key={_id}>
                 <Image src={img} recipes={recipes} />
                 {likes.indexOf(userId) === -1 ? (
                     <FavoriteBtn
@@ -157,7 +158,7 @@ const Explore = ({ JWToken, userId, recipes }) => {
             </CardBox>
         );
     });
-    return <Main>{card}</Main>;
+    return <Main loggedIn={loggedIn}>{card}</Main>;
 };
 const mapStateToProps = (state) => ({
     userId: state["authReducer"].id,
