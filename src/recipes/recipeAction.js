@@ -6,6 +6,11 @@ export const exploreRecipes = () => {
         return axios
             .get("http://localhost:3000/api/recipes/allRecipes")
             .then((res) => {
+                let recipes = res.data.all;
+                dispatch({
+                    type: recipeActionTypes.GET_ALL_RECIPES,
+                    payload: recipes,
+                });
                 return res.data.all;
             })
 
