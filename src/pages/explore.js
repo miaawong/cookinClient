@@ -2,28 +2,17 @@ import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { exploreRecipes, getCurrentRecipe } from "../recipes/recipeAction";
+import {
+    exploreRecipes,
+    getCurrentRecipe,
+    likeRecipe,
+    unlikeRecipe,
+    getAllRecipes,
+} from "../recipes/recipeAction";
 import styled from "styled-components";
 import { device } from "../Theme";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-
-const Dashboard = styled.div`
-    font-family: ${(props) => props.theme.font};
-    margin: 0 auto 5rem auto;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: start;
-
-    @media ${device.ipad} {
-        margin: 0 auto 13rem auto;
-    }
-
-    @media ${device.laptop}, ${device.wide} {
-        width: 96.2%;
-        margin: 0 6rem 0 auto;
-    }
-`;
+import { Main } from "../main/components/StyledMain";
 
 const CardBox = styled.div`
     background: #f8f8f8;
@@ -106,43 +95,54 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
-const Explore = ({ JWToken }) => {
-    const [recipes, setRecipes] = useState([]);
+const Explore = ({ JWToken, userId, recipes }) => {
+    // const [recipes, setRecipes] = useState([]);
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(exploreRecipes()).then((recipes) => {
-            setRecipes(recipes);
-        });
+        dispatch(exploreRecipes());
+        // .then((recipes) => {
+        //     setRecipes(recipes);
+        // });
         // return () => {
         //     cleanup;
         // };
     }, []);
     let history = useHistory();
     let card = recipes.map((recipe) => {
-        console.log(recipe);
-        const { img, recipeName, recipeDesc } = recipe;
+        const { img, recipeName, recipeDesc, likes, _id } = recipe;
         return (
             <CardBox recipes={recipes}>
                 <Image src={img} recipes={recipes} />
-                {/* <FavoriteBtn
-                    onClick={() => setFavorite((favorite) => !favorite)}
-                >
-                    {favorite ? (
-                        <FaHeart
+                {likes.indexOf(userId) === -1 ? (
+                    <FavoriteBtn
+                        onClick={() => dispatch(likeRecipe(_id, JWToken))}
+                    >
+                        <FaRegHeart
                             style={{
-                                color: "white",
-                                // position: "absolute",
-                                // right: "1rem",
-                                // top: "1rem",
+                                position: "absolute",
+                                right: "1rem",
+                                top: "1rem",
                             }}
                             size={30}
                         />
-                    ) : (
-                        <FaRegHeart style={{ color: "white" }} size={30} />
-                    )}
-                </FavoriteBtn> */}
-                {/* onclick change icon to <FaRegHeart/> */}
+                    </FavoriteBtn>
+                ) : (
+                    <FavoriteBtn
+                        onClick={() => dispatch(unlikeRecipe(_id, JWToken))}
+                    >
+                        <FaHeart
+                            style={{
+                                color: "#FFDA0B",
+
+                                position: "absolute",
+                                right: "1rem",
+                                top: "1rem",
+                            }}
+                            size={30}
+                        />
+                    </FavoriteBtn>
+                )}
                 <DescriptionBox>
                     <RecipeName>{recipeName}</RecipeName>
                     <Description>
@@ -163,6 +163,12 @@ const Explore = ({ JWToken }) => {
             </CardBox>
         );
     });
-    return <Dashboard>{card}</Dashboard>;
+    return <Main>{card}</Main>;
 };
-export default Explore;
+const mapStateToProps = (state) => ({
+    userId: state["authReducer"].id,
+    JWToken: state["authReducer"].JWToken,
+    recipes: state["recipeReducer"].recipes,
+});
+
+export default connect(mapStateToProps)(Explore);
