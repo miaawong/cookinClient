@@ -21,7 +21,10 @@ const Recipe = ({ currentRecipe, JWToken, edit, userId, loggedIn }) => {
         //eslint-disable-next-line
     }, []);
 
-    if (currentRecipe) {
+    if (edit) {
+        console.log("edit is true");
+        return <EditRecipe />;
+    } else {
         return (
             <RecipeComponent
                 currentRecipe={currentRecipe}
@@ -30,9 +33,6 @@ const Recipe = ({ currentRecipe, JWToken, edit, userId, loggedIn }) => {
                 loggedIn={loggedIn}
             />
         );
-    } else if (edit) {
-        console.log("hi");
-        return <EditRecipe />;
     }
 };
 const mapStateToProps = (state) => ({
