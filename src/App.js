@@ -27,7 +27,7 @@ const Nav = styled.div`
     right: 2.5rem;
     padding: 2rem 0;
 
-    @media ${device.small} {
+    @media ${device.small}, ${device.medium}, ${device.large} {
         background: black;
         bottom: 0;
         left: 0;
@@ -36,24 +36,7 @@ const Nav = styled.div`
         height: 4rem;
         padding: 0;
     }
-    @media ${device.medium} {
-        background: black;
-        bottom: 0;
-        left: 0;
-        top: auto;
-        width: 100%;
-        height: 4rem;
-        padding: 0;
-    }
-    @media ${device.large} {
-        background: black;
-        bottom: 0;
-        left: 0;
-        top: auto;
-        width: 100%;
-        height: 4rem;
-        padding: 0;
-    }
+
     @media ${device.ipad} {
         background: black;
         bottom: 7.9rem;
@@ -150,23 +133,28 @@ const App = ({ JWToken }) => {
             </Theme>
             <Switch>
                 <Route exact path="/explore">
-                    <Explore />
+                    <Explore loggedIn={loggedIn} />
                 </Route>
                 <Route exact path="/">
                     <Home loggedIn={loggedIn} />
                 </Route>
                 <Route exact path="/signup">
-                    <SignUp />
+                    <SignUp loggedIn={loggedIn} />
                 </Route>
                 <Route exact path="/login">
-                    <Login />
+                    <Login loggedIn={loggedIn} />
                 </Route>
                 <Route exact path="/dashboard">
-                    <Dashboard />
+                    <Dashboard loggedIn={loggedIn} />
                 </Route>
-                <Route exact path="/addRecipe" component={CreateRecipe}></Route>
+                <Route
+                    exact
+                    path="/addRecipe"
+                    component={CreateRecipe}
+                    loggedIn={loggedIn}
+                ></Route>
                 <Route exact path={"/recipes/:recipeId"}>
-                    <Recipe />
+                    <Recipe loggedIn={loggedIn} />
                 </Route>
             </Switch>
         </Router>
