@@ -9,7 +9,7 @@ export const Main = styled.div`
     margin-bottom: 4rem;
     @media ${device.laptop}, ${device.wide} {
         margin: ${({ loggedIn }) => (loggedIn ? "0 4rem 0 2rem" : "0 auto")};
-        width: 92%;
+        width: 90%;
         height: 88%;
     }
 
