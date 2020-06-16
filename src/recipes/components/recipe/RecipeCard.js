@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { getCurrentRecipe, likeRecipe, unlikeRecipe } from "../../recipeAction";
 import styled from "styled-components";
 import { device } from "../../../Theme";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaBlackTie } from "react-icons/fa";
 import { Main } from "../../../main/components/StyledMain";
 const CardBox = styled.div`
     background: #f8f8f8;
@@ -57,19 +57,19 @@ const Description = styled.p`
     margin: 0.5rem 0 1rem 0;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.button`
     color: #ffffff;
     width: 5rem;
     line-height: 2rem;
     background: black;
-    padding: 2px;
+    padding: 3px;
     text-align: center;
     margin: 0 auto;
-
+    border: none;
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.73);
     text-decoration: none;
     cursor: pointer;
-
+    font-size: ${(props) => props.theme.fontSizes.small};
     & > label {
         cursor: pointer;
         text-transform: uppercase;
@@ -87,6 +87,7 @@ const FavoriteBtn = styled.button`
 const RecipeCard = ({ userId, recipes, JWToken, loggedIn }) => {
     const dispatch = useDispatch();
     let history = useHistory();
+
     let card = recipes.map((recipe) => {
         const { img, recipeName, recipeDesc, likes, _id } = recipe;
         return (
@@ -141,9 +142,31 @@ const RecipeCard = ({ userId, recipes, JWToken, loggedIn }) => {
             </CardBox>
         );
     });
-    return <Main loggedIn={loggedIn}>{card}</Main>;
-};
 
+    if (recipes.length === 0) {
+        return (
+            <Main loggedIn={loggedIn}>
+                <div>
+                    <h1>Looks like you don't have any recipes!</h1>
+                    <Link to="/addRecipe" style={{ textDecoration: "none" }}>
+                        <label
+                            style={{
+                                background: "black",
+                                color: "white",
+                                padding: "1rem",
+                                fontSize: "24px",
+                            }}
+                        >
+                            Add New Recipe!
+                        </label>
+                    </Link>
+                </div>
+            </Main>
+        );
+    } else {
+        return <Main loggedIn={loggedIn}> {card}</Main>;
+    }
+};
 const mapStateToProps = (state) => ({
     userId: state["authReducer"].id,
     JWToken: state["authReducer"].JWToken,
