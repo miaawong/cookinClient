@@ -4,6 +4,7 @@ import CreateRecipeDetails from "../recipes/components/newRecipe/CreateRecipeDet
 import CreateIngredients from "../recipes/components/newRecipe/CreateIngredients";
 import CreateDirections from "../recipes/components/newRecipe/CreateDirections";
 import { reset } from "../recipes/recipeAction";
+import { Main } from "../main/components/StyledMain";
 
 const CreateRecipe = ({ JWToken, draftRecipeProgress }) => {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const CreateRecipe = ({ JWToken, draftRecipeProgress }) => {
     } else if (draftRecipeProgress === 2) {
         currentStep = <CreateDirections />;
     }
-    return <div style={{ height: "87%" }}>{currentStep}</div>;
+    return <Main>{currentStep}</Main>;
 };
 
 const mapStateToProps = (state) => ({
