@@ -7,6 +7,7 @@ import EditRecipeDetails from "../recipes/components/updateRecipe/EditRecipeDeta
 import EditIngredients from "../recipes/components/updateRecipe/EditIngredients";
 import EditDirections from "../recipes/components/updateRecipe/EditDirections";
 import { reset } from "../recipes/recipeAction";
+import { Main } from "../main/components/StyledMain";
 
 const EditRecipe = ({ currentRecipe, draftRecipeProgress }) => {
     const { register, handleSubmit, errors } = useForm();
@@ -26,7 +27,7 @@ const EditRecipe = ({ currentRecipe, draftRecipeProgress }) => {
         currentStep = <EditDirections recipe={currentRecipe} />;
     }
 
-    return <div style={{ height: "87%" }}>{currentStep}</div>;
+    return <Main>{currentStep}</Main>;
 };
 const mapStateToProps = (state) => ({
     currentRecipe: state["recipeReducer"].currentRecipe,
