@@ -12,18 +12,16 @@ import { likeRecipe, unlikeRecipe } from "../../recipeAction";
 const Main = styled.div`
     font-family: ${(props) => props.theme.font};
     width: 100%;
-    margin: 0 auto 4rem auto;
     display: flex;
+    margin-bottom: 5rem;
     flex-direction: column;
-    @media ${device.large}, ${device.ipad} {
-        margin: 0 auto 5rem auto;
+
+    @media ${device.laptop} {
+        width: 95%;
     }
-    @media ${device.laptop}, ${device.wide} {
-        width: 96.2%;
-        margin: 0 6rem 0 auto;
-    }
+
     @media ${device.wide} {
-        margin: 0 8rem 0 auto;
+        width: 97%;
     }
 `;
 const Description = styled.div`
@@ -61,7 +59,6 @@ const Middle = styled.div`
 `;
 
 const ImgContainer = styled.div`
-    height: 65%;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -116,7 +113,7 @@ const FavoriteBtn = styled.button`
     background: none;
     border: none;
 `;
-const Recipe = ({ currentRecipe, JWToken, userId }) => {
+const Recipe = ({ currentRecipe, JWToken, userId }, loggedIn) => {
     let dispatch = useDispatch();
     let history = useHistory();
     const {
@@ -161,7 +158,7 @@ const Recipe = ({ currentRecipe, JWToken, userId }) => {
     let createdYear = new Date(createdOn).getFullYear();
 
     return (
-        <Main>
+        <Main loggedIn={loggedIn}>
             <Description>
                 <RecipeName>{recipeName}</RecipeName>
 
@@ -181,19 +178,24 @@ const Recipe = ({ currentRecipe, JWToken, userId }) => {
                             justifyContent: "space-between",
                         }}
                     >
-                        <p style={{ width: "100%" }}>Serves {servings}</p>
+                        <p>Serves {servings}</p>
 
                         <p>
                             Time: {duration_hour}hr {duration_mins}mins
                         </p>
-                        <p
-                            style={{
-                                textAlign: "right",
-                            }}
-                        >
+                    </div>
+                    <div
+                        style={{
+                            width: "100%",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <p>
                             {createdMonth} {createdYear}
                         </p>
-                        <p>Created by {capCreator}</p>
+                        <p>Created By {capCreator}</p>
                     </div>
                     <Category>Ingredients</Category>
                     <ul>
