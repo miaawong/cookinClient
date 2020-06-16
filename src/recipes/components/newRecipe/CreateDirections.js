@@ -4,11 +4,12 @@ import { useForm, useFieldArray } from "react-hook-form";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createRecipe } from "../../recipeAction";
-import { StyledForm, Submit, TextArea } from "../StyledForm";
+import { StyledForm, Submit, TextArea, ProgressLabel } from "../StyledForm";
 import { FaPlus } from "react-icons/fa";
 
 const AddMore = styled.button`
-    width: 4rem;
+    display: block;
+    color: white;
     padding: 0.5rem;
     border: none;
     background: #000;
@@ -38,7 +39,7 @@ const CreateDirections = ({ JWToken, draftRecipe, image }) => {
             onSubmit={handleSubmit(onSubmit)}
             style={{ justifyContent: "flex-start" }}
         >
-            <h1>Directions</h1>
+            <ProgressLabel>Directions</ProgressLabel>
             {fields.map((input, index) => {
                 return (
                     <label key={index}>
@@ -58,7 +59,7 @@ const CreateDirections = ({ JWToken, draftRecipe, image }) => {
                     append({ directions: "directions" });
                 }}
             >
-                <FaPlus style={{ color: "white" }} size={22} />
+                Add More
             </AddMore>
             <div>
                 <Submit
