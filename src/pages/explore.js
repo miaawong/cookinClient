@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -7,7 +7,6 @@ import {
     getCurrentRecipe,
     likeRecipe,
     unlikeRecipe,
-    getAllRecipes,
 } from "../recipes/recipeAction";
 import styled from "styled-components";
 import { device } from "../Theme";
@@ -96,14 +95,9 @@ const FavoriteBtn = styled.button`
     border: none;
 `;
 const Explore = ({ JWToken, userId, recipes }) => {
-    // const [recipes, setRecipes] = useState([]);
-
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(exploreRecipes());
-        // .then((recipes) => {
-        //     setRecipes(recipes);
-        // });
         // return () => {
         //     cleanup;
         // };
