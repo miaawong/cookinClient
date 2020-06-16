@@ -36,7 +36,11 @@ const recipeReducer = (state = initState, action) => {
             let updatedLikesRecipe = state.recipes.map((recipe) => {
                 // if the recipeId matches the updated recipeId
                 if (recipe._id === action.payload._id) {
-                    return { ...recipe, likes: action.payload.likes };
+                    return {
+                        ...recipe,
+                        likes: action.payload.likes,
+                        updatedAt: action.payload.updatedAt,
+                    };
                 } else {
                     return {
                         ...recipe,
