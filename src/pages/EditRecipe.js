@@ -9,7 +9,7 @@ import EditDirections from "../recipes/components/updateRecipe/EditDirections";
 import { reset } from "../recipes/recipeAction";
 import { Main } from "../main/components/StyledMain";
 
-const EditRecipe = ({ currentRecipe, draftRecipeProgress }) => {
+const EditRecipe = ({ currentRecipe, draftRecipeProgress, loggedIn }) => {
     const { register, handleSubmit, errors } = useForm();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -27,7 +27,7 @@ const EditRecipe = ({ currentRecipe, draftRecipeProgress }) => {
         currentStep = <EditDirections recipe={currentRecipe} />;
     }
 
-    return <Main>{currentStep}</Main>;
+    return <Main loggedIn={loggedIn}>{currentStep}</Main>;
 };
 const mapStateToProps = (state) => ({
     currentRecipe: state["recipeReducer"].currentRecipe,
