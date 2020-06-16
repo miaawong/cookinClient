@@ -9,6 +9,7 @@ import {
     TextArea,
     HourMinute,
     ImageUpload,
+    ProgressLabel,
 } from "../StyledForm";
 import { useDropzone } from "react-dropzone";
 import blankImage from "../../../images/blankimage.jpg";
@@ -92,6 +93,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
     console.log(errors);
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
+            <ProgressLabel>Details</ProgressLabel>
             <label>
                 Name
                 <TextInput
