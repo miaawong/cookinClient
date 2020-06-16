@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { connect, useDispatch } from "react-redux";
 import { login } from "../auth/authAction";
@@ -7,6 +7,7 @@ import {
     StyledForm,
     Submit,
     TextInput,
+    Main,
 } from "../recipes/components/StyledForm";
 
 const Login = ({ id }) => {
@@ -21,8 +22,26 @@ const Login = ({ id }) => {
         return <Redirect to="/dashboard" />;
     }
     return (
-        <div>
-            <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <Main>
+            <h1>Login</h1>
+            <h3>
+                Don't have an account?{" "}
+                <Link to="/signup" style={{ textDecoration: "none" }}>
+                    <label
+                        style={{
+                            color: "#F1CC00",
+                            cursor: "pointer",
+                        }}
+                    >
+                        Create one
+                    </label>
+                </Link>{" "}
+                here.
+            </h3>
+            <StyledForm
+                onSubmit={handleSubmit(onSubmit)}
+                style={{ margin: "0", width: "auto" }}
+            >
                 <label>
                     Email
                     <TextInput
@@ -57,17 +76,15 @@ const Login = ({ id }) => {
                     <p>{errors.password && errors.password.message}</p>
                 </label>
 
-                <div>
-                    <Submit
-                        type="submit"
-                        value="Submit"
-                        style={{ float: "right", margin: "2rem 0" }}
-                    >
-                        Submit
-                    </Submit>
-                </div>
+                <Submit
+                    type="submit"
+                    value="Submit"
+                    style={{ display: "block", margin: "0 auto" }}
+                >
+                    Login
+                </Submit>
             </StyledForm>
-        </div>
+        </Main>
     );
 };
 
