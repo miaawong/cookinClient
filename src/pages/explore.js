@@ -72,11 +72,11 @@ const StyledLink = styled.button`
     width: 5rem;
     line-height: 2rem;
     background: black;
-    padding: 2px;
+    padding: 3px;
     text-align: center;
     margin: 0 auto;
     border: none;
-
+    font-size: ${(props) => props.theme.fontSizes.small};
     box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.73);
     text-decoration: none;
     cursor: pointer;
