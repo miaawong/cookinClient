@@ -3,34 +3,48 @@ import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import Select from "react-select";
 import { setDraftRecipe } from "../../recipeAction";
-import { StyledForm, Submit, TextInput } from "../StyledForm";
+import { StyledForm, Submit, TextInput, ProgressLabel } from "../StyledForm";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
-import { theme } from "../../../Theme";
+import { device, theme } from "../../../Theme";
 
 const Ingredient = styled.div`
     display: flex;
-    flex-wrap: ${({ unit }) => (unit.value === "other" ? "wrap" : "no-wrap")};
+    flex-wrap: ${({ unit }) =>
+        unit && unit.value === "other" ? "wrap" : "no-wrap"};
     justify-content: space-evenly;
     align-items: center;
 `;
 const IngredientRow = styled.div`
     display: flex;
-    align-items: center;
+    flex-direction: column;
+
     justify-content: space-between;
     width: 100%;
+    @media ${device.laptop}, ${device.wide} {
+        align-items: center;
+        flex-direction: row;
+    }
 `;
 const AddButton = styled.button`
+    display: block;
     color: white;
     border: none;
     height: 3rem;
     background-color: #000;
+    font-size: ${(props) => props.theme.fontSizes.small};
 `;
-
+const UnitLabel = styled.label`
+    width: 100%;
+    @media ${device.laptop}, ${device.wide} {
+        width: 15rem;
+    }
+`;
 const customStyles = {
     option: (provided, state) => ({
         ...provided,
         borderBottom: "1px solid #d0d5da",
+
         color: "#000000",
         backgroundColor: state.isSelected ? `${theme.colors.yellow}` : "white",
         "&:hover": {
@@ -39,13 +53,14 @@ const customStyles = {
     }),
     control: (provided) => ({
         ...provided,
-        border: "2px solid black",
+        border: "1px solid black",
         borderRadius: 0,
         // This line disable the blue border
         boxShadow: "none",
         "&:hover": {
             border: "2px solid black",
         },
+        margin: ".5rem 0",
     }),
 };
 
@@ -95,7 +110,7 @@ const CreateIngredients = ({ draftRecipe }) => {
             onSubmit={handleSubmit(onSubmit)}
             style={{ justifyContent: "flex-start" }}
         >
-            <h1>Ingredients</h1>
+            <ProgressLabel>Ingredients</ProgressLabel>
             {fields.map((input, index) => {
                 const unit = watch(`ingredients[${index}].unit`);
                 console.log(unit);
@@ -108,7 +123,7 @@ const CreateIngredients = ({ draftRecipe }) => {
                                 <TextInput
                                     type="text"
                                     name={`ingredients[${index}].ingName`}
-                                    placeholder="ingredient"
+                                    placeholder="Ingredient Name"
                                     ref={(e) => {
                                         register(e);
                                         ingredientRef.current = e;
@@ -141,7 +156,7 @@ const CreateIngredients = ({ draftRecipe }) => {
                                 />
                             </label>
 
-                            <label style={{ width: "15rem" }}>
+                            <UnitLabel>
                                 Unit
                                 <Controller
                                     as={
@@ -160,23 +175,9 @@ const CreateIngredients = ({ draftRecipe }) => {
                                     name={`ingredients[${index}].unit`}
                                     control={control}
                                 />
-                            </label>
-
-                            <label>
-                                Add
-                                <AddButton
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        append({ ingredients: "ingredients" });
-                                    }}
-                                >
-                                    <FaPlus
-                                        style={{ color: "white" }}
-                                        size={22}
-                                    />
-                                </AddButton>
-                            </label>
+                            </UnitLabel>
                         </IngredientRow>
+
                         {console.log(unit, "unit")}
                         {unit && unit.value === "other" && (
                             <div
@@ -206,7 +207,7 @@ const CreateIngredients = ({ draftRecipe }) => {
                                         }
                                     }}
                                     style={{
-                                        width: "20rem",
+                                        width: "16rem",
                                         margin: "0",
                                     }}
                                 />
@@ -220,13 +221,24 @@ const CreateIngredients = ({ draftRecipe }) => {
                                         );
                                     }}
                                 >
-                                    Add New Unit
+                                    Add
                                 </AddButton>
                             </div>
                         )}
                     </Ingredient>
                 );
             })}
+
+            <AddButton
+                onClick={(e) => {
+                    e.preventDefault();
+                    append({
+                        ingredients: "ingredients",
+                    });
+                }}
+            >
+                Add More Ingredients
+            </AddButton>
             <div>
                 <Submit
                     type="submit"
