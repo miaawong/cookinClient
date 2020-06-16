@@ -1,6 +1,24 @@
 import styled from "styled-components";
 import { device, theme } from "../../Theme";
 
+export const ProgressLabel = styled.h1`
+    margin: 0;
+`;
+
+//login and signup
+export const Main = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 79%;
+    font-family: ${(props) => props.theme.font};
+    margin: 0 auto;
+    text-align: left;
+    @media ${device.laptop}, ${device.wide} {
+        width: 40%;
+    }
+`;
+
 export const StyledForm = styled.form`
     width: 80%;
     height: 100%;
@@ -12,7 +30,7 @@ export const StyledForm = styled.form`
     justify-content: space-evenly;
     align-content: flex-start;
     overflow: auto;
-    @media ${device.laptop}, ${device.desktop}, ${device.wide} {
+    @media ${device.laptop}, ${device.wide} {
         margin: 0 auto 0 6rem;
     }
 
@@ -69,6 +87,11 @@ export const ImageUpload = styled.div`
     background: black;
     color: white;
     width: 100%;
-    height: 15rem;
+    height: 5rem;
+    font-size: ${(props) => props.theme.fontSizes.small};
     text-align: center;
+    @media ${device.laptop}, ${device.wide} {
+        height: 15rem;
+        font-size: ${(props) => props.theme.fontSizes.medium};
+    }
 `;
