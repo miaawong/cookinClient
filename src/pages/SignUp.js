@@ -1,14 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { signUp } from "../auth/authAction";
-import styled from "styled-components";
-import { device } from "../Theme";
 import {
     StyledForm,
     Submit,
     TextInput,
+    Main,
 } from "../recipes/components/StyledForm";
 
 const SignUp = () => {
@@ -21,8 +20,26 @@ const SignUp = () => {
     };
 
     return (
-        <div>
-            <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <Main>
+            <h1>Sign Up</h1>
+            <h3>
+                Have an account?{" "}
+                <Link to="/login" style={{ textDecoration: "none" }}>
+                    <label
+                        style={{
+                            color: "#F1CC00",
+                            cursor: "pointer",
+                        }}
+                    >
+                        Login
+                    </label>
+                </Link>{" "}
+                instead
+            </h3>
+            <StyledForm
+                onSubmit={handleSubmit(onSubmit)}
+                style={{ margin: "0", width: "auto" }}
+            >
                 <label>
                     Name
                     <TextInput
@@ -75,17 +92,15 @@ const SignUp = () => {
                     <p>{errors.password && errors.password.message}</p>
                 </label>
 
-                <div>
-                    <Submit
-                        type="submit"
-                        value="Submit"
-                        style={{ float: "right", margin: "2rem 0" }}
-                    >
-                        Submit
-                    </Submit>
-                </div>
+                <Submit
+                    type="submit"
+                    value="Submit"
+                    style={{ display: "block", margin: "0 auto" }}
+                >
+                    Submit
+                </Submit>
             </StyledForm>
-        </div>
+        </Main>
     );
 };
 export default SignUp;
