@@ -8,18 +8,10 @@ import {
     TextInput,
     HourMinute,
     ImageUpload,
+    ProgressLabel,
+    ErrorMessage,
 } from "../StyledForm";
 import { useDropzone } from "react-dropzone";
-import styled from "styled-components";
-
-// const Dropzone = styled.section`
-//     margin: 1rem auto;
-//     width: 100%;
-//     height: 40%;
-//     border: 2px dashed black;
-//     padding: 2rem;
-//     text-align: center;
-// `;
 
 const EditRecipeDetails = ({ recipe, JWToken }) => {
     let { recipeName, recipeDesc, servings, duration, img } = recipe;
@@ -57,6 +49,7 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
                         width: "100px",
                         height: "100px",
                     }}
+                    alt={file.name}
                 />
                 <p>{file.path}</p>
             </div>
@@ -87,7 +80,7 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
 
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-            <h1>Details</h1>
+            <ProgressLabel>Details</ProgressLabel>
 
             <label>
                 Name
@@ -109,7 +102,9 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
                 ></TextInput>
             </label>
 
-            {errors["recipeName"] && <p>{errors["recipeName"].message}</p>}
+            {errors["recipeName"] && (
+                <ErrorMessage>{errors["recipeName"].message}</ErrorMessage>
+            )}
 
             <label>
                 Description
@@ -141,7 +136,7 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
                         register(e, {
                             pattern: {
                                 value: /^(0|[1-9][0-9]*)$/,
-                                message: "must be a number",
+                                message: "*Must Be a Number",
                             },
                         });
                         servingsRef.current = e;
@@ -156,7 +151,9 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
                 />
             </label>
 
-            {errors["servings"] && <p>{errors["servings"].message}</p>}
+            {errors["servings"] && (
+                <ErrorMessage>{errors["servings"].message}</ErrorMessage>
+            )}
 
             <HourMinute>
                 <label>
@@ -166,12 +163,7 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
                         name="duration_hour"
                         placeholder="Hour"
                         ref={(e) => {
-                            register(e, {
-                                pattern: {
-                                    value: /^(0|[1-9][0-9]*)$/,
-                                    message: "must be a number",
-                                },
-                            });
+                            register(e);
                             hourRef.current = e;
                         }}
                         onKeyPress={(e) => {
@@ -184,12 +176,6 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
                     />
                 </label>
 
-                {errors["duration_hour"] && (
-                    <p style={{ padding: 0, margin: 0 }}>
-                        {errors["duration_hour"].message}
-                    </p>
-                )}
-
                 <label>
                     Minutes
                     <TextInput
@@ -197,21 +183,12 @@ const EditRecipeDetails = ({ recipe, JWToken }) => {
                         name="duration_mins"
                         placeholder="Mins"
                         ref={(e) => {
-                            register(e, {
-                                pattern: {
-                                    value: /^(0|[1-9][0-9]*)$/,
-                                    message: "must be a number",
-                                },
-                            });
+                            register(e);
                             minutesRef.current = e;
                         }}
                         defaultValue={duration_mins}
                     />
                 </label>
-
-                {errors["duration_mins"] && (
-                    <p>{errors["duration_mins"].message}</p>
-                )}
             </HourMinute>
 
             <div>
