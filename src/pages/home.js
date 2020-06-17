@@ -12,7 +12,8 @@ const Box = styled.div`
     justify-content: center;
     align-content: center;
     height: 75%;
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     align-items: center;
 
     @media ${device.small}, ${device.medium} {
@@ -147,11 +148,9 @@ const MainImg = styled.img`
     }
     @media ${device.medium} {
         width: 100%;
-        max-height: 100%;
     }
     @media ${device.large} {
         width: 100%;
-        max-height: 100%;
     }
 `;
 const Text = styled.p`
@@ -171,7 +170,10 @@ const Text = styled.p`
 `;
 export default function Home({ loggedIn }) {
     return (
-        <Main loggedIn={loggedIn} style={{ width: "92%" }}>
+        <Main
+            loggedIn={loggedIn}
+            style={{ height: "88%", width: "97%", margin: 0 }}
+        >
             <Box loggedIn={loggedIn}>
                 <MainText>
                     <Text>What's cookin' for dinner? </Text>
