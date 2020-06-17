@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { createRecipe } from "../../recipeAction";
 import { StyledForm, Submit, TextArea, ProgressLabel } from "../StyledForm";
-import { FaPlus } from "react-icons/fa";
 
 const AddMore = styled.button`
     display: block;
@@ -15,22 +14,21 @@ const AddMore = styled.button`
     background: #000;
 `;
 
-const CreateDirections = ({ JWToken, draftRecipe, image }) => {
+const CreateDirections = ({ JWToken, draftRecipe }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const { register, handleSubmit, errors, control, formState } = useForm({
+    const { register, handleSubmit, control } = useForm({
         defaultValues: {
             directions: [""],
         },
     });
-    const { fields, append, remove, insert } = useFieldArray({
+    const { fields, append } = useFieldArray({
         control,
         name: "directions",
     });
 
     const onSubmit = (data) => {
-        console.log("hi");
         draftRecipe.directions = data.directions;
         dispatch(createRecipe(JWToken, draftRecipe, history));
     };
