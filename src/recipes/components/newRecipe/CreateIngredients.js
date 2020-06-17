@@ -5,35 +5,9 @@ import Select from "react-select";
 import { setDraftRecipe } from "../../recipeAction";
 import { StyledForm, Submit, TextInput, ProgressLabel } from "../StyledForm";
 import styled from "styled-components";
-import { FaPlus } from "react-icons/fa";
+import { Ingredient, IngredientRow, AddButton } from "../StyledIngredients";
 import { device, theme } from "../../../Theme";
 
-const Ingredient = styled.div`
-    display: flex;
-    flex-wrap: ${({ unit }) =>
-        unit && unit.value === "other" ? "wrap" : "no-wrap"};
-    justify-content: space-evenly;
-    align-items: center;
-`;
-const IngredientRow = styled.div`
-    display: flex;
-    flex-direction: column;
-
-    justify-content: space-between;
-    width: 100%;
-    @media ${device.laptop}, ${device.wide} {
-        align-items: center;
-        flex-direction: row;
-    }
-`;
-const AddButton = styled.button`
-    display: block;
-    color: white;
-    border: none;
-    height: 3rem;
-    background-color: #000;
-    font-size: ${(props) => props.theme.fontSizes.small};
-`;
 const UnitLabel = styled.label`
     width: 100%;
     @media ${device.laptop}, ${device.wide} {
@@ -79,14 +53,7 @@ const CreateIngredients = ({ draftRecipe }) => {
         { value: "other", label: "other" },
     ]);
     const dispatch = useDispatch();
-    const {
-        register,
-        handleSubmit,
-        // errors,
-        control,
-        setValue,
-        watch,
-    } = useForm({
+    const { register, handleSubmit, control, setValue, watch } = useForm({
         defaultValues: {
             ingredients: [{ ingName: "", amount: null, unit: "" }],
         },
@@ -178,7 +145,6 @@ const CreateIngredients = ({ draftRecipe }) => {
                             </UnitLabel>
                         </IngredientRow>
 
-                        {console.log(unit, "unit")}
                         {unit && unit.value === "other" && (
                             <div
                                 style={{
