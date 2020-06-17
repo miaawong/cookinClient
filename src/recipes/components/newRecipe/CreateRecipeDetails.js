@@ -10,6 +10,7 @@ import {
     HourMinute,
     ImageUpload,
     ProgressLabel,
+    ErrorMessage,
 } from "../StyledForm";
 import { useDropzone } from "react-dropzone";
 import blankImage from "../../../images/blankimage.jpg";
@@ -18,25 +19,12 @@ const CreateRecipeDetails = ({ JWToken }) => {
     const { register, handleSubmit, errors } = useForm();
     const [file, setFile] = useState({});
     const [dropped, setDropped] = useState(false);
-    console.log(dropped, "dropped");
-    const onDrop = useCallback(
-        (acceptedFiles, e) => {
-            console.log(e, "e");
-            console.log(acceptedFiles);
-            setFile(acceptedFiles);
-            setDropped(true);
-        },
-        [file]
-    );
+    const onDrop = useCallback((acceptedFiles, e) => {
+        setFile(acceptedFiles);
+        setDropped(true);
+    }, []);
 
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps,
-        isDragAccept,
-        isDragReject,
-        isDragActive,
-    } = useDropzone({
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
         onDrop,
     });
 
@@ -61,6 +49,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
                             height: "75px",
                             objectFit: "contain",
                         }}
+                        alt={file.name}
                     />
                     <p>{file.path}</p>
                 </div>
@@ -90,7 +79,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
                 });
         }
     };
-    console.log(errors);
+
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <ProgressLabel>Details</ProgressLabel>
@@ -102,7 +91,7 @@ const CreateRecipeDetails = ({ JWToken }) => {
                     placeholder="Recipe Name"
                     ref={(e) => {
                         register(e, {
-                            required: "Name is required",
+                            required: "*Name is required",
                         });
                         recipeNameRef.current = e;
                     }}
@@ -114,7 +103,9 @@ const CreateRecipeDetails = ({ JWToken }) => {
                     }}
                 />
             </label>
-            {errors["recipeName"] && <p>{errors["recipeName"].message}</p>}
+            {errors["recipeName"] && (
+                <ErrorMessage>{errors["recipeName"].message}</ErrorMessage>
+            )}
             <label>
                 Description
                 <TextArea
@@ -132,12 +123,15 @@ const CreateRecipeDetails = ({ JWToken }) => {
             <label>
                 Servings
                 <TextInput
-                    type="number"
+                    type="text"
                     name="servings"
                     placeholder="Servings"
                     ref={(e) => {
                         register(e, {
-                            pattern: /^[0-9]*$/,
+                            pattern: {
+                                value: /^[0-9]*$/,
+                                message: "*Must be a number",
+                            },
                         });
                         servingsRef.current = e;
                     }}
@@ -150,7 +144,9 @@ const CreateRecipeDetails = ({ JWToken }) => {
                 />
             </label>
 
-            {errors["servings"] && <p>{errors["servings"].message}</p>}
+            {errors["servings"] && (
+                <ErrorMessage>{errors["servings"].message}</ErrorMessage>
+            )}
             <HourMinute>
                 <label>
                     Hour
