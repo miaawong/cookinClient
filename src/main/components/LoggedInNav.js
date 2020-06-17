@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import { connect, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { logout } from "../../auth/authAction";
-import { MdFavorite, MdExplore, MdCreate, MdSettings } from "react-icons/md";
+import { MdFavorite, MdCreate, MdSettings } from "react-icons/md";
 import { FaSignOutAlt, FaSearch } from "react-icons/fa";
 import { device } from "../../Theme";
 
@@ -11,7 +11,7 @@ const StyledLink = styled(Link)`
     color: white;
     text-decoration: none;
     display: flex;
-    width: 10rem;
+    width: 12rem;
     height: 5rem;
     justify-content: center;
     align-items: center;
@@ -39,16 +39,13 @@ const Nav = styled.nav`
     align-items: center;
     right: 0;
     background: black;
-    /* transition: 0.2s; */
     padding: 0;
     bottom: 0;
     width: 100%;
     height: 4rem;
     top: auto;
     flex-direction: row;
-    &:hover {
-        width: 100%;
-    }
+
     &:hover label {
         display: none;
         margin: 0 auto;
@@ -57,6 +54,7 @@ const Nav = styled.nav`
         justify-content: center;
     }
     @media ${device.wide}, ${device.laptop} {
+        transition: width 200ms ease;
         flex-direction: column;
         padding-top: 2rem;
         top: 0;
@@ -64,11 +62,9 @@ const Nav = styled.nav`
         width: 4rem;
         &:hover {
             width: 16rem;
-            transition: 0.6s ease;
         }
 
         &:hover label {
-            transition: 1s ease;
             display: inline-block;
             margin-left: 0.5rem;
             color: white;
