@@ -12,6 +12,7 @@ const CreateRecipe = ({ JWToken, draftRecipeProgress }) => {
         return () => {
             dispatch(reset());
         };
+        //eslint-disable-next-line
     }, []);
     let currentStep;
     if (draftRecipeProgress === 0) {
