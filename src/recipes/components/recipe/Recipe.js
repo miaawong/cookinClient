@@ -1,145 +1,29 @@
 import React, { useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import * as recipeActionTypes from "../../recipeActionTypes";
 import { deleteRecipe } from "../../recipeAction";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { device } from "../../../Theme";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { likeRecipe, unlikeRecipe } from "../../recipeAction";
+import {
+    Main,
+    Description,
+    Middle,
+    ImgContainer,
+    Image,
+    Modification,
+    Button,
+    RecipeName,
+    Category,
+    BottomDesc,
+    FavoriteBtn,
+    DeleteModalContainer,
+    DeleteModal,
+    DeleteBtn,
+    DeleteRow,
+} from "./StyledRecipe";
 
-const Main = styled.div`
-    font-family: ${(props) => props.theme.font};
-    width: 100%;
-    display: flex;
-    margin-bottom: 5rem;
-    flex-direction: column;
-
-    @media ${device.laptop} {
-        width: 96%;
-    }
-
-    @media ${device.wide} {
-        width: 97%;
-    }
-`;
-const Description = styled.div`
-    width: 100%;
-    height: 100%;
-    font-size: ${(props) => props.theme.fontSizes.small};
-    padding: 1rem;
-    background: ${(props) => props.theme.colors.yellow};
-    order: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
-        font-size: ${(props) => props.theme.fontSizes.medium};
-        padding: 2rem;
-    }
-`;
-const Middle = styled.div`
-    width: 100%;
-    height: 100%;
-    align-self: center;
-    padding: 1rem;
-    order: 3;
-    font-size: ${(props) => props.theme.fontSizes.small};
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    & > p {
-        margin: 0.5rem 0;
-    }
-    @media ${device.ipad}, ${device.laptop}, ${device.wide} {
-        padding: 2rem;
-        font-size: ${(props) => props.theme.fontSizes.medium};
-    }
-`;
-
-const ImgContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    order: 1;
-    justify-content: center;
-`;
-const Image = styled.img`
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-`;
-const Modification = styled.div`
-    display: flex;
-    justify-content: flex-end;
-`;
-const Button = styled.button`
-    background: none;
-    padding: 0.5rem;
-    border: none;
-`;
-const RecipeName = styled.h1`
-    text-align: center;
-    font-weight: 800;
-    font-size: ${(props) => props.theme.fontSizes.XL};
-    @media ${device.small} {
-        font-size: ${(props) => props.theme.fontSizes.large};
-    }
-    @media ${device.small}, ${device.medium}, ${device.large}, ${device.ipad} {
-        text-align: center;
-    }
-`;
-const Category = styled.h2`
-    margin: 1rem 0 0.5rem 0;
-    font-size: ${(props) => props.theme.fontSizes.medium};
-    font-weight: 600;
-`;
-const BottomDesc = styled.div`
-    margin: 2rem 0 0 0;
-    & > div > p {
-        margin: 0;
-        font-weight: 600;
-        font-size: ${(props) => props.theme.fontSizes.small};
-    }
-    & > ul {
-        margin: 0 auto;
-    }
-`;
-const FavoriteBtn = styled.button`
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    background: none;
-    border: none;
-`;
-const DeleteModal = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    text-align: center;
-    z-index: 1;
-    width: 50%;
-    height: 30%;
-    background: white;
-    color: black;
-    position: fixed;
-    top: 30rem;
-    left: 16rem;
-    border-radius: 5px;
-`;
-const DeleteBtns = styled.button`
-    width: 10rem;
-    height: 5rem;
-    color: white;
-    background: black;
-    border: none;
-    font-size: ${(props) => props.theme.fontSizes.large};
-`;
-const DeleteRow = styled.div`
-    display: flex;
-    justify-content: space-around;
-`;
 const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
     const [deleteModal, setDeleteModal] = useState(false);
     let dispatch = useDispatch();
@@ -189,7 +73,27 @@ const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
     return (
         <Main loggedIn={loggedIn}>
             <Description>
-                <RecipeName>{recipeName}</RecipeName>
+                <RecipeName>
+                    {recipeName}
+                    {likes.indexOf(userId) === -1 ? (
+                        <FavoriteBtn
+                            onClick={() => dispatch(likeRecipe(_id, JWToken))}
+                        >
+                            <FaRegHeart size={30} />
+                        </FavoriteBtn>
+                    ) : (
+                        <FavoriteBtn
+                            onClick={() => dispatch(unlikeRecipe(_id, JWToken))}
+                        >
+                            <FaHeart
+                                style={{
+                                    color: "#FB170A",
+                                }}
+                                size={30}
+                            />
+                        </FavoriteBtn>
+                    )}
+                </RecipeName>
 
                 <span
                     style={{
@@ -226,17 +130,6 @@ const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
                         </p>
                         <p>Created By {capCreator}</p>
                     </div>
-                    <Category>Ingredients</Category>
-                    <ul>
-                        {ingredients &&
-                            ingredients.map((ingredient, index) => (
-                                <li key={index} style={{ listStyle: "none" }}>
-                                    {ingredient.amount}
-                                    {ingredient.unit && ingredient.unit.value}
-                                    {ingredient.ingName}
-                                </li>
-                            ))}
-                    </ul>
                     {ownerId === userId && (
                         <Modification>
                             <Button
@@ -258,37 +151,55 @@ const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
                             </Button>
 
                             {deleteModal && (
-                                <DeleteModal>
-                                    <h3>
-                                        Are you sure about deleting this recipe?{" "}
-                                    </h3>
-                                    <DeleteRow>
-                                        <DeleteBtns
-                                            onClick={() => {
-                                                setDeleteModal(false);
-                                            }}
-                                        >
-                                            Cancel
-                                        </DeleteBtns>
-                                        <DeleteBtns
-                                            onClick={() => {
-                                                dispatch(
-                                                    deleteRecipe(
-                                                        _id,
-                                                        JWToken,
-                                                        history
-                                                    )
-                                                );
-                                            }}
-                                            style={{ background: "red" }}
-                                        >
-                                            Delete
-                                        </DeleteBtns>
-                                    </DeleteRow>
-                                </DeleteModal>
+                                <DeleteModalContainer>
+                                    <DeleteModal>
+                                        <h3>
+                                            {" "}
+                                            Are you sure about deleting this
+                                            recipe?{" "}
+                                        </h3>
+                                        <p style={{ fontSize: "16px" }}>
+                                            This action cannot be undone
+                                        </p>
+                                        <DeleteRow>
+                                            <DeleteBtn
+                                                onClick={() => {
+                                                    setDeleteModal(false);
+                                                }}
+                                            >
+                                                Cancel
+                                            </DeleteBtn>
+                                            <DeleteBtn
+                                                onClick={() => {
+                                                    dispatch(
+                                                        deleteRecipe(
+                                                            _id,
+                                                            JWToken,
+                                                            history
+                                                        )
+                                                    );
+                                                }}
+                                                style={{ background: "red" }}
+                                            >
+                                                Delete
+                                            </DeleteBtn>
+                                        </DeleteRow>
+                                    </DeleteModal>
+                                </DeleteModalContainer>
                             )}
                         </Modification>
                     )}
+                    <Category>Ingredients</Category>
+                    <ul>
+                        {ingredients &&
+                            ingredients.map((ingredient, index) => (
+                                <li key={index} style={{ listStyle: "none" }}>
+                                    {ingredient.amount}
+                                    {ingredient.unit && ingredient.unit.value}
+                                    {ingredient.ingName}
+                                </li>
+                            ))}
+                    </ul>
                 </BottomDesc>
             </Description>
             <Middle>
@@ -304,35 +215,6 @@ const Recipe = ({ currentRecipe, JWToken, userId, loggedIn }) => {
                     src={img}
                     style={{ position: "relative" }}
                 />
-
-                {likes.indexOf(userId) === -1 ? (
-                    <FavoriteBtn
-                        onClick={() => dispatch(likeRecipe(_id, JWToken))}
-                    >
-                        <FaRegHeart
-                            style={{
-                                position: "absolute",
-                                right: "1rem",
-                                top: "7rem",
-                            }}
-                            size={30}
-                        />
-                    </FavoriteBtn>
-                ) : (
-                    <FavoriteBtn
-                        onClick={() => dispatch(unlikeRecipe(_id, JWToken))}
-                    >
-                        <FaHeart
-                            style={{
-                                color: "#FB170A",
-                                position: "absolute",
-                                right: "1rem",
-                                top: "7rem",
-                            }}
-                            size={30}
-                        />
-                    </FavoriteBtn>
-                )}
             </ImgContainer>
         </Main>
     );
