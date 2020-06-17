@@ -2,7 +2,11 @@ import styled from "styled-components";
 import { device, theme } from "../../Theme";
 
 export const ProgressLabel = styled.h1`
-    margin: 0;
+    text-align: center;
+    background: ${(props) => props.theme.colors.yellow};
+    width: 15rem;
+    margin: 0.5rem auto;
+    font-size: ${(props) => props.theme.fontSizes.XL};
 `;
 
 //login and signup
@@ -14,9 +18,6 @@ export const Main = styled.div`
     font-family: ${(props) => props.theme.font};
     margin: 0 auto;
     text-align: left;
-    @media ${device.laptop}, ${device.wide} {
-        width: 40%;
-    }
 `;
 
 export const StyledForm = styled.form`
@@ -45,6 +46,7 @@ export const StyledForm = styled.form`
     }
 `;
 export const TextInput = styled.input`
+    border-radius: 8px;
     font-size: ${(props) => props.theme.fontSizes.medium};
     margin: 0.5rem 0;
     width: 100%;
@@ -53,6 +55,7 @@ export const TextInput = styled.input`
     border: 1px solid black;
 `;
 export const TextArea = styled.textarea`
+    border-radius: 8px;
     font-size: ${(props) => props.theme.fontSizes.medium};
     font-family: ${(props) => props.theme.font};
     margin: 0.5rem 0;
@@ -64,7 +67,7 @@ export const TextArea = styled.textarea`
 export const Submit = styled.button`
     font-family: ${(props) => props.theme.font};
     font-size: 26px;
-    width: 8rem;
+    /* width: 8rem; */
     height: auto;
     background: black;
     color: white;
@@ -88,10 +91,14 @@ export const ImageUpload = styled.div`
     color: white;
     width: 100%;
     height: 5rem;
-    font-size: ${(props) => props.theme.fontSizes.small};
     text-align: center;
     @media ${device.laptop}, ${device.wide} {
         height: 15rem;
         font-size: ${(props) => props.theme.fontSizes.medium};
     }
+`;
+
+export const ErrorMessage = styled.p`
+    color: red;
+    font-size: ${(props) => props.theme.fontSizes.small};
 `;
