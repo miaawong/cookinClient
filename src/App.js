@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import { connect, useDispatch } from "react-redux";
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/dashboard";
 import CreateRecipe from "./pages/CreateRecipe";
 import Recipe from "./pages/recipe";
+import Settings from "./pages/Settings";
 import { getJWT } from "./auth/authAction";
 import logo from "./images/cover.png";
 import { device } from "./Theme";
@@ -155,6 +156,9 @@ const App = ({ JWToken }) => {
                 ></Route>
                 <Route exact path={"/recipes/:recipeId"}>
                     <Recipe loggedIn={loggedIn} />
+                </Route>
+                <Route exact path="/settings">
+                    <Settings loggedIn={loggedIn} />
                 </Route>
             </Switch>
         </Router>
