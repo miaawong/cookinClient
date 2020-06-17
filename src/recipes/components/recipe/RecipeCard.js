@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { getCurrentRecipe, likeRecipe, unlikeRecipe } from "../../recipeAction";
 import styled from "styled-components";
 import { device } from "../../../Theme";
-import { FaHeart, FaRegHeart, FaBlackTie } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Main } from "../../../main/components/StyledMain";
+import { ProgressLabel } from "../StyledForm";
+import { FavoriteBtn } from "./StyledRecipe";
 const CardBox = styled.div`
     background: #f8f8f8;
     margin: ${({ recipes }) =>
@@ -51,6 +53,8 @@ const RecipeName = styled.h1`
     margin: 0%;
     font-weight: 800;
     font-size: ${(props) => props.theme.fontSizes.large};
+    display: flex;
+    justify-content: center;
 `;
 
 const Description = styled.p`
@@ -77,13 +81,6 @@ const StyledLink = styled.button`
     }
 `;
 
-const FavoriteBtn = styled.button`
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    background: none;
-    border: none;
-`;
 const RecipeCard = ({ userId, recipes, JWToken, loggedIn }) => {
     const dispatch = useDispatch();
     let history = useHistory();
@@ -91,39 +88,36 @@ const RecipeCard = ({ userId, recipes, JWToken, loggedIn }) => {
     let card = recipes.map((recipe) => {
         const { img, recipeName, recipeDesc, likes, _id } = recipe;
         return (
-            <CardBox recipes={recipes}>
+            <CardBox recipes={recipes} key={_id}>
                 <Image src={img} recipes={recipes} />
-                {likes.indexOf(userId) === -1 ? (
-                    <FavoriteBtn
-                        onClick={() => dispatch(likeRecipe(_id, JWToken))}
-                    >
-                        <FaRegHeart
-                            style={{
-                                position: "absolute",
-                                right: "1rem",
-                                top: "1rem",
-                            }}
-                            size={30}
-                        />
-                    </FavoriteBtn>
-                ) : (
-                    <FavoriteBtn
-                        onClick={() => dispatch(unlikeRecipe(_id, JWToken))}
-                    >
-                        <FaHeart
-                            style={{
-                                color: "#FFDA0B",
 
-                                position: "absolute",
-                                right: "1rem",
-                                top: "1rem",
-                            }}
-                            size={30}
-                        />
-                    </FavoriteBtn>
-                )}
                 <DescriptionBox>
-                    <RecipeName>{recipeName}</RecipeName>
+                    <RecipeName>
+                        {" "}
+                        {likes.indexOf(userId) === -1 ? (
+                            <FavoriteBtn
+                                onClick={() =>
+                                    dispatch(likeRecipe(_id, JWToken))
+                                }
+                            >
+                                <FaRegHeart size={30} />
+                            </FavoriteBtn>
+                        ) : (
+                            <FavoriteBtn
+                                onClick={() =>
+                                    dispatch(unlikeRecipe(_id, JWToken))
+                                }
+                            >
+                                <FaHeart
+                                    style={{
+                                        color: "#FB170A",
+                                    }}
+                                    size={30}
+                                />
+                            </FavoriteBtn>
+                        )}
+                        {recipeName}
+                    </RecipeName>
                     <Description>
                         {recipeDesc.length > 40
                             ? `${recipeDesc.substr(0, 40)}...`
@@ -164,7 +158,14 @@ const RecipeCard = ({ userId, recipes, JWToken, loggedIn }) => {
             </Main>
         );
     } else {
-        return <Main loggedIn={loggedIn}> {card}</Main>;
+        return (
+            <Main loggedIn={loggedIn}>
+                <div style={{ width: "100%" }}>
+                    <ProgressLabel>My Recipes</ProgressLabel>
+                </div>
+                {card}
+            </Main>
+        );
     }
 };
 const mapStateToProps = (state) => ({
