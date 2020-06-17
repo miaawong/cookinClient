@@ -3,31 +3,10 @@ import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import Select from "react-select";
 import { setDraftRecipe } from "../../recipeAction";
-import { StyledForm, Submit, TextInput } from "../StyledForm";
-
-import styled from "styled-components";
+import { StyledForm, Submit, TextInput, ProgressLabel } from "../StyledForm";
 import { FaPlus } from "react-icons/fa";
+import { Ingredient, IngredientRow, AddButton } from "../StyledIngredients";
 import { theme } from "../../../Theme";
-
-const Ingredient = styled.div`
-    display: flex;
-    flex-wrap: ${({ unit }) => (unit.value === "other" ? "wrap" : "no-wrap")};
-    justify-content: space-evenly;
-    align-items: center;
-`;
-
-const IngredientRow = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-`;
-const AddButton = styled.button`
-    color: white;
-    border: none;
-    height: 3rem;
-    background-color: #000;
-`;
 
 const customStyles = {
     option: (provided, state) => ({
@@ -67,14 +46,7 @@ const EditIngredients = ({ draftRecipe, recipe }) => {
     let { ingredients } = recipe;
 
     const dispatch = useDispatch();
-    const {
-        register,
-        handleSubmit,
-        errors,
-        control,
-        setValue,
-        watch,
-    } = useForm({
+    const { register, handleSubmit, control, setValue, watch } = useForm({
         defaultValues: {
             ingredients: ingredients,
         },
@@ -92,8 +64,11 @@ const EditIngredients = ({ draftRecipe, recipe }) => {
     const amountRef = useRef();
     const unitRef = useRef();
     return (
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
-            <h1>Ingredients</h1>
+        <StyledForm
+            onSubmit={handleSubmit(onSubmit)}
+            style={{ justifyContent: "flex-start" }}
+        >
+            <ProgressLabel>Ingredients</ProgressLabel>
             {fields.map((input, index) => {
                 const unit = watch(`ingredients[${index}].unit`);
 
