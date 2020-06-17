@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "styled-components";
-import { theme, device } from "../../Theme";
+import { device } from "../../Theme";
 export const Main = styled.div`
     font-family: ${(props) => props.theme.font};
     width: 100%;
@@ -8,9 +7,8 @@ export const Main = styled.div`
     align-items: center;
     margin-bottom: 4rem;
     @media ${device.laptop}, ${device.wide} {
-        margin: ${({ loggedIn }) => (loggedIn ? "0 4rem 0 2rem" : "0 auto")};
+        margin: ${({ loggedIn }) => (loggedIn ? " 0 0 0 4rem " : "0 auto")};
         width: 90%;
-        height: 88%;
     }
 
     flex-wrap: wrap;
