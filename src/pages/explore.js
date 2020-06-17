@@ -88,7 +88,6 @@ const StyledLink = styled.button`
     & > label {
         cursor: pointer;
         text-transform: uppercase;
-        letter-spacing: 1px;
     }
 `;
 
