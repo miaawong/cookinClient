@@ -10,6 +10,7 @@
         "axios-auth-refresh": "^2.2.5",
         "grommet-icons": "^4.4.0",
         "history": "^4.10.1",
+        "html-webpack-plugin": "^4.3.0",
         "jwt-decode": "^2.2.0",
         "react": "^16.13.0",
         "react-dom": "^16.13.0",
