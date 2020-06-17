@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { editRecipe } from "../../recipeAction";
-import { StyledForm, Submit, TextArea } from "../StyledForm";
+import { StyledForm, Submit, TextArea, ProgressLabel } from "../StyledForm";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
 
@@ -18,12 +18,12 @@ const EditDirections = ({ JWToken, draftRecipe, recipe }) => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const { register, handleSubmit, errors, control, formState } = useForm({
+    const { register, handleSubmit, control } = useForm({
         defaultValues: {
             directions: directions,
         },
     });
-    const { fields, append, remove, insert } = useFieldArray({
+    const { fields, append } = useFieldArray({
         control,
         name: "directions",
     });
@@ -35,7 +35,7 @@ const EditDirections = ({ JWToken, draftRecipe, recipe }) => {
 
     return (
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-            <h1>Directions</h1>
+            <ProgressLabel>Directions</ProgressLabel>
             {fields.map((input, index) => {
                 return (
                     <label key={index}>
