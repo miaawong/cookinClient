@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import RecipesList from "../recipes/components/recipe/RecipesList";
+// import RecipesList from "../recipes/components/recipe/RecipesList";
 import RecipeCard from "../recipes/components/recipe/RecipeCard";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getAllRecipes } from "../recipes/recipeAction.js";
 
 const Dashboard = ({ name, id, JWToken, recipes, loggedIn }) => {

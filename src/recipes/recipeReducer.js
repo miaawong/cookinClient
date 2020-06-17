@@ -1,6 +1,5 @@
 import * as recipeActionTypes from "./recipeActionTypes";
 import * as authActionTypes from "../auth/authActionTypes";
-import { bindActionCreators } from "redux";
 
 const initState = {
     recipes: [],
