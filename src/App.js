@@ -85,7 +85,9 @@ const App = ({ JWToken }) => {
     const [loggedIn, setLogged] = useState(false);
     useEffect(() => {
         if (!JWToken) {
-            dispatch(getJWT());
+            dispatch(getJWT()).then((JWToken) => {
+                JWToken === "undefined" && console.log("undefined");
+            });
         }
         JWToken ? setLogged(true) : setLogged(false);
         //eslint-disable-next-line
